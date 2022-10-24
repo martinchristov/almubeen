@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  background: #031a10;
+  background: #fffaf0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -23,14 +23,15 @@ a {
 
 .page {
   font-family: page2;
-  color: #fff;
-  font-size: 30px;
+  color: #031a10;
+  font-size: 27px;
   direction: rtl;
   display: flex;
   justify-content: center;
+  letter-spacing: 2px;
 
   .content {
-    max-width: 700px;
+    width: 400px;
     word-wrap: break-word;
   }
 }
@@ -42,5 +43,8 @@ a {
   body {
     color: white;
     background: #031a10;
+    .page {
+      color: rgba(255, 255, 255, 0.77);
+    }
   }
 }
