@@ -26,7 +26,7 @@ const Page = ({ p = 2 }) => {
   }
   
   return (
-    <div className="page">
+    <div className="page" style={{ fontFamily: `page${p}`}}>
       <div className="content">
         {text}
       </div>
