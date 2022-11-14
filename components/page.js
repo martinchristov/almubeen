@@ -1,6 +1,7 @@
 import surahRaw from 'quranjson/source/surah/surah_002.json'
 import pagesRaw from 'quranjson/source/pages.json'
 import humps from 'humps'
+import classNames from 'classnames'
 
 const pagesJson = humps.camelizeKeys(pagesRaw)
 const surah = humps.camelizeKeys(surahRaw)
@@ -26,7 +27,7 @@ const Page = ({ p = 2 }) => {
   }
   
   return (
-    <div className="page" style={{ fontFamily: `page${p}`}}>
+    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">
         {text}
       </div>
