@@ -32,7 +32,11 @@ a {
 	justify-content: center;
 
 	.content {
+		border: 1px solid #235638;
+		padding: 15px;
 		width: 440px;
+		box-sizing: content-box;
+		margin-bottom: 20px;
 		letter-spacing: 1px;
 		word-wrap: break-word;
 	}
