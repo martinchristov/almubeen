@@ -35,10 +35,116 @@ a {
 		border: 1px solid #235638;
 		padding: 15px;
 		width: 440px;
+		min-height: 720px;
 		box-sizing: content-box;
 		margin-bottom: 20px;
 		letter-spacing: 1px;
 		word-wrap: break-word;
+	}
+	.aya {
+		.kalima {
+			background: transparent;
+			cursor: pointer;
+			position: relative;
+			&:hover {
+				border-radius: 3px;
+				background-color: rgba(0, 0, 0, 0.05);
+			}
+		}
+	}
+}
+.page {
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	&.page1 {
+		.content {
+			padding-top: 100px;
+			text-align: center;
+		}
+		.aya:nth-child(1) {
+			&::after {
+				content: "\a";
+				white-space: pre;
+			}
+		}
+		.aya:nth-child(2) {
+			&::after {
+				content: "\a";
+				white-space: pre;
+			}
+		}
+		.aya:nth-child(4) {
+			&::after {
+				content: "\a";
+				white-space: pre;
+			}
+		}
+		.aya:nth-child(6) {
+			.kalima:nth-child(1) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		.aya:nth-child(7) {
+			.kalima:nth-child(3) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+			.kalima:nth-child(8) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+	}
+	&.page2 {
+		.content {
+			padding-top: 100px;
+			text-align: center;
+		}
+		.aya:nth-child(2) {
+			.kalima:nth-child(2) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		.aya:nth-child(3) {
+			.kalima:nth-child(1) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		// .aya:nth-child(4) {
+		// 	&::after {
+		// 		content: "\a";
+		// 		white-space: pre;
+		// 	}
+		// }
+		.aya:nth-child(6) {
+			.kalima:nth-child(1) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		.aya:nth-child(7) {
+			.kalima:nth-child(8) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
 	}
 }
 
