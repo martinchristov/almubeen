@@ -8,7 +8,7 @@ const versesJson = humps.camelizeKeys(versesRaw)
 
 const startI = 64337 // do 64433; ot 64467 (add 34)
 const Safha = ({ p = 2 }) => {
-  const [text, setText] = useState('')
+  const [content, setContent] = useState([])
   
   useEffect(() => {
     const renderText = async () => {
@@ -22,20 +22,27 @@ const Safha = ({ p = 2 }) => {
         pageVerses.push({...verse, surah: Number(vk[0]), text: surah.verse[`verse${verse.verseNumber - minI}`]})
       })
 
-      let text = ''
+      const content = []
       let pageContentLength = 0
+      let offsetI = startI
       pageVerses.forEach((verse) => {
-        pageContentLength += verse.text.split(' ').filter(v => v.length > 0).length + 1
+        const verseCharLength = verse.text.split(' ').filter(v => v.length > 0).length + 1
+        const kalimat = []
+        let charI = 0
+        while(charI < verseCharLength){
+          let index = offsetI + charI
+          if(index > 64432) index += 34
+          console.log('index', index)
+          kalimat.push(<span className="kalima">{String.fromCharCode(index)}</span>)
+          charI += 1
+        }
+        offsetI += verseCharLength
+        content.push(<span className="aya">{kalimat}</span>)
       })
+      setContent(content)
       if(p > 2){
         pageContentLength -= 1; // TODO: this is a quick fix to an bug with text length calculation; the fix doesn't work for every page. Needs more in-depth investigation
       }
-      for(let i = startI; i < startI + pageContentLength; i += 1){
-        let index = i
-        if(index > 64432) index += 34
-        text = `${text}${String.fromCharCode(index)}`
-      }
-      setText(text)
     }
     renderText()
   }, [])
@@ -43,7 +50,11 @@ const Safha = ({ p = 2 }) => {
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">
-        {text}
+        <div className="inner">
+          <p>
+            {content}
+          </p>
+        </div>
       </div>
     </div>
   )
