@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 const versesJson = humps.camelizeKeys(versesRaw)
 
 const startI = 64337 // do 64433; ot 64467 (add 34)
-const Safha = ({ p = 2 }) => {
+const Safha = ({ p }) => {
   const [content, setContent] = useState([])
   
   useEffect(() => {
@@ -16,7 +16,7 @@ const Safha = ({ p = 2 }) => {
       const surah = humps.camelizeKeys(surahRaw)
 
       const pageVerses = []
-      const minI = p === 1 ? 1 : 0
+      const minI = p === 1 ? 1 : 0 // compensate for discrepecy for "bismillahirahmanirrahim" lacking in font after 1st surah
       versesJson.filter(v => v.pageNumber === p).forEach((verse, i) => {
         const vk = verse.verseKey.split(':')
         pageVerses.push({...verse, surah: Number(vk[0]), text: surah.verse[`verse${verse.verseNumber - minI}`]})
@@ -32,13 +32,15 @@ const Safha = ({ p = 2 }) => {
         while(charI < verseCharLength){
           let index = offsetI + charI
           if(index > 64432) index += 34
-          console.log('index', index)
           kalimat.push(<span className="kalima">{String.fromCharCode(index)}</span>)
           charI += 1
         }
         offsetI += verseCharLength
         content.push(<span className="aya">{kalimat}</span>)
       })
+      if(p === 2){
+        content.unshift((<span key="bismillah" className="bismillah">{`${String.fromCharCode(startI)}${String.fromCharCode(startI + 1)}${String.fromCharCode(startI + 2)}${String.fromCharCode(startI + 3)}`}</span>))
+      }
       setContent(content)
       if(p > 2){
         pageContentLength -= 1; // TODO: this is a quick fix to an bug with text length calculation; the fix doesn't work for every page. Needs more in-depth investigation

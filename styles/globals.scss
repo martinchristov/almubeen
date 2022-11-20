@@ -56,9 +56,16 @@ a {
 .page {
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
+	&.page1,
+	&.page2 {
+		.content {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
 	&.page1 {
 		.content {
-			padding-top: 100px;
 			text-align: center;
 		}
 		.aya:nth-child(1) {
@@ -104,41 +111,49 @@ a {
 	}
 	&.page2 {
 		.content {
-			padding-top: 100px;
 			text-align: center;
 		}
-		.aya:nth-child(2) {
-			.kalima:nth-child(2) {
-				&::after {
-					content: "\a";
-					white-space: pre;
-				}
+		.bismillah {
+			font-family: page1;
+			&::after {
+				content: "\a";
+				white-space: pre;
 			}
 		}
 		.aya:nth-child(3) {
-			.kalima:nth-child(1) {
+			.kalima:nth-child(6) {
 				&::after {
 					content: "\a";
 					white-space: pre;
 				}
 			}
 		}
-		// .aya:nth-child(4) {
-		// 	&::after {
-		// 		content: "\a";
-		// 		white-space: pre;
-		// 	}
-		// }
+		.aya:nth-child(4) {
+			.kalima:nth-child(4) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		.aya:nth-child(5) {
+			.kalima:nth-child(3) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
+		.aya:nth-child(5) {
+			.kalima:nth-child(12) {
+				&::after {
+					content: "\a";
+					white-space: pre;
+				}
+			}
+		}
 		.aya:nth-child(6) {
-			.kalima:nth-child(1) {
-				&::after {
-					content: "\a";
-					white-space: pre;
-				}
-			}
-		}
-		.aya:nth-child(7) {
-			.kalima:nth-child(8) {
+			.kalima:nth-child(7) {
 				&::after {
 					content: "\a";
 					white-space: pre;
