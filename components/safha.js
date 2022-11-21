@@ -26,12 +26,15 @@ const Safha = ({ p }) => {
       let pageContentLength = 0
       let offsetI = startI
       pageVerses.forEach((verse) => {
+        // if(verse.verseNumber === 25 && verse.pageNumber === 5){
+        //   console.log(verse.text.split(' ').filter(v => v.length > 0))
+        // }
         const verseCharLength = verse.text.split(' ').filter(v => v.length > 0).length + 1
         const kalimat = []
         let charI = 0
         while(charI < verseCharLength){
           let index = offsetI + charI
-          if(index > 64432) index += 34
+          if(index > 64433) index += 33
           kalimat.push(<span className="kalima">{String.fromCharCode(index)}</span>)
           charI += 1
         }
