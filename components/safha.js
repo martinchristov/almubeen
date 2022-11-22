@@ -35,6 +35,7 @@ const Safha = ({ p }) => {
         while(charI < verseCharLength){
           let index = offsetI + charI
           if(index > 64433) index += 33
+          if(p === 87 && index === 64347) {index += 1; charI += 1; verseCharLength += 1}
           kalimat.push(<span className="kalima">{String.fromCharCode(index)}</span>)
           charI += 1
         }
