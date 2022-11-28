@@ -131,7 +131,7 @@ a {
 			}
 		}
 		.aya:nth-child(3) {
-			.kalima:nth-child(6) {
+			.kalima:nth-child(5) {
 				&::after {
 					content: "\a";
 					white-space: pre;
@@ -170,6 +170,14 @@ a {
 				}
 			}
 		}
+	}
+}
+.popup-content {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	.transliteration {
+		opacity: 0.5;
 	}
 }
 

@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
+import { Popover } from 'antd';
 
 const Safha = ({ p }) => {
   const [pageAyat, setPageAyat] = useState()
@@ -20,7 +21,21 @@ const Safha = ({ p }) => {
           <p>
             {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
             {pageAyat?.verses.map(verse =>
-              <span className="aya" key={verse.id}>{verse.words.map(word => <><span className="kalima" key={word.id}>{word.code_v2}</span> </>)}</span>
+              <span className="aya" key={verse.id}>
+                {verse.words.map(word => {
+                  const popupContent = (
+                    <div className="popup-content">
+                      <span className="translation">{word.translation.text}</span>
+                      <span className="transliteration">{word.transliteration.text}</span>
+                    </div>
+                  )
+                  return <>
+                    <Popover content={popupContent} trigger="click" autoAdjustOverflow>
+                      <span className="kalima" key={word.id}>{word.code_v2}</span>
+                    </Popover>{' '}
+                  </>
+                })}
+              </span>
             )}
           </p>
         </div>
