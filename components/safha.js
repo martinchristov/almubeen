@@ -20,7 +20,7 @@ const Safha = ({ p }) => {
         <div className="inner">
           <p>
             {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-            {pageAyat?.verses.map(verse =>
+            {pageAyat?.verses?.map(verse =>
               <span className="aya" key={verse.id}>
                 {verse.words.map(word => {
                   const popupContent = (
