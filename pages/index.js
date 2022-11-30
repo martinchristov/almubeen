@@ -19,20 +19,11 @@ export default function Home() {
       <Image src="/bismillah.svg" alt="Bismillah" width={600} height={100} />
       <div className="page-nav">
         <div>
-          <Button onClick={handleNextPage(-1)}>&lt;</Button>
+          <Button onClick={handleNextPage(-2)}>&lt;</Button>
           <input value={page} onChange={e => setPage(Number(e.target.value))} />
-          <Button onClick={handleNextPage(1)}>&gt;</Button>
+          <Button onClick={handleNextPage(2)}>&gt;</Button>
         </div>
       </div>
-      {/* <Safha p={1} />
-      <Safha p={2} /> */}
-      {/* <Safha p={3} />
-      <Safha p={4} />
-      <Safha p={5} />
-      <Safha p={6} />
-      <Safha p={7} />
-      <Safha p={8} /> */}
-      {/* <Safha p={21} /> */}
       {page != null ? 
         <>
           <Safha p={page} key={page} />
