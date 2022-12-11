@@ -5,13 +5,22 @@ body {
 	background: #fffaf0;
 	font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
 		Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
 }
 
 @for $i from 1 through 604 {
 	@font-face {
 		font-family: "page#{$i}";
-		src: url("../assets/v2/woff2/p#{$i}.woff2") format("woff2");
+		src: url("../assets/v2/ttf/p#{$i}.ttf") format("truetype");
+		// src: url("../assets/ttf/p#{$i}.ttf") format("truetype");
 	}
+}
+
+@font-face {
+	font-family: "surah-title";
+	src: url("../assets/surah_names/QuranTitles.ttf") format("truetype");
 }
 
 a {
@@ -21,6 +30,14 @@ a {
 
 * {
 	box-sizing: border-box;
+}
+.surah-title {
+	font-family: surah-title;
+	font-size: 30px;
+	direction: rtl;
+	text-align: center;
+	border: 1.7px solid #005331;
+	color: #9e740a;
 }
 
 .page-nav {
@@ -42,19 +59,27 @@ a {
 	direction: rtl;
 	display: flex;
 	justify-content: center;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
 
 	.content {
-		border: 1px solid #235638;
-		padding: 15px;
-		width: 516px;
+		border: 2.7px solid #005331;
+		padding: 15px 15px;
+		width: 514px;
 		text-align: center;
 		min-height: 720px;
 		box-sizing: content-box;
 		margin-bottom: 20px;
 		letter-spacing: -2px;
 		word-wrap: break-word;
+		position: relative;
+		&:before {
+			content: " ";
+			position: absolute;
+			width: calc(100% + 8px);
+			height: calc(100% + 8px);
+			left: -5.6px;
+			top: -5.6px;
+			border: 1.7px solid #005331;
+		}
 	}
 	.aya {
 		.kalima {
@@ -178,6 +203,19 @@ a {
 					content: "\a";
 					white-space: pre;
 				}
+			}
+		}
+	}
+	&:not(.page2) {
+		.bismillah {
+			font-family: surah-title;
+			font-size: 36px;
+			span:last-child {
+				letter-spacing: 66px;
+			}
+			&::after {
+				content: "\a";
+				white-space: pre;
 			}
 		}
 	}

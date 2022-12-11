@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
 import Safha from '../components/safha'
+import surat from '../assets/surat.json'
 // import Test from '../app/test'
 
 export default function Home() {
@@ -35,3 +36,19 @@ export default function Home() {
     </div>
   )
 }
+
+// const SuraTitles = () => {
+//   const si = 59648
+//   const ret = []
+//   for(let i = si; i <= si + 115; i += 1){
+//     ret.push(<div>
+//       <span>{String.fromCharCode(i)}</span>
+//       <small>{i}</small>
+//     </div>)
+//   }
+//   return (
+//     <div className="surah-title">
+//       {ret}
+//     </div>
+//   )
+// }
