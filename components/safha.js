@@ -6,17 +6,22 @@ import surahChars from '../assets/surah-chars.json'
 import humps from 'humps'
 console.log(surat)
 
-const Safha = ({ p }) => {
+const Safha = ({ p, init = false }) => {
   const [pageAyat, setPageAyat] = useState()
   
+  // useEffect(() => {
+    
+  // }, [])
   useEffect(() => {
-    const renderText = async () => {
-      const ayatR = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?language=en&words=true&word_fields=code_v2`)
-      const ayat = await ayatR.json()
-      setPageAyat(humps.camelizeKeys(ayat))
+    if(init) {
+      const renderText = async () => {
+        const ayatR = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?language=en&words=true&word_fields=code_v2`)
+        const ayat = await ayatR.json()
+        setPageAyat(humps.camelizeKeys(ayat))
+      }
+      renderText()
     }
-    renderText()
-  }, [])
+  }, [init])
   
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
