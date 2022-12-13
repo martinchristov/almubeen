@@ -40,6 +40,37 @@ a {
 	color: #9e740a;
 }
 
+.page-contain {
+	width: 514px;
+}
+
+nav {
+	position: fixed;
+	z-index: 10;
+	background-color: #e7e7e5;
+	border-bottom: 1px solid #bfc0c0;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	.page-contain {
+		display: flex;
+		justify-content: space-between;
+	}
+	line-height: 42px;
+	.page {
+		color: #af8a21;
+		font-weight: bold;
+		font-size: 20px;
+		width: 60px;
+		text-align: center;
+		cursor: pointer;
+	}
+	.caption {
+		color: #005735;
+		font-size: 18px;
+		cursor: pointer;
+	}
+}
 .page-nav {
 	display: flex;
 	justify-content: space-around;

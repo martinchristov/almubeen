@@ -17,7 +17,15 @@ export default function Home() {
   }
   return (
     <div>
-      <Image src="/bismillah.svg" alt="Bismillah" width={600} height={100} />
+      {/* <Image src="/bismillah.svg" alt="Bismillah" width={600} height={100} /> */}
+      
+      <nav>
+        <div className="page-contain">
+          <div className="surah caption">الفتحة</div>
+          <div className="page">١</div>
+          <div className="juz caption">الجزء ١</div>
+        </div>
+      </nav>
       <div className="page-nav">
         <div>
           <Button onClick={handleNextPage(-2)}>&lt;</Button>
