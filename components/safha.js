@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, memo } from 'react'
 import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
@@ -70,4 +70,4 @@ const Safha = ({ p, init = false }) => {
   )
 }
 
-export default Safha
+export default memo(Safha)

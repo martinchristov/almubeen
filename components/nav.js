@@ -21,14 +21,15 @@ const Nav = ({ initers, setIniters }) => {
       const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
       if(pageYPos + 1 !== page){
         setPage(pageYPos + 1)
-        console.log(pageYPos, page2sura[pageYPos + 1])
         setCurrentSura(surat.chapters[page2sura[pageYPos + 1] - 1].name_arabic)
         if(!initers[pageYPos] || !initers[pageYPos + 1] || !initers[pageYPos + 2]){
           const cp = [...initers]
           cp[pageYPos] = true
           cp[pageYPos + 1] = true
           cp[pageYPos + 2] = true
-          setIniters(cp)
+          if(cp.length !== initers.length){
+            setIniters(cp)
+          }
         }
       }
     })

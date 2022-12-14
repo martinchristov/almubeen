@@ -8,6 +8,7 @@ export default function Home() {
   for(let i = 1; i < 604; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} />)
   }
+  console.log(initers)
   return (
     <div>
       <Nav {...{ initers, setIniters }} />
