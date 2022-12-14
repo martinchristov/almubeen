@@ -92,9 +92,8 @@ nav {
 	justify-content: center;
 
 	.content {
-		border: 2.7px solid #005331;
 		padding: 15px 15px;
-		width: 514px;
+		width: 516px;
 		text-align: center;
 		min-height: 720px;
 		height: 810px;
@@ -112,6 +111,15 @@ nav {
 			left: -5.6px;
 			top: -5.6px;
 			border: 1.7px solid #005331;
+		}
+		&:after {
+			content: " ";
+			position: absolute;
+			width: calc(100%);
+			height: calc(100%);
+			left: -2.3px;
+			top: -2.3px;
+			border: 2.7px solid #005331;
 		}
 	}
 	.aya {
