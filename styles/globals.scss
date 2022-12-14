@@ -103,6 +103,10 @@ nav {
 		letter-spacing: -2px;
 		word-wrap: break-word;
 		position: relative;
+		.inner {
+			position: relative;
+			z-index: 2;
+		}
 		&:before {
 			content: " ";
 			position: absolute;
