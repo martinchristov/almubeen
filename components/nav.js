@@ -30,11 +30,12 @@ const SuraModal = ({ open, onCancel }) => {
     window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0]].offsetTop - 50 })
   }
   return (
-    <Modal open={open} onCancel={onCancel} title="Surah List" footer={null}>
+    <Modal open={open} onCancel={onCancel} title="Surah List" footer={null} className="sura-modal">
       <ul>
         {surat.chapters.map((sura, ind) =>
         <li key={sura.id} onClick={handleClickSurah(sura, ind + 1)}>
           <h3>{ind + 1}. {sura.name_simple}</h3>
+          <div className="ar">{ConvertToArabicNumbers(ind + 1)} - {sura.name_arabic}</div>
         </li>
         )}
       </ul>
