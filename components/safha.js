@@ -18,6 +18,7 @@ const Safha = ({ p, init = false }) => {
         const ayatR = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?language=en&words=true&word_fields=code_v2`)
         const ayat = await ayatR.json()
         setPageAyat(humps.camelizeKeys(ayat))
+        console.log(p, ayat)
       }
       renderText()
     }

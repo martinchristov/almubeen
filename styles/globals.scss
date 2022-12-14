@@ -97,6 +97,8 @@ nav {
 		width: 514px;
 		text-align: center;
 		min-height: 720px;
+		height: 810px;
+		line-height: 54px;
 		box-sizing: content-box;
 		margin-bottom: 20px;
 		letter-spacing: -2px;
@@ -120,6 +122,11 @@ nav {
 			&:hover {
 				border-radius: 3px;
 				background-color: rgba(0, 0, 0, 0.05);
+			}
+			&:last-child {
+				color: #005635;
+				-webkit-text-stroke-width: 0.3px;
+				-webkit-text-stroke-color: #005635;
 			}
 		}
 		.kalima:not(:last-child) {

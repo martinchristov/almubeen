@@ -11,13 +11,10 @@ export default function Home() {
   const [page, setPage] = useState(1)
   const [initers, setIniters] = useState([true, true, true, true])
   const pages = []
-  const pageh = 790;
+  const pageh = 865.39;
   for(let i = 1; i < 604; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} />)
   }
-  // const handleNextPage = (ind) => () => {
-  //   setPage(page + ind)
-  // }
   useEffect(() => {
     document.addEventListener('scroll', () => {
       const pageYPos = Math.floor(window.scrollY / pageh)
@@ -35,7 +32,6 @@ export default function Home() {
   }, [])
   return (
     <div>
-      {/* <Image src="/bismillah.svg" alt="Bismillah" width={600} height={100} /> */}
       
       <Nav {...{ page, setPage, pageh}} />
       {/* <div className="page-nav">
