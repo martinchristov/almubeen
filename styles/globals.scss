@@ -1,3 +1,5 @@
+// @import "reset.scss";
+
 html,
 body {
 	padding: 0;
@@ -93,7 +95,7 @@ nav {
 
 	.content {
 		padding: 15px 15px;
-		width: 516px;
+		width: 524px; // 517px - only for chrome ?!
 		text-align: center;
 		min-height: 720px;
 		height: 810px;
@@ -101,6 +103,7 @@ nav {
 		box-sizing: content-box;
 		margin-bottom: 20px;
 		letter-spacing: -2px;
+		word-spacing: 0px;
 		word-wrap: break-word;
 		position: relative;
 		.inner {
