@@ -4,16 +4,12 @@ import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import humps from 'humps'
-console.log(surat)
 
 const Safha = ({ p, init = false }) => {
   const [pageAyat, setPageAyat] = useState()
-  
-  // useEffect(() => {
-    
-  // }, [])
+  const [inited, setInited] = useState(false)
   useEffect(() => {
-    if(init) {
+    if(init && !inited) {
       const renderText = async () => {
         const ayatR = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?language=en&words=true&word_fields=code_v2`)
         const ayat = await ayatR.json()
@@ -21,6 +17,7 @@ const Safha = ({ p, init = false }) => {
         console.log(p, ayat)
       }
       renderText()
+      setInited(true)
     }
   }, [init])
   
@@ -31,13 +28,15 @@ const Safha = ({ p, init = false }) => {
             {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
             {pageAyat?.verses?.map(verse => {
               const ret = []
+              const surahIndex = Number(verse.verseKey.split(':')[0]) - 1
               if(verse.verseNumber === 1 && p !== 1 && p !== 2){
-                const surahIndex = Number(verse.verseKey.split(':')[0]) - 1
-                ret.push(
-                  <div className="surah-title" key={`vt-${surahIndex}`}>
-                    <span>{surahChars[surahIndex]}</span>
-                  </div>
-                )
+                if(verse.words[0].lineNumber > 2){
+                  ret.push(
+                    <div className="surah-title" key={`vt-${surahIndex}`}>
+                      <span>{surahChars[surahIndex]}</span>
+                    </div>
+                  )
+                }
                 ret.push(<span key="bismillah" className="bismillah">
                   <span>{String.fromCharCode(64337)}</span>
                   <span>{String.fromCharCode(64338)}</span>
@@ -62,6 +61,15 @@ const Safha = ({ p, init = false }) => {
                   })}
                 </span>
               )
+              if(verse.verseNumber === surat.chapters[surahIndex].verses_count){
+                if(verse.words[verse.words.length - 1].lineNumber === 14){
+                  ret.push(
+                    <div className="surah-title" key={`vt-${surahIndex + 1}`}>
+                      <span>{surahChars[surahIndex + 1]}</span>
+                    </div>
+                  )
+                }
+              }
               return ret
             })}
         </div>
