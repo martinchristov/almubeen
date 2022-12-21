@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
 

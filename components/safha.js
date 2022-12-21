@@ -1,32 +1,17 @@
 import classNames from 'classnames'
-import { useEffect, useState, memo } from 'react'
+import { memo } from 'react'
 import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
-import humps from 'humps'
+import pageData from '../assets/pages.json'
 
 const Safha = ({ p, init = false }) => {
-  const [pageAyat, setPageAyat] = useState()
-  const [inited, setInited] = useState(false)
-  useEffect(() => {
-    if(init && !inited) {
-      const renderText = async () => {
-        const ayatR = await fetch(`https://api.quran.com/api/v4/verses/by_page/${p}?language=en&words=true&word_fields=code_v2`)
-        const ayat = await ayatR.json()
-        setPageAyat(humps.camelizeKeys(ayat))
-        console.log(p, ayat)
-      }
-      renderText()
-      setInited(true)
-    }
-  }, [init])
-  
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">
         <div className="inner">
             {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-            {pageAyat?.verses?.map(verse => {
+            {init && pageData[p - 1].map(verse => {
               const ret = []
               const surahIndex = Number(verse.verseKey.split(':')[0]) - 1
               if(verse.verseNumber === 1 && p !== 1 && p !== 2){
