@@ -284,9 +284,17 @@ nav {
 .sura-modal {
 	.ant-modal-content {
 		padding: 0;
+		padding-bottom: 10px;
 	}
 	.ant-modal-header {
 		padding: 15px 15px 0;
+	}
+	.src {
+		padding: 5px 10px;
+		input {
+			background-color: #f4f4f4;
+			border: none;
+		}
 	}
 	ul {
 		margin: 0;

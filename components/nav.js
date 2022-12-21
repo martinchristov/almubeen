@@ -1,7 +1,8 @@
-import { Modal } from "antd"
+import { Input, Modal } from "antd"
 import { useState, useEffect } from "react"
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
+// import { SearchOutlined } from '@ant-design/icons'
 
 const pageh = 860;
 const marginY = 48
@@ -48,17 +49,26 @@ const Nav = ({ initers, setIniters }) => {
   )
 }
 const SuraModal = ({ open, onCancel }) => {
+  const [src, setSrc] = useState('')
   const handleClickSurah = (sura, index) => () => {
     onCancel()
     window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0]].offsetTop - 50 })
   }
+  const filterSrc = it => { 
+    if(src === '') return true
+    return it.name_simple.toLowerCase().indexOf(src.toLowerCase()) !== -1 ||
+          it.name_arabic.indexOf(src) !== -1
+  }
   return (
     <Modal open={open} onCancel={onCancel} title="Surah List" footer={null} className="sura-modal">
+      <div className="src">
+        <Input placeholder="Search | ابحث" value={src} onChange={(e) => setSrc(e.target.value)} />
+      </div>
       <ul>
-        {surat.chapters.map((sura, ind) =>
-        <li key={sura.id} onClick={handleClickSurah(sura, ind + 1)}>
-          <h3>{ind + 1}. {sura.name_simple}</h3>
-          <div className="ar">{ConvertToArabicNumbers(ind + 1)} - {sura.name_arabic}</div>
+        {surat.chapters.filter(filterSrc).map((sura) =>
+        <li key={sura.id} onClick={handleClickSurah(sura)}>
+          <h3>{sura.id}. {sura.name_simple}</h3>
+          <div className="ar">{ConvertToArabicNumbers(sura.id)} - {sura.name_arabic}</div>
         </li>
         )}
       </ul>
