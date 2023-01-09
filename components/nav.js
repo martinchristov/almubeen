@@ -2,7 +2,6 @@ import { Input, Modal } from "antd"
 import { useState, useEffect } from "react"
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
-// import { SearchOutlined } from '@ant-design/icons'
 
 const pageh = 860;
 const marginY = 48

@@ -144,15 +144,6 @@ nav {
 				-webkit-text-stroke-color: #005635;
 			}
 		}
-		.kalima:not(:last-child) {
-			// color: #d7da16;
-			// -webkit-text-stroke-width: 1px;
-			// -webkit-text-stroke-color: rgba(0, 0, 0, 0.4);
-		}
-		.kalima:last-child {
-			// -webkit-text-stroke-width: 4px;
-			// -webkit-text-stroke-color: #0000001a;
-		}
 	}
 	&.page1,
 	&.page2 {
@@ -268,6 +259,16 @@ nav {
 			}
 			&::after {
 				content: "\a";
+				white-space: pre;
+			}
+		}
+	}
+}
+.page:not(.page1):not(.page2) {
+	@for $i from 1 through 14 {
+		.l-#{$i} + .l-#{$i + 1} {
+			&::before {
+				content: "\a ";
 				white-space: pre;
 			}
 		}

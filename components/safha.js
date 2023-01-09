@@ -11,7 +11,7 @@ const Safha = ({ p, init = false }) => {
       <div className="content">
         <div className="inner">
             {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-            {init && pageData[p - 1].map(verse => {
+            {init && pageData[p - 1].map((verse, verseIndex) => {
               const ret = []
               const surahIndex = Number(verse.verseKey.split(':')[0]) - 1
               if(verse.verseNumber === 1 && p !== 1 && p !== 2){
@@ -29,8 +29,18 @@ const Safha = ({ p, init = false }) => {
                   <span>{String.fromCharCode(64340)}</span>
                 </span>)
               }
+              // console.log(pageData[p - 2][pageData[p - 2].length - 1])
+              if(verseIndex > 0 && verse.verseNumber > 1){
+                const prevVerse = pageData[p - 1][verseIndex - 1]
+                if(prevVerse.words[prevVerse.words.length - 1].lineNumber < verse.words[0].lineNumber){
+                  ret.push(<br />)
+                }
+              }
+              // if(p > 1 && verse.words[0].lineNumber > ){
+              //   ret.push(<br />)
+              // }
               ret.push(
-                <span className="aya" key={verse.id}>
+                <span className={`aya id-${verse.id}`} key={verse.id}>
                   {verse.words.map(word => {
                     const popupContent = (
                       <div className="popup-content">
@@ -40,7 +50,7 @@ const Safha = ({ p, init = false }) => {
                     )
                     return <>
                       <Popover content={popupContent} trigger="click" autoAdjustOverflow>
-                        <span className="kalima" key={word.id}>{word.codeV2}</span>
+                        <span className={`kalima l-${word.lineNumber} id-${word.id}`} key={word.id}>{word.codeV2}</span>
                       </Popover>{' '}
                     </>
                   })}
