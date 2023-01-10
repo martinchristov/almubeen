@@ -29,16 +29,12 @@ const Safha = ({ p, init = false }) => {
                   <span>{String.fromCharCode(64340)}</span>
                 </span>)
               }
-              // console.log(pageData[p - 2][pageData[p - 2].length - 1])
-              if(verseIndex > 0 && verse.verseNumber > 1){
+              if(p > 2 && verseIndex > 0 && verse.verseNumber > 1){
                 const prevVerse = pageData[p - 1][verseIndex - 1]
                 if(prevVerse.words[prevVerse.words.length - 1].lineNumber < verse.words[0].lineNumber){
                   ret.push(<br />)
                 }
               }
-              // if(p > 1 && verse.words[0].lineNumber > ){
-              //   ret.push(<br />)
-              // }
               ret.push(
                 <span className={`aya id-${verse.id}`} key={verse.id}>
                   {verse.words.map(word => {
