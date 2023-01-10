@@ -10,6 +10,7 @@ body {
 
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
+	font-size: 15px;
 }
 
 @for $i from 1 through 604 {
@@ -49,6 +50,7 @@ a {
 nav {
 	position: fixed;
 	z-index: 10;
+	top: 0;
 	background-color: #e7e7e5;
 	border-bottom: 1px solid #bfc0c0;
 	width: 100%;
@@ -88,18 +90,19 @@ nav {
 .page {
 	font-family: page2;
 	color: #000;
-	font-size: 30px;
 	direction: rtl;
 	display: flex;
 	justify-content: center;
+	font-size: 15px;
 
 	.content {
 		padding: 15px 15px;
 		width: 542px; // 517px - only for chrome ?!
 		text-align: center;
 		min-height: 720px;
+		font-size: 2em;
 		height: 810px;
-		line-height: 54px;
+		line-height: 3.6rem;
 		box-sizing: content-box;
 		margin-bottom: 20px;
 		letter-spacing: -2px;
@@ -262,6 +265,25 @@ nav {
 				white-space: pre;
 			}
 		}
+	}
+}
+html {
+	@media screen and (max-width: 1024px) {
+		.page1 {
+			margin-top: 60px;
+		}
+		.page {
+			.content {
+				width: auto;
+				height: auto;
+				min-height: 650px;
+				.inner {
+					width: calc(100vw - 40px);
+				}
+			}
+			font-size: 10.7px;
+		}
+		font-size: 12.7px;
 	}
 }
 .page:not(.page1):not(.page2) {
