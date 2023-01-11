@@ -4,6 +4,7 @@ import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 
 const pageh = 860;
+const mobilePageh = 740
 const marginY = 48
 
 const Nav = ({ initers, setIniters }) => {
@@ -18,7 +19,8 @@ const Nav = ({ initers, setIniters }) => {
   }
   useEffect(() => {
     document.addEventListener('scroll', () => {
-      const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
+      const ph = window.innerWidth < 860 ? mobilePageh : pageh
+      const pageYPos = Math.floor((window.scrollY + marginY) / ph)
       if(pageYPos + 1 !== page){
         setPage(pageYPos + 1)
         setCurrentSura(surat.chapters[page2sura[pageYPos + 1] - 1].name_arabic)
@@ -39,7 +41,7 @@ const Nav = ({ initers, setIniters }) => {
       <nav>
         <div className="page-contain">
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}>{currentSura}</div>
-          <div className="page" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
+          <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption">الجزء ١</div>
         </div>
       </nav>

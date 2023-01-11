@@ -61,18 +61,23 @@ nav {
 		justify-content: space-between;
 	}
 	line-height: 42px;
-	.page {
+	.pagen {
 		color: #af8a21;
 		font-weight: bold;
-		font-size: 20px;
+		font-size: 1.3rem;
 		width: 60px;
 		text-align: center;
 		cursor: pointer;
 	}
 	.caption {
 		color: #005735;
-		font-size: 18px;
+		font-size: 1.2rem;
 		cursor: pointer;
+	}
+	@media screen and (max-width: 860px) {
+		.page-contain {
+			margin: 0 15px;
+		}
 	}
 }
 .page-nav {
@@ -256,9 +261,9 @@ nav {
 	&:not(.page2) {
 		.bismillah {
 			font-family: surah-title;
-			font-size: 36px;
+			font-size: 2.4rem;
 			span:last-child {
-				letter-spacing: 66px;
+				letter-spacing: 4.4rem;
 			}
 			&::after {
 				content: "\a";
@@ -268,14 +273,14 @@ nav {
 	}
 }
 html {
-	@media screen and (max-width: 1024px) {
+	@media screen and (max-width: 860px) {
 		.page1 {
 			margin-top: 60px;
 		}
 		.page {
 			.content {
 				width: auto;
-				height: auto;
+				height: 690px;
 				min-height: 650px;
 				.inner {
 					width: calc(100vw - 40px);
