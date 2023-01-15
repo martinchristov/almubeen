@@ -1,11 +1,97 @@
 import classNames from 'classnames'
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
 
+function transformJSON(input) {
+    const lines = {};
+    input.forEach(verse => {
+        verse.words.forEach(word => {
+            if (!lines[word.lineNumber]) {
+                lines[word.lineNumber] = [];
+            }
+            lines[word.lineNumber].push({...word, verseNumber: verse.verseNumber, verseKey: verse.verseKey});
+        });
+    });
+    return Object.values(lines);
+}
+
+const Lines = ({ p }) => {
+  const lines = transformJSON(pageData[p - 1])
+  const ret = []
+  lines.map((line, lineIndex) => {
+    let surahIndex
+    if(line[0].verseNumber === 1 && p > 2){
+      if(!(lineIndex > 0 && lines[lineIndex - 1][0].verseNumber === 1)){ // additional check for cases when the first verse may be on multiple lines
+        surahIndex = Number(line[0].verseKey.split(':')[0]) - 1
+        if(line[0].lineNumber > 2 || p === 187){
+          ret.push(
+            <div className="surah-title" key={`vt-${surahIndex}`}>
+              <span>{surahChars[surahIndex]}</span>
+            </div>
+          )
+        }
+        if(p !== 187){
+          ret.push(<span key="bismillah" className="bismillah">
+            <span>{String.fromCharCode(64337)}</span>
+            <span>{String.fromCharCode(64338)}</span>
+            <span>{String.fromCharCode(64339)}</span>
+            <span>{String.fromCharCode(64340)}</span>
+          </span>)
+        }
+      }
+    }
+    const lineContent = line.map(word => {
+      const popupContent = (
+        <div className="popup-content">
+          <span className="translation">{word.translation.text}</span>
+          <span className="transliteration">{word.transliteration.text}</span>
+        </div>
+      )
+      let kalima = <span className={`kalima l-${word.lineNumber} id-${word.id} t-${word.charTypeName}`} key={word.id}>{word.codeV2}</span>
+      if(word.charTypeName === 'word'){
+        kalima = <Popover content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+      }
+      return <>
+        {kalima}{' '}
+      </>
+    })
+
+    ret.push(<li>{lineContent}</li>)
+
+    if(lineIndex === lines.length - 1){
+      surahIndex = Number(line[line.length - 1].verseKey.split(':')[0]) - 1
+      if(line[line.length - 1].verseNumber === surat.chapters[surahIndex].verses_count){
+        if(line[line.length - 1].lineNumber === 14){
+          ret.push(
+            <div className="surah-title" key={`vt-${surahIndex + 1}`}>
+              <span>{surahChars[surahIndex + 1]}</span>
+            </div>
+          )
+        }
+      }
+    }
+  })
+  return <ul>{ret}</ul>
+}
+
 const Safha = ({ p, init = false }) => {
+  return (
+    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
+      <div className="content">
+        <div className="inner">
+          {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
+          {init && <Lines p={p} />}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const Safha2 = ({ p, init = false }) => {
+  
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">

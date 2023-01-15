@@ -102,7 +102,7 @@ nav {
 
 	.content {
 		padding: 15px 15px;
-		width: 542px; // 517px - only for chrome ?!
+		width: 512px; // 517px - only for chrome ?!
 		text-align: center;
 		min-height: 720px;
 		font-size: 2em;
@@ -117,6 +117,14 @@ nav {
 		.inner {
 			position: relative;
 			z-index: 2;
+		}
+		ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			li {
+				white-space: nowrap;
+			}
 		}
 		&:before {
 			content: " ";
@@ -136,22 +144,22 @@ nav {
 			top: -2.3px;
 			border: 2.7px solid #005331;
 		}
-	}
-	.aya {
 		.kalima {
 			background: transparent;
 			cursor: pointer;
 			position: relative;
-			&:hover {
+			&:not(.t-end):hover {
 				border-radius: 3px;
 				background-color: rgba(0, 0, 0, 0.05);
 			}
-			&:last-child {
+			&.t-end {
 				color: #005635;
 				-webkit-text-stroke-width: 0.3px;
 				-webkit-text-stroke-color: #005635;
 			}
 		}
+	}
+	.aya {
 	}
 	&.page1,
 	&.page2 {

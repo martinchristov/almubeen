@@ -1,6 +1,10 @@
 import { useState } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
+import pageData from '../assets/pages.json'
+
+console.log(pageData)
+console.log(JSON.stringify(pageData[0]))
 
 export default function Home() {
   const [initers, setIniters] = useState([true, true, true, true])

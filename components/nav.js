@@ -53,7 +53,7 @@ const SuraModal = ({ open, onCancel }) => {
   const [src, setSrc] = useState('')
   const handleClickSurah = (sura, index) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0]].offsetTop - 50 })
+    window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0] - 1].offsetTop - 50 })
   }
   const filterSrc = it => { 
     if(src === '') return true
