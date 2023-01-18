@@ -316,6 +316,42 @@ html {
 	.transliteration {
 		opacity: 0.5;
 	}
+	.arabic {
+		font-size: 1.5em;
+	}
+	.morpho {
+		display: flex;
+		justify-content: center;
+		flex-direction: row-reverse;
+		small {
+			margin: 0 3px;
+		}
+	}
+	.m-P {
+		color: #b33535;
+	}
+	.m-N {
+		color: #538dd3;
+	}
+	.m-PN {
+		color: #4c91ab;
+	}
+	.m-ADJ {
+		color: #8126c0;
+	}
+	.m-PRON {
+		color: #617589;
+	}
+	.m-V {
+		color: #33bd2f;
+	}
+	.m-CONJ {
+		color: #2918bf;
+	}
+	small {
+		font-size: 10px;
+		font-weight: bold;
+	}
 }
 .sura-modal {
 	.ant-modal-content {

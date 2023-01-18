@@ -4,6 +4,7 @@ import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
+import morpho from '../assets/morph.json'
 
 function transformJSON(input) {
     const lines = {};
@@ -44,16 +45,30 @@ const Lines = ({ p, setSelectedAya }) => {
       }
     }
     const lineContent = line.map(word => {
-      const popupContent = (
-        <div className="popup-content">
-          <span className="arabic">{word.textUthmani}</span>
-          <span className="translation">{word.translation.text}</span>
-          <span className="transliteration">{word.transliteration.text}</span>
-        </div>
-      )
       let kalima = <span className={`kalima l-${word.lineNumber} id-${word.id} t-${word.charTypeName}`} key={word.id}>{word.codeV2}</span>
       if(word.charTypeName === 'word'){
-        kalima = <Popover onOpenChange={() => { console.log(word) }} content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+        const keys = word.verseKey.split(':')
+        const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
+        const morphWord = []
+        let ind = 0
+        morphs.forEach(part => {
+          morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
+          ind += part[0].length
+        })
+        const morphz = []
+        morphs.forEach(part => {
+          morphz.push(<small className={`m-${part[1]}`}>{part[1]}<br />{part[2].split('|')[0]}</small>)
+        })
+        const popupContent = (
+          <div className="popup-content">
+            <span className="arabic">{morphWord}</span>
+            <span className="morpho">{morphz}</span>
+            {/* <span className="morpho">{morpho[Number(keys[0])][Number(keys[1])][word.position][0][0]}</span> */}
+            <span className="translation">{word.translation.text}</span>
+            <span className="transliteration">{word.transliteration.text}</span>
+          </div>
+        )
+        kalima = <Popover onOpenChange={() => { console.log(morpho[Number(keys[0])][Number(keys[1])][word.position]) }} content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
         kalima = <span onClick={() => setSelectedAya(word.verseKey)}>{kalima}</span>
       }
