@@ -14,12 +14,12 @@ const Nav = ({ initers, setIniters }) => {
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
-      window.scrollTo({ top: document.getElementsByClassName('page')[Number(inp)].offsetTop - 50 })
+      window.scrollTo({ top: document.getElementsByClassName('page')[Number(inp) - 1].offsetTop - 50 })
     }
   }
   useEffect(() => {
     document.addEventListener('scroll', () => {
-      const ph = window.innerWidth < 860 ? mobilePageh : pageh
+      const ph = window.innerWidth < 760 ? mobilePageh : pageh
       const pageYPos = Math.floor((window.scrollY + marginY) / ph)
       if(pageYPos + 1 !== page){
         setPage(pageYPos + 1)

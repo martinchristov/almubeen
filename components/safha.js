@@ -18,7 +18,7 @@ function transformJSON(input) {
     return Object.values(lines);
 }
 
-const Lines = ({ p }) => {
+const Lines = ({ p, setSelectedAya }) => {
   const lines = transformJSON(pageData[p - 1])
   const ret = []
   lines.map((line, lineIndex) => {
@@ -46,13 +46,16 @@ const Lines = ({ p }) => {
     const lineContent = line.map(word => {
       const popupContent = (
         <div className="popup-content">
+          <span className="arabic">{word.textUthmani}</span>
           <span className="translation">{word.translation.text}</span>
           <span className="transliteration">{word.transliteration.text}</span>
         </div>
       )
       let kalima = <span className={`kalima l-${word.lineNumber} id-${word.id} t-${word.charTypeName}`} key={word.id}>{word.codeV2}</span>
       if(word.charTypeName === 'word'){
-        kalima = <Popover content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+        kalima = <Popover onOpenChange={() => { console.log(word) }} content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+      } else {
+        kalima = <span onClick={() => setSelectedAya(word.verseKey)}>{kalima}</span>
       }
       return <>
         {kalima}{' '}
@@ -77,13 +80,13 @@ const Lines = ({ p }) => {
   return <ul>{ret}</ul>
 }
 
-const Safha = ({ p, init = false }) => {
+const Safha = ({ p, init = false, setSelectedAya }) => {
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">
         <div className="inner">
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-          {init && <Lines p={p} />}
+          {init && <Lines {...{ setSelectedAya, p }} />}
         </div>
       </div>
     </div>

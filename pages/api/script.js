@@ -1,8 +1,8 @@
 const fs = require('fs');
-// import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 // const fetch = require('node-fetch');
 import humps from 'humps'
-import pagesData from '../../assets/pages.json'
+import pagesData from '../../assets/pages2.json'
 
 const downloadFile = (async (url, path) => {
   const res = await fetch(url);
@@ -26,7 +26,7 @@ const makeLoop = (async () => {
   const resp = []
   for(var i = 1; i < 115; i += 1){
     // console.log(`req ${i}`);
-    const json = await getJSON(`http://localhost:3000/surat/s${i}.json`)
+    const json = await getJSON(`http://localhost:3000/quran-dnl/s${i}.json`)
     resp.push(json.verses)
   }
   await new Promise((resolve, reject) => {
@@ -51,11 +51,11 @@ const genPages = (async () => {
   }
   suratWords.forEach(sura => {
     sura.forEach(aya => {
-      pages[aya.page_number - 1].push(aya)
+      pages[aya.words[0].v2_page - 1].push(aya)
     })
   })
   await new Promise((resolve, reject) => {
-    fs.writeFile('./assets/pages.json', JSON.stringify(pages), err => {
+    fs.writeFile('./assets/pages2.json', JSON.stringify(pages), err => {
       if (err) {
         console.error(err)
         return
@@ -65,16 +65,21 @@ const genPages = (async () => {
   })
 })
 
-// genPages()
+
+// downloadFile(`https://api.quran.com/api/v4/verses/by_chapter/1?language=en&words=true&word_fields=text_uthmani,code_v2,v2_page`, `./public/quran-dnl/s1.json`)
+// for(let i = 1; i <= 114; i+= 1){
+//   downloadFile(`https://api.quran.com/api/v4/verses/by_chapter/${i}?language=en&words=true&word_fields=text_uthmani,code_v2,v2_page&per_page=1000`, `./public/quran-dnl/s${i}.json`)
+// }
 
 export default function handler(req, res) {
-  // const pagesD = humps.camelizeKeys(pagesData)
-  // fs.writeFile('./pages2.json', JSON.stringify(pagesD), err => {
-  //     if (err) {
-  //       console.error(err)
-  //       return
-  //     }
-  //     //file written successfully
-  //   })
+  // genPages()
+  const pagesD = humps.camelizeKeys(pagesData)
+  fs.writeFile('./pages3.json', JSON.stringify(pagesD), err => {
+      if (err) {
+        console.error(err)
+        return
+      }
+      //file written successfully
+    })
   res.status(200).json({ok: true})
 }
