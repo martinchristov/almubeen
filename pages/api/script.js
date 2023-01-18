@@ -2,7 +2,8 @@ const fs = require('fs');
 import fetch from 'node-fetch'
 // const fetch = require('node-fetch');
 import humps from 'humps'
-import pagesData from '../../assets/pages2.json'
+// import pagesData from '../../assets/pages2.json'
+// import morph from '../../assets/morphology.txt'
 
 const downloadFile = (async (url, path) => {
   const res = await fetch(url);
@@ -73,13 +74,23 @@ const genPages = (async () => {
 
 export default function handler(req, res) {
   // genPages()
-  const pagesD = humps.camelizeKeys(pagesData)
-  fs.writeFile('./pages3.json', JSON.stringify(pagesD), err => {
-      if (err) {
-        console.error(err)
-        return
-      }
-      //file written successfully
-    })
-  res.status(200).json({ok: true})
+  // const pagesD = humps.camelizeKeys(pagesData)
+  // fs.writeFile('./pages3.json', JSON.stringify(pagesD), err => {
+  //     if (err) {
+  //       console.error(err)
+  //       return
+  //     }
+  //     //file written successfully
+  //   })
+  const lines = morph.split('\r\n')
+  const ret = {}
+  lines.forEach(line => {
+    const values = line.split('\t')
+    const keys = values[0].substr(1, values[0].length - 2).split(':')
+    if(!ret[keys[0]]){ ret[keys[0]] = {} }
+    if(!ret[keys[0]][keys[1]]){ ret[keys[0]][keys[1]] = {} }
+    if(!ret[keys[0]][keys[1]][keys[2]]){ ret[keys[0]][keys[1]][keys[2]] = [] }
+    ret[keys[0]][keys[1]][keys[2]].push(values.slice(1))
+  })
+  res.status(200).json(ret)
 }
