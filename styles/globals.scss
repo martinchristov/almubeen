@@ -298,6 +298,28 @@ html {
 		}
 		font-size: 12.7px;
 	}
+	@media screen and (max-width: 375px) {
+		.page {
+			font-size: 10.4px;
+		}
+		font-size: 12px;
+	}
+	@media screen and (max-width: 360px) {
+		.page {
+			font-size: 9.7px;
+		}
+		font-size: 11.7px;
+	}
+	@media screen and (max-width: 340px) {
+		.page {
+			font-size: 9px;
+			.content {
+				height: 600px;
+				min-height: 600px;
+			}
+		}
+		font-size: 10.5px;
+	}
 }
 .page:not(.page1):not(.page2) {
 	@for $i from 1 through 14 {
