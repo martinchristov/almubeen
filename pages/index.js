@@ -8,7 +8,7 @@ export default function Home() {
   const [initers, setIniters] = useState([true, true, true, true])
   const [selectedAya, setSelectedAya] = useState(null)
   const pages = []
-  for(let i = 1; i < 604; i += 1){
+  for(let i = 1; i < 605; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} {...{setSelectedAya}} />)
   }
   return (
