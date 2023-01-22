@@ -47,28 +47,7 @@ const Lines = ({ p, setSelectedAya }) => {
     const lineContent = line.map(word => {
       let kalima = <span className={`kalima l-${word.lineNumber} id-${word.id} t-${word.charTypeName}`} key={word.id}>{word.codeV2}</span>
       if(word.charTypeName === 'word'){
-        const keys = word.verseKey.split(':')
-        const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
-        const morphWord = []
-        let ind = 0
-        morphs.forEach(part => {
-          morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
-          ind += part[0].length
-        })
-        const morphz = []
-        morphs.forEach(part => {
-          morphz.push(<small className={`m-${part[1]}`}>{part[1]}<br />{part[2].split('|')[0]}</small>)
-        })
-        const popupContent = (
-          <div className="popup-content">
-            <span className="arabic">{morphWord}</span>
-            <span className="morpho">{morphz}</span>
-            {/* <span className="morpho">{morpho[Number(keys[0])][Number(keys[1])][word.position][0][0]}</span> */}
-            <span className="translation">{word.translation.text}</span>
-            <span className="transliteration">{word.transliteration.text}</span>
-          </div>
-        )
-        kalima = <Popover onOpenChange={() => { console.log(morpho[Number(keys[0])][Number(keys[1])][word.position]) }} content={popupContent} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+        kalima = <Popover destroyTooltipOnHide content={<PopupContent word={word} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
         kalima = <span onClick={() => setSelectedAya(word.verseKey)}>{kalima}</span>
       }
@@ -93,6 +72,37 @@ const Lines = ({ p, setSelectedAya }) => {
     }
   })
   return <ul>{ret}</ul>
+}
+
+const PopupContent = ({ word }) => {
+  const keys = word.verseKey.split(':')
+  const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
+  const morphWord = []
+  let ind = 0
+  morphs.forEach(part => {
+    morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
+    ind += part[0].length
+  })
+  const morphz = []
+  morphs.forEach(part => {
+    morphz.push(<small className={`m-${part[1]}`}>{part[1]}<br />{part[2].split('|')[0]}</small>)
+  })
+  const koklu = morphs.find(it => it[1] === 'N' || it[1] === 'V' || it[1] === 'ADJ')
+  let kok
+  if(koklu != null){
+    const ROOTpos = koklu[2].indexOf('ROOT:')
+    kok = koklu[2].substr(ROOTpos + 5, 3)
+  }
+  return (
+    <div className="popup-content">
+      <span className="arabic">{morphWord}</span>
+      <span className="morpho">{morphz}</span>
+      {/* <span className="morpho">{morpho[Number(keys[0])][Number(keys[1])][word.position][0][0]}</span> */}
+      <span className="translation">{word.translation.text}</span>
+      <span className="transliteration">{word.transliteration.text}</span>
+      {koklu && <><span>ROOT: </span><span>{kok}</span></>}
+    </div>
+  )
 }
 
 const Safha = ({ p, init = false, setSelectedAya }) => {
