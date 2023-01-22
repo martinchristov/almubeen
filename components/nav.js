@@ -19,7 +19,7 @@ const Nav = ({ initers, setIniters }) => {
   }
   useEffect(() => {
     document.addEventListener('scroll', () => {
-      const ph = window.innerWidth < 760 ? mobilePageh : pageh
+      const ph = window.innerWidth < 640 ? mobilePageh : pageh
       const pageYPos = Math.floor((window.scrollY + marginY) / ph)
       if(pageYPos + 1 !== page){
         setPage(pageYPos + 1)

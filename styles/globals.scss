@@ -74,7 +74,7 @@ nav {
 		font-size: 1.2rem;
 		cursor: pointer;
 	}
-	@media screen and (max-width: 760px) {
+	@media screen and (max-width: 640px) {
 		.page-contain {
 			margin: 0 15px;
 		}
@@ -281,7 +281,7 @@ nav {
 	}
 }
 html {
-	@media screen and (max-width: 760px) {
+	@media screen and (max-width: 640px) {
 		.page1 {
 			margin-top: 60px;
 		}
