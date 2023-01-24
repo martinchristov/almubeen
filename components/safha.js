@@ -5,6 +5,7 @@ import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
 import morpho from '../assets/morph.json'
+import bt2utf from '../assets/bt2utf';
 
 function transformJSON(input) {
     const lines = {};
@@ -89,18 +90,20 @@ const PopupContent = ({ word }) => {
   })
   const koklu = morphs.find(it => it[1] === 'N' || it[1] === 'V' || it[1] === 'ADJ')
   let kok
+  let kokJSX
   if(koklu != null){
     const ROOTpos = koklu[2].indexOf('ROOT:')
     kok = koklu[2].substr(ROOTpos + 5, 3)
+    kokJSX = (<strong>{bt2utf[kok[0]]} {bt2utf[kok[1]]} {bt2utf[kok[2]]}</strong>)
   }
   return (
     <div className="popup-content">
+      <span className="transliteration">{word.transliteration.text}</span>
       <span className="arabic">{morphWord}</span>
       <span className="morpho">{morphz}</span>
       {/* <span className="morpho">{morpho[Number(keys[0])][Number(keys[1])][word.position][0][0]}</span> */}
       <span className="translation">{word.translation.text}</span>
-      <span className="transliteration">{word.transliteration.text}</span>
-      {koklu && <><span>ROOT: </span><span>{kok}</span></>}
+      {koklu && <span className="kok"><small>ROOT: </small><a href={`https://ejtaal.net/aa#bwq=${kok}`} target="_blank" rel="noreferrer">{kokJSX}</a></span>}
     </div>
   )
 }
