@@ -79,6 +79,7 @@ const PopupContent = ({ word }) => {
   const keys = word.verseKey.split(':')
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
+  console.log(word, morphs)
   let ind = 0
   morphs.forEach(part => {
     morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
@@ -88,7 +89,7 @@ const PopupContent = ({ word }) => {
   morphs.forEach(part => {
     morphz.push(<small className={`m-${part[1]}`}>{part[1]}<br />{part[2].split('|')[0]}</small>)
   })
-  const koklu = morphs.find(it => it[1] === 'N' || it[1] === 'V' || it[1] === 'ADJ')
+  const koklu = morphs.find(it => it[1] === 'N' || it[1] === 'V' || it[1] === 'T' || it[1] === 'ADJ')
   let kok
   let kokJSX
   if(koklu != null){
