@@ -427,6 +427,12 @@ html {
 	}
 	.src {
 		padding: 5px 10px;
+		.ant-input-affix-wrapper {
+			background-color: #f4f4f4;
+			border: none;
+			outline: none !important;
+			box-shadow: none !important;
+		}
 		input {
 			background-color: #f4f4f4;
 			border: none;
@@ -460,6 +466,20 @@ html {
 			padding-right: 15px;
 			&:nth-child(2n) {
 				background-color: rgb(244, 244, 244);
+			}
+		}
+	}
+}
+.aya-modal {
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		li {
+			margin-bottom: 5px;
+			padding-bottom: 5px;
+			&:not(:last-child) {
+				border-bottom: 1px solid #f7f7f7;
 			}
 		}
 	}

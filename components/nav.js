@@ -70,7 +70,7 @@ const SuraModal = ({ open, onCancel }) => {
   return (
     <Modal open={open} onCancel={onCancel} title="Surah List" footer={null} className="sura-modal">
       <div className="src">
-        <Input placeholder="Search | ابحث" value={src} onChange={(e) => setSrc(e.target.value)} />
+        <Input allowClear placeholder="Search | ابحث" value={src} onChange={(e) => setSrc(e.target.value)} />
       </div>
       <ul>
         {surat.chapters.filter(filterSrc).map((sura) =>

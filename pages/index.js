@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
 import { Modal } from 'antd'
@@ -13,6 +13,7 @@ export default function Home() {
   for(let i = 1; i < 605; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} {...{setSelectedAya}} />)
   }
+  console.log('home')
   return (
     <div>
       <Nav {...{ initers, setIniters }} />
