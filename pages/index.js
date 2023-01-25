@@ -3,6 +3,8 @@ import Safha from '../components/safha'
 import Nav from '../components/nav'
 import translation from '../assets/translations/eng-muhammadasad.json'
 import { Modal } from 'antd'
+import mixpanel from 'mixpanel-browser';
+mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
 export default function Home() {
   const [initers, setIniters] = useState([true, true, true, true])

@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { memo, useEffect } from 'react'
 import { Popover } from 'antd';
+import mixpanel from 'mixpanel-browser';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
@@ -23,6 +24,10 @@ function transformJSON(input) {
 const Lines = ({ p, setSelectedAya }) => {
   const lines = transformJSON(pageData[p - 1])
   const ret = []
+  const handleClickAya = () => {
+    setSelectedAya(word.verseKey)
+    mixpanel.track('Aya Popup')
+  }
   lines.map((line, lineIndex) => {
     let surahIndex
     if(line[0].verseNumber === 1 && p > 2){
@@ -50,7 +55,7 @@ const Lines = ({ p, setSelectedAya }) => {
       if(word.charTypeName === 'word'){
         kalima = <Popover destroyTooltipOnHide content={<PopupContent word={word} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
-        kalima = <span onClick={() => setSelectedAya(word.verseKey)}>{kalima}</span>
+        kalima = <span onClick={handleClickAya}>{kalima}</span>
       }
       return <>
         {kalima}{' '}
@@ -79,7 +84,6 @@ const PopupContent = ({ word }) => {
   const keys = word.verseKey.split(':')
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
-  console.log(word, morphs)
   let ind = 0
   morphs.forEach(part => {
     morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
@@ -97,12 +101,12 @@ const PopupContent = ({ word }) => {
     kok = koklu[2].substr(ROOTpos + 5, 3)
     kokJSX = (<strong>{bt2utf[kok[0]]} {bt2utf[kok[1]]} {bt2utf[kok[2]]}</strong>)
   }
+  mixpanel.track('Word Popup')
   return (
     <div className="popup-content">
       <span className="transliteration">{word.transliteration.text}</span>
       <span className="arabic">{morphWord}</span>
       <span className="morpho">{morphz}</span>
-      {/* <span className="morpho">{morpho[Number(keys[0])][Number(keys[1])][word.position][0][0]}</span> */}
       <span className="translation">{word.translation.text}</span>
       {koklu && <span className="kok"><small>ROOT: </small><a href={`https://ejtaal.net/aa#bwq=${kok}`} target="_blank" rel="noreferrer">{kokJSX}</a></span>}
     </div>
@@ -116,71 +120,6 @@ const Safha = ({ p, init = false, setSelectedAya }) => {
         <div className="inner">
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
           {init && <Lines {...{ setSelectedAya, p }} />}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const Safha2 = ({ p, init = false }) => {
-  
-  return (
-    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
-      <div className="content">
-        <div className="inner">
-            {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-            {init && pageData[p - 1].map((verse, verseIndex) => {
-              const ret = []
-              const surahIndex = Number(verse.verseKey.split(':')[0]) - 1
-              if(verse.verseNumber === 1 && p !== 1 && p !== 2){
-                if(verse.words[0].lineNumber > 2){
-                  ret.push(
-                    <div className="surah-title" key={`vt-${surahIndex}`}>
-                      <span>{surahChars[surahIndex]}</span>
-                    </div>
-                  )
-                }
-                ret.push(<span key="bismillah" className="bismillah">
-                  <span>{String.fromCharCode(64337)}</span>
-                  <span>{String.fromCharCode(64338)}</span>
-                  <span>{String.fromCharCode(64339)}</span>
-                  <span>{String.fromCharCode(64340)}</span>
-                </span>)
-              }
-              if(p > 2 && verseIndex > 0 && verse.verseNumber > 1){
-                const prevVerse = pageData[p - 1][verseIndex - 1]
-                if(prevVerse.words[prevVerse.words.length - 1].lineNumber < verse.words[0].lineNumber){
-                  ret.push(<br />)
-                }
-              }
-              ret.push(
-                <span className={`aya id-${verse.id}`} key={verse.id}>
-                  {verse.words.map(word => {
-                    const popupContent = (
-                      <div className="popup-content">
-                        <span className="translation">{word.translation.text}</span>
-                        <span className="transliteration">{word.transliteration.text}</span>
-                      </div>
-                    )
-                    return <>
-                      <Popover content={popupContent} trigger="click" autoAdjustOverflow>
-                        <span className={`kalima l-${word.lineNumber} id-${word.id}`} key={word.id}>{word.codeV2}</span>
-                      </Popover>{' '}
-                    </>
-                  })}
-                </span>
-              )
-              if(verse.verseNumber === surat.chapters[surahIndex].verses_count){
-                if(verse.words[verse.words.length - 1].lineNumber === 14){
-                  ret.push(
-                    <div className="surah-title" key={`vt-${surahIndex + 1}`}>
-                      <span>{surahChars[surahIndex + 1]}</span>
-                    </div>
-                  )
-                }
-              }
-              return ret
-            })}
         </div>
       </div>
     </div>

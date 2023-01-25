@@ -1,5 +1,6 @@
 import { Input, Modal } from "antd"
 import { useState, useEffect } from "react"
+import mixpanel from 'mixpanel-browser';
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 
@@ -17,6 +18,7 @@ const Nav = ({ initers, setIniters }) => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
       window.scrollTo({ top: document.getElementsByClassName('page')[Number(inp) - 1].offsetTop - 50 })
+      mixpanel.track('Go to page')
     }
   }
   useEffect(() => {
@@ -58,6 +60,7 @@ const SuraModal = ({ open, onCancel }) => {
   const handleClickSurah = (sura, index) => () => {
     onCancel()
     window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0] - 1].offsetTop - 50 })
+    mixpanel.track('Go to Sura')
   }
   const filterSrc = it => { 
     if(src === '') return true
@@ -90,6 +93,7 @@ const JuzModal = ({ open, onCancel }) => {
   const handleClickJuz = (ind) => () => {
     onCancel()
     window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind] - 1].offsetTop - 45 })
+    mixpanel.track('Go to Juz')
   }
   return (
     <Modal {...{ open, onCancel }} title="Go to Juz" className="sura-modal juz-modal" footer={null}>
