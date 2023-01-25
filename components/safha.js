@@ -24,7 +24,7 @@ function transformJSON(input) {
 const Lines = ({ p, setSelectedAya }) => {
   const lines = transformJSON(pageData[p - 1])
   const ret = []
-  const handleClickAya = () => {
+  const handleClickAya = (word) => () => {
     setSelectedAya(word.verseKey)
     mixpanel.track('Aya Popup')
   }
@@ -55,7 +55,7 @@ const Lines = ({ p, setSelectedAya }) => {
       if(word.charTypeName === 'word'){
         kalima = <Popover destroyTooltipOnHide content={<PopupContent word={word} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
-        kalima = <span onClick={handleClickAya}>{kalima}</span>
+        kalima = <span onClick={handleClickAya(word)}>{kalima}</span>
       }
       return <>
         {kalima}{' '}

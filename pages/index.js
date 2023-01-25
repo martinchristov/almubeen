@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
-import translation from '../assets/translations/eng-muhammadasad.json'
 import { Modal } from 'antd'
+import AyaTranslations from '../components/translations'
 import mixpanel from 'mixpanel-browser';
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
@@ -17,25 +17,7 @@ export default function Home() {
     <div>
       <Nav {...{ initers, setIniters }} />
       {pages}
-      <Modal open={selectedAya != null} onCancel={() => { setSelectedAya(null) }} footer={null}>
-        <AyaTranslations {...{ selectedAya }} />
-      </Modal>
-    </div>
-  )
-}
-
-const getTranslation = (chapter, verse) => {
-  const ret = translation.quran.find(it => it.chapter === Number(chapter) && it.verse === Number(verse))
-  return ret?.text
-}
-
-const AyaTranslations = ({ selectedAya }) => {
-  const keys = selectedAya.split(':')
-  const translated = getTranslation(keys[0], keys[1])
-  return (
-    <div>
-      <h3>{selectedAya}</h3>
-      <p>{translated}</p>
+      <AyaTranslations {...{ selectedAya, setSelectedAya }} />
     </div>
   )
 }
