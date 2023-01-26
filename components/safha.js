@@ -85,8 +85,8 @@ const PopupContent = ({ word }) => {
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
   let ind = 0
-  morphs.forEach(part => {
-    morphWord.push(<b className={`m-${part[1]}`}>{word.textUthmani.slice(ind, ind + part[0].length)}</b>)
+  morphs.forEach((part, pi) => {
+    morphWord.push(<><b className={`m-${part[1]}`}>{`${word.textUthmani.slice(ind, ind + part[0].length)}${pi < morphs.length - 1 ? String.fromCharCode(8205) : ''}`}</b></>)
     ind += part[0].length
   })
   const morphz = []
