@@ -20,7 +20,7 @@ const ModalContent = ({ selectedAya }) => {
   const keys = selectedAya.split(':')
   // const translated = getTranslation(keys[0], keys[1])
   const [translated, setTranslated] = useState([])
-  const [selected, setSelected] = useState(['eng_mohammedmarmadu', 'eng_muhammadasad', 'bul_tzvetantheophan'])
+  const [selected, setSelected] = useState(['eng_mohammedmarmadu', 'eng_muhammadasad', 'eng_thestudyquran', 'bul_tzvetantheophan'])
   const [loading, setLoading] = useState(true)
   const prev = useRef()
   useEffect(() => {
