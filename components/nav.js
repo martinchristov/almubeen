@@ -1,14 +1,16 @@
 import { Input, Modal } from "antd"
 import { useState, useEffect } from "react"
 import mixpanel from 'mixpanel-browser';
+import { SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
+import pageData from '../assets/pages.json'
 
 const pageh = 860;
 const mobilePageh = 740
 const marginY = 48
 
-const Nav = ({ initers, setIniters }) => {
+const Nav = ({ initers, setIniters, highlightAya }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
@@ -41,13 +43,37 @@ const Nav = ({ initers, setIniters }) => {
       }
     })
   }, [])
+  const handleSrcClick = () => {
+    mixpanel.track('Search click')
+    alert('Coming soon')
+  }
+  const handleGotoayaClick = () => {
+    mixpanel.track('Go to ayah')
+    const inp = prompt('Jump to ayah', '2:255')
+    if(inp){
+      const keys = inp.split(':')
+      const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
+      if(tsura){
+        const suraPages = pageData.slice(tsura.pages[0]-1, tsura.pages[1] - 1)
+        const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
+        if(tverse.length > 0){
+          window.scrollTo({ top: document.getElementsByClassName('page')[tverse[0].pageNumber - 1].offsetTop - 50 })
+          highlightAya(inp)
+        }
+      }
+    }
+  }
   return (
     <>
       <nav>
         <div className="page-contain">
+          <div className="src" onClick={handleSrcClick}>
+            <SearchOutlined />
+          </div>
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}>{currentSura}</div>
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
+          <div className="gotoaya" onClick={handleGotoayaClick}>{String.fromCharCode(1757)}</div>
         </div>
       </nav>
       <SuraModal open={suraModalVisible} onCancel={() => { setSuraModalVisible(false)}} />

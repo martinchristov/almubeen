@@ -21,7 +21,7 @@ function transformJSON(input) {
     return Object.values(lines);
 }
 
-const Lines = ({ p, setSelectedAya }) => {
+const Lines = ({ p, setSelectedAya, markAya }) => {
   const lines = transformJSON(pageData[p - 1])
   const ret = []
   const handleClickAya = (word) => () => {
@@ -55,7 +55,10 @@ const Lines = ({ p, setSelectedAya }) => {
       if(word.charTypeName === 'word'){
         kalima = <Popover destroyTooltipOnHide content={<PopupContent word={word} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
-        kalima = <span onClick={handleClickAya(word)}>{kalima}</span>
+        if(word.verseKey === markAya){
+          console.log(word)
+        }
+        kalima = <span className={word.verseKey === markAya ? 'marked' : null} onClick={handleClickAya(word)}>{kalima}</span>
       }
       return <>
         {kalima}{' '}
@@ -113,13 +116,13 @@ const PopupContent = ({ word }) => {
   )
 }
 
-const Safha = ({ p, init = false, setSelectedAya }) => {
+const Safha = ({ p, init = false, setSelectedAya, markAya }) => {
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
       <div className="content">
         <div className="inner">
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-          {init && <Lines {...{ setSelectedAya, p }} />}
+          {init && <Lines {...{ setSelectedAya, p, markAya }} />}
         </div>
       </div>
     </div>

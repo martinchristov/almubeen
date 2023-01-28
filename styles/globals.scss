@@ -1,5 +1,5 @@
 // @import "reset.scss";
-
+@import "./assets/uthmanicfont/stylesheet.scss";
 html,
 body {
 	padding: 0;
@@ -59,8 +59,34 @@ nav {
 	.page-contain {
 		display: flex;
 		justify-content: space-between;
+		position: relative;
+		padding: 0 27px;
 	}
 	line-height: 42px;
+	.src {
+		position: absolute;
+		left: -12px;
+		color: #af8a21;
+		font-size: 22px;
+	}
+	.gotoaya {
+		font-family: "KFGQPC";
+		position: absolute;
+		right: -12px;
+		// font-weight: bold;
+		color: #af8a21;
+		-webkit-text-stroke-width: 0.5px;
+		-webkit-text-stroke-color: #af8a21;
+		font-size: 2em;
+		&:after {
+			content: ":";
+			position: absolute;
+			left: 9.5px;
+			top: 0;
+			line-height: 44px;
+			font-size: 14px;
+		}
+	}
 	.pagen {
 		color: #af8a21;
 		font-weight: bold;
@@ -77,6 +103,17 @@ nav {
 	@media screen and (max-width: 640px) {
 		.page-contain {
 			margin: 0 15px;
+		}
+	}
+	@media screen and (max-width: 640px) {
+		.src {
+			left: -7px;
+		}
+		.caption {
+			font-size: 1.4rem;
+		}
+		.gotoaya {
+			right: -7px;
 		}
 	}
 }
@@ -156,6 +193,19 @@ nav {
 				color: #005635;
 				-webkit-text-stroke-width: 0.3px;
 				-webkit-text-stroke-color: #005635;
+			}
+		}
+		.marked {
+			.kalima {
+				color: #af8a21;
+				-webkit-text-stroke-color: #af8a21;
+				// font-size: 2.3rem;
+				display: inline-block;
+				// transform: scale(1.3);
+				animation-name: bounce;
+				animation-duration: 0.7s;
+				animation-iteration-count: 4;
+				animation-timing-function: ease-in-out;
 			}
 		}
 	}
@@ -280,6 +330,17 @@ nav {
 		}
 	}
 }
+@keyframes bounce {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
 html {
 	@media screen and (max-width: 640px) {
 		.page1 {
@@ -342,6 +403,8 @@ html {
 	}
 	.arabic {
 		font-size: 1.5em;
+		font-family: KFGQPC;
+		font-style: normal;
 	}
 	.morpho {
 		display: flex;
@@ -364,6 +427,8 @@ html {
 	.kok {
 		border-top: 1px solid #f7f7f7;
 		margin-top: 3px;
+		font-family: KFGQPC;
+		font-style: normal;
 		small {
 			font-size: 9px;
 			font-weight: 550;
