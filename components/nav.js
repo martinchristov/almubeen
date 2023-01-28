@@ -54,9 +54,9 @@ const Nav = ({ initers, setIniters, highlightAya }) => {
       const keys = inp.split(':')
       const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
       if(tsura){
-        const suraPages = pageData.slice(tsura.pages[0]-1, tsura.pages[1] - 1)
+        const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
         const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
-        if(tverse.length > 0){
+        if(tverse.length > 0) {
           window.scrollTo({ top: document.getElementsByClassName('page')[tverse[0].pageNumber - 1].offsetTop - 50 })
           highlightAya(inp)
         }
