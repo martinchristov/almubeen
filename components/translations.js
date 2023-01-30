@@ -81,7 +81,7 @@ const ModalContent = ({ selectedAya }) => {
           mode="multiple"
           placeholder="Select translations"
           optionFilterProp="children"
-          filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? '').includes(input)}
+          filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? '').includes(input.toLocaleLowerCase())}
           filterSort={(optionA, optionB) =>
             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
           }
