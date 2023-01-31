@@ -1,8 +1,10 @@
-import { Button, Divider, Modal, Select, Spin } from 'antd'
+import { Button, Checkbox, Collapse, Divider, Modal, Select, Spin } from 'antd'
 import { UnorderedListOutlined } from '@ant-design/icons'
 // import translation from '../assets/translations/eng-muhammadasad.json'
 import sources from '../assets/translation-sources2.json'
 import { memo, useEffect, useRef, useState } from 'react'
+// import CollapsePanel from 'antd/es/collapse/CollapsePanel'
+const CollapsePanel = Collapse.Panel
 
 const getTranslation = (translation, chapter, verse) => {
   const ret = translation.quran.find(it => it.chapter === Number(chapter) && it.verse === Number(verse))
@@ -25,12 +27,13 @@ const ModalContent = ({ selectedAya }) => {
   const [selected, setSelected] = useState(_selected)
   const [loading, setLoading] = useState(true)
   const prev = useRef()
-  const loadTranslations = () => {
-    selected.forEach((key, ind) => {
+  const loadTranslations = ($selected) => {
+    const SS = $selected != null ? $selected : selected
+    SS.forEach((key, ind) => {
         fetch(sources[key].linkmin)
         .then(d => d.json())
         .then(d => {
-          if(ind === selected.length - 1) setLoading(false)
+          if(ind === SS.length - 1) setLoading(false)
           setTranslated(($translated) => {
             const _translated = [...$translated]
             _translated[ind] = getTranslation(d, keys[0], keys[1])
@@ -46,12 +49,14 @@ const ModalContent = ({ selectedAya }) => {
     }
     prev.current = selected
   }, [])
-  const handleChangeSources = () => {
+  const handleChangeSources = (_selected) => {
+    console.log(_selected)
     setLoading(true)
-    setTranslated([])
-    loadTranslations()
     setMode('view')
-    localStorage.setItem('selected-translations', JSON.stringify(selected));
+    setSelected(_selected)
+    setTranslated([])
+    localStorage.setItem('selected-translations', JSON.stringify(_selected));
+    loadTranslations(_selected)
   }
   return (
     <div>
@@ -73,13 +78,14 @@ const ModalContent = ({ selectedAya }) => {
       }
       {mode === 'edit' &&
       <>
-        <Select
+        <EditSources {...{ handleChangeSources }} />
+        {/* <Select
           value={selected}
           onChange={(val) => { setSelected(val) }}
           className='select-sources'
           showSearch
           mode="multiple"
-          placeholder="Select translations"
+          placeholder="Select translations 2"
           optionFilterProp="children"
           filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? '').includes(input.toLocaleLowerCase())}
           filterSort={(optionA, optionB) =>
@@ -87,9 +93,50 @@ const ModalContent = ({ selectedAya }) => {
           }
           options={Object.keys(sources).map(key => ({ value: key, label: `${sources[key].language} - ${sources[key].author}`}))}
         />
-        <Button type="primary" onClick={handleChangeSources}>Done</Button>
+        <Button type="primary" onClick={handleChangeSources}>Done</Button> */}
       </>
       }
+    </div>
+  )
+}
+
+const allLangs = ['Achinese', 'Afar', 'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Assamese', 'Azerbaijani', 'Bambara', 'Bengali', 'Berber', 'Bosnian', 'Bulgarian', 'Burmese', 'Catalan', 'Chichewa', 'Chinese(simplified)', 'Chinese(traditional)', 'Croatian', 'Czech', 'Dagbani', 'Danish', 'Dari', 'Divehi', 'Dutch', 'English', 'Esperanto', 'Filipino', 'Finnish', 'French', 'Fulah', 'Ganda', 'German', 'Gujarati', 'Hausa', 'Hebrew', 'Hindi', 'Hungarian', 'Indonesian', 'Iranun', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Kendayan', 'Khmer', 'Kinyarwanda', 'Kirghiz', 'Korean', 'Kurdish', 'Kurmanji', 'Latin', 'Lingala', 'Luyia', 'Macedonian', 'Malay', 'Malayalam', 'Maltese', 'Maranao', 'Marathi', 'Nepali', 'Norwegian', 'Oromo', 'Panjabi', 'Persian', 'Polish', 'Portuguese', 'Pushto', 'Romanian', 'Rundi', 'Russian', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Somali', 'Sotho', 'Spanish', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Turkish', 'Twi', 'Uighur', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Xhosa', 'Yau', 'Yoruba', 'Zulu']
+const EditSources = ({ handleChangeSources }) => {
+  const [selected, setSelected] = useState(localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : [])
+  let sourcesByLang = {}
+  allLangs.forEach(lang => { sourcesByLang[lang] = [] })
+  Object.keys(sources).forEach(key => {
+    sourcesByLang[sources[key].language].push({...sources[key], key})
+  })
+  const handleDoneClick = () => {
+    handleChangeSources(selected)
+  }
+  const handleChangeCheck = (source) => (e) => {
+    setSelected(val => {
+      if(e.target.checked){
+        if(val.indexOf(source.key) === -1) return [...val, source.key]
+        return val
+      }
+      if(val.indexOf(source.key) !== -1) return val.filter(it => it !== source.key)
+      return val
+    })
+  }
+  return (
+    <div>
+      <Collapse>
+        {allLangs.map(lang =>
+        <CollapsePanel header={lang} key={lang}>
+          <ul>
+            {sourcesByLang[lang].map(source =>
+            <li key={source.key}>
+              <Checkbox checked={selected.indexOf(source.key) !== -1} onChange={handleChangeCheck(source)}>{source.author}</Checkbox>
+            </li>
+            )}
+          </ul>
+        </CollapsePanel>
+        )}
+      </Collapse>
+      <Button type="primary" onClick={handleDoneClick}>Done</Button>
     </div>
   )
 }
