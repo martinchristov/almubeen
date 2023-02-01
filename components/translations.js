@@ -50,7 +50,6 @@ const ModalContent = ({ selectedAya }) => {
     prev.current = selected
   }, [])
   const handleChangeSources = (_selected) => {
-    console.log(_selected)
     setLoading(true)
     setMode('view')
     setSelected(_selected)
@@ -58,14 +57,15 @@ const ModalContent = ({ selectedAya }) => {
     localStorage.setItem('selected-translations', JSON.stringify(_selected));
     loadTranslations(_selected)
   }
+  console.log(translated)
   return (
     <div>
-      <h3>{selectedAya}</h3>
       {mode === 'view' &&
       <>
+      <h3>{selectedAya}</h3>
       <ul>
         {translated.map((item, ind) =>
-          <li key={sources[ind]}>
+          <li key={sources[ind]} className={selected[ind].substr(0, 3)}>
             <p>{item}</p>
             <small><i>{sources[selected[ind]]?.author}</i></small>
           </li>
@@ -78,22 +78,8 @@ const ModalContent = ({ selectedAya }) => {
       }
       {mode === 'edit' &&
       <>
+        <h3>Setup your preferred translations</h3>
         <EditSources {...{ handleChangeSources }} />
-        {/* <Select
-          value={selected}
-          onChange={(val) => { setSelected(val) }}
-          className='select-sources'
-          showSearch
-          mode="multiple"
-          placeholder="Select translations 2"
-          optionFilterProp="children"
-          filterOption={(input, option) => (option?.label.toLocaleLowerCase() ?? '').includes(input.toLocaleLowerCase())}
-          filterSort={(optionA, optionB) =>
-            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-          }
-          options={Object.keys(sources).map(key => ({ value: key, label: `${sources[key].language} - ${sources[key].author}`}))}
-        />
-        <Button type="primary" onClick={handleChangeSources}>Done</Button> */}
       </>
       }
     </div>
@@ -101,6 +87,7 @@ const ModalContent = ({ selectedAya }) => {
 }
 
 const allLangs = ['Achinese', 'Afar', 'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Assamese', 'Azerbaijani', 'Bambara', 'Bengali', 'Berber', 'Bosnian', 'Bulgarian', 'Burmese', 'Catalan', 'Chichewa', 'Chinese(simplified)', 'Chinese(traditional)', 'Croatian', 'Czech', 'Dagbani', 'Danish', 'Dari', 'Divehi', 'Dutch', 'English', 'Esperanto', 'Filipino', 'Finnish', 'French', 'Fulah', 'Ganda', 'German', 'Gujarati', 'Hausa', 'Hebrew', 'Hindi', 'Hungarian', 'Indonesian', 'Iranun', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Kendayan', 'Khmer', 'Kinyarwanda', 'Kirghiz', 'Korean', 'Kurdish', 'Kurmanji', 'Latin', 'Lingala', 'Luyia', 'Macedonian', 'Malay', 'Malayalam', 'Maltese', 'Maranao', 'Marathi', 'Nepali', 'Norwegian', 'Oromo', 'Panjabi', 'Persian', 'Polish', 'Portuguese', 'Pushto', 'Romanian', 'Rundi', 'Russian', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Somali', 'Sotho', 'Spanish', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Turkish', 'Twi', 'Uighur', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Xhosa', 'Yau', 'Yoruba', 'Zulu']
+
 const EditSources = ({ handleChangeSources }) => {
   const [selected, setSelected] = useState(localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : [])
   let sourcesByLang = {}

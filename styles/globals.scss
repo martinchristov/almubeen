@@ -546,6 +546,12 @@ html {
 			&:not(:last-child) {
 				border-bottom: 1px solid #f7f7f7;
 			}
+			&.ara {
+				p {
+					font-size: 19px;
+					font-family: KFGQPC;
+				}
+			}
 		}
 	}
 	.select-sources {
