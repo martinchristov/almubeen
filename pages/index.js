@@ -1,4 +1,4 @@
-import { useState, memo } from 'react'
+import { useState, memo, useEffect } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
 import { Modal } from 'antd'
