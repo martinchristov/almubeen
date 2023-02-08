@@ -6,16 +6,21 @@ import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import pageData from '../assets/pages.json'
 
-const pageh = 860;
-const mobilePageh = 740
+let pageh = 860;
+// const mobilePageh = 740
 const marginY = 48
+
+const calcPageH = () => {
+  const pagew = window.innerWidth > 512 ? 512 : window.innerWidth
+  pageh = ((pagew - 34) / 33.27) * 2 * 1.9 * 15 + 30 /* padding */ + 20 /* margin */
+}
 
 const Nav = ({ initers, setIniters, highlightAya }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
-  const [currentSura, setCurrentSura] = useState('الفتحة')
+  const [currentSura, setCurrentSura] = useState('الفاتحة')
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
@@ -24,9 +29,12 @@ const Nav = ({ initers, setIniters, highlightAya }) => {
     }
   }
   useEffect(() => {
+    calcPageH()
+    window.addEventListener('resize', () => {
+      calcPageH()
+    })
     document.addEventListener('scroll', () => {
-      const ph = window.innerWidth < 640 ? mobilePageh : pageh
-      const pageYPos = Math.floor((window.scrollY + marginY) / ph)
+      const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
       if(pageYPos + 1 !== page){
         setPage(pageYPos + 1)
         setJuz(getJuzFromPage(pageYPos + 1))
