@@ -121,6 +121,11 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale }) => {
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
         <div className="inner">
+          {(p === 1 || p === 2) && (
+            <div className="surah-title" key={`vt-${p - 1}`}>
+              <span>{surahChars[p - 1]}</span>
+            </div>
+          )}
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
           {init && <Lines {...{ setSelectedAya, p, markAya }} />}
         </div>

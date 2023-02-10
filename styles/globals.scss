@@ -36,7 +36,7 @@ a {
 }
 .surah-title {
 	font-family: surah-title;
-	font-size: 30px;
+	font-size: 1.6em;
 	direction: rtl;
 	text-align: center;
 	border: 1.7px solid #005331;
@@ -540,6 +540,13 @@ html {
 	}
 	.ant-btn.ant-btn-primary {
 		margin-top: 10px;
+	}
+}
+.page1,
+.page2 {
+	.surah-title {
+		margin-bottom: 1.5em;
+		margin-top: -2em;
 	}
 }
 .scaled {
