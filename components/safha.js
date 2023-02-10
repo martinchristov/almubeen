@@ -116,10 +116,10 @@ const PopupContent = ({ word }) => {
   )
 }
 
-const Safha = ({ p, init = false, setSelectedAya, markAya }) => {
+const Safha = ({ p, init = false, setSelectedAya, markAya, scale }) => {
   return (
-    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}`}}>
-      <div className="content">
+    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
+      <div className="content" style={{ fontSize: `${2 * scale}em`}}>
         <div className="inner">
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
           {init && <Lines {...{ setSelectedAya, p, markAya }} />}

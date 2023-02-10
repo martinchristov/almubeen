@@ -145,7 +145,7 @@ nav {
 		min-height: 720px;
 		font-size: 2em;
 		height: auto;
-		min-height: calc(((512px - 34px) / 33.27) * 2 * 1.9 * 15);
+		min-height: calc(((512px - 40px) / 34.77) * 2 * 1.9 * 15);
 		line-height: 1.9;
 		box-sizing: content-box;
 		margin-bottom: 20px;
@@ -350,40 +350,17 @@ html {
 		}
 		.page {
 			// font-size: 10.7px;
-			font-size: calc((100vw - 34px) / 33.27);
+			font-size: calc((100vw - 40px) / 34.77);
 			.content {
 				width: auto;
 				height: auto;
-				min-height: calc(((100vw - 34px) / 33.27) * 2 * 1.9 * 15);
+				min-height: calc(((100vw - 40px) / 34.77) * 2 * 1.9 * 15);
 				.inner {
 					width: calc(100vw - 44px);
 				}
 			}
 		}
-		// font-size: 12.7px;
 	}
-	// @media screen and (max-width: 375px) {
-	// 	.page {
-	// 		font-size: 10.4px;
-	// 	}
-	// 	font-size: 12px;
-	// }
-	// @media screen and (max-width: 360px) {
-	// 	.page {
-	// 		font-size: 9.7px;
-	// 	}
-	// 	font-size: 11.7px;
-	// }
-	// @media screen and (max-width: 340px) {
-	// 	.page {
-	// 		font-size: 9px;
-	// 		.content {
-	// 			height: 600px;
-	// 			min-height: 600px;
-	// 		}
-	// 	}
-	// 	font-size: 10.5px;
-	// }
 }
 .page:not(.page1):not(.page2) {
 	@for $i from 1 through 14 {
@@ -565,11 +542,20 @@ html {
 		margin-top: 10px;
 	}
 }
-.juz-modal {
-}
 .scaled {
 	.page .content ul li {
 		white-space: normal;
+		display: inline;
+	}
+	.page1,
+	.page2 {
+		.content {
+			line-height: 3.3;
+		}
+	}
+	.page .content {
+		display: flex;
+		align-items: center;
 	}
 }
 

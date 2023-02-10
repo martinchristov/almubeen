@@ -1,5 +1,5 @@
 import { Input, Modal } from "antd"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
 import { SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
@@ -7,48 +7,77 @@ import page2sura from '../assets/page2surah.json'
 import pageData from '../assets/pages.json'
 
 let pageh = 860;
-// const mobilePageh = 740
 const marginY = 48
 
-const calcPageH = () => {
-  const pagew = window.innerWidth > 512 ? 512 : window.innerWidth
-  pageh = ((pagew - 34) / 33.27) * 2 * 1.9 * 15 + 30 /* padding */ + 20 /* margin */
-}
-
-const Nav = ({ initers, setIniters, highlightAya }) => {
+const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
+  const pages = useRef()
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
-      window.scrollTo({ top: document.getElementsByClassName('page')[Number(inp) - 1].offsetTop - 50 })
+      window.scrollTo({ top: pages.current[Number(inp) - 1].offsetTop - 50 })
       mixpanel.track('Go to page')
     }
   }
-  useEffect(() => {
-    calcPageH()
-    window.addEventListener('resize', () => {
-      calcPageH()
-    })
-    document.addEventListener('scroll', () => {
-      const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
-      if(pageYPos + 1 !== page){
-        setPage(pageYPos + 1)
-        setJuz(getJuzFromPage(pageYPos + 1))
-        setCurrentSura(surat.chapters[page2sura[pageYPos + 1] - 1].name_arabic)
-        if(!initers[pageYPos] || !initers[pageYPos + 1] || !initers[pageYPos + 2]){
-          const cp = [...initers]
-          cp[pageYPos] = true
-          cp[pageYPos + 1] = true
-          cp[pageYPos + 2] = true
-          if(cp.length !== initers.length){
-            setIniters(cp)
-          }
+  const calcPageH = () => {
+    const pagew = window.innerWidth > 512 ? 512 : window.innerWidth
+    setScale((_scale) => {
+      const fontSize = ((pagew - 40) / 34.77) * 2 /*em*/ * _scale
+      if(_scale === 1){
+        pageh = fontSize * 1.9 /*l.h*/ * 15 + 30 /* padding */ + 20 /* margin */
+        for(let i = 0; i < 604; i += 1){
+          pages.current[i].style.height = null
+        }
+      } else {
+        const lineHeight = fontSize * 1.9
+        pageh = pages.current[2].clientHeight + lineHeight /* add extra line */
+        pages.current[0].style.height = `${pageh}px`
+        pages.current[1].style.height = `${pageh}px`
+        for(let i = 3; i < 604; i += 1){
+          pages.current[i].style.height = `${pageh}px`
         }
       }
+      return _scale
+    })
+    setPage((_page) => {
+      setTimeout(() => {
+        window.scrollTo({ top: pages.current[_page - 1].offsetTop - 50 })
+      }, 100)
+      return _page
+    })
+  }
+
+  useEffect(() => {
+    pages.current = document.getElementsByClassName('page')
+    const resizeObserver = new ResizeObserver((entries) => {
+      calcPageH()
+    });
+    
+    resizeObserver.observe(pages.current[2]);
+    document.addEventListener('scroll', () => {
+      const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
+      setPage(page => {
+        if(pageYPos > -1 && pageYPos + 1 !== page){
+          setJuz(getJuzFromPage(pageYPos + 1))
+          setCurrentSura(surat.chapters[page2sura[pageYPos + 1] - 1]?.name_arabic)
+          if(!initers[pageYPos] || !initers[pageYPos + 1] || !initers[pageYPos + 2]){
+            
+            setIniters((_cp) => {
+              const cp = [..._cp]
+              cp[pageYPos] = true
+              cp[pageYPos + 1] = true
+              cp[pageYPos + 2] = true
+              return cp
+            })
+          }
+          return pageYPos + 1
+        }
+        return page
+      })
     })
   }, [])
   const handleSrcClick = () => {
