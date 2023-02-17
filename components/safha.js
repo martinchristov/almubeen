@@ -7,6 +7,8 @@ import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
 import morpho from '../assets/morph.json'
 import bt2utf from '../assets/bt2utf';
+import AyahMarker from '../assets/ayah-marker.svg'
+import { ConvertToArabicNumbers } from '../assets/utils';
 
 function transformJSON(input) {
     const lines = {};
@@ -58,7 +60,11 @@ const Lines = ({ p, setSelectedAya, markAya }) => {
         if(word.verseKey === markAya){
           console.log(word)
         }
-        kalima = <span className={word.verseKey === markAya ? 'marked' : null} onClick={handleClickAya(word)}>{kalima}</span>
+        kalima = (
+        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya })} onClick={handleClickAya(word)}>
+          <i>{ConvertToArabicNumbers(word.verseKey.split(':')[1])}</i>
+          <AyahMarker />
+        </span>)
       }
       return <>
         {kalima}{' '}

@@ -5,6 +5,7 @@ import { SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import pageData from '../assets/pages.json'
+import { ConvertToArabicNumbers } from "../assets/utils";
 
 let pageh = 860;
 const marginY = 48
@@ -170,11 +171,6 @@ const JuzModal = ({ open, onCancel }) => {
       </ul>
     </Modal>
   )
-}
-
-const ConvertToArabicNumbers = (num) => {
-  const arabicNumbers = '\u0660\u0661\u0662\u0663\u0664\u0665\u0666\u0667\u0668\u0669';
- return new String(num).replace(/[0123456789]/g, (d)=>{return arabicNumbers[d]});
 }
 
 export default Nav
