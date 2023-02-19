@@ -35,28 +35,12 @@ export default function Home() {
   useEffect(() => {
     scaleRef.current = scale
   }, [scale])
-  useEffect(() => {
-    smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
-    document.addEventListener('gesturestart', function(e) {
-      e.preventDefault()
-    }, false);
-    document.addEventListener('gesturechange', function(e) {
-      setScaleVisual(e)
-    }, false);
-    document.addEventListener('gestureend', function(e) {
-      setScale(scalev)
-      setScalev(sv => {
-        setScale(sv)
-        return sv
-      })
-    }, false);
-  }, [])
   return (
     <>
     <Head>
       <meta 
           name='viewport' 
-          content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' 
+          content='width=device-width' 
       />
     </Head>
       <div className={scale > 1 ? 'scaled' : null}>

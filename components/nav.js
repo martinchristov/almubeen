@@ -1,4 +1,4 @@
-import { Input, Modal } from "antd"
+import { Input, Modal, Popover, Radio } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
 import { SearchOutlined } from '@ant-design/icons'
@@ -105,6 +105,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       }
     }
   }
+  const onChangeScale = (e) => {
+    setScale(e.target.value / 100)
+  }
   return (
     <>
       <nav>
@@ -121,9 +124,21 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            <div className="btn aa">
-              <FontSize />
-            </div>
+            <Popover trigger="click" placement="bottomRight" content={
+              <div>
+                <h4>Font size</h4>
+                <Radio.Group onChange={onChangeScale} defaultValue={100}>
+                  <Radio.Button value={100}>100%</Radio.Button>
+                  <Radio.Button value={120}>120%</Radio.Button>
+                  <Radio.Button value={140}>140%</Radio.Button>
+                  <Radio.Button value={160}>160%</Radio.Button>
+                </Radio.Group>
+              </div>
+            }>
+              <div className="btn aa">
+                <FontSize />
+              </div>
+            </Popover>
             <div className="btn dots">
               <Dots />
             </div>
@@ -135,6 +150,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     </>
   )
 }
+// const FontSizePopover = ()
 const SuraModal = ({ open, onCancel }) => {
   const [src, setSrc] = useState('')
   const handleClickSurah = (sura, index) => () => {
