@@ -4,6 +4,10 @@ import mixpanel from 'mixpanel-browser';
 import { SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
+import AyahMarker from '../assets/ayah-marker.svg'
+import FontSize from '../assets/aA.svg'
+import Src from '../assets/src.svg'
+import Dots from '../assets/dots.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 
@@ -105,13 +109,25 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     <>
       <nav>
         <div className="page-contain">
-          <div className="src" onClick={handleSrcClick}>
-            <SearchOutlined />
+          <div className="collapsible left">
+            <div className="src btn" onClick={handleSrcClick}>
+              <Src />
+            </div>
+            <div className="btn ayah" onClick={handleGotoayaClick}>
+              <AyahMarker />
+            </div>
           </div>
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}>{currentSura}</div>
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
-          <div className="gotoaya" onClick={handleGotoayaClick}>{String.fromCharCode(1757)}</div>
+          <div className="collapsible right">
+            <div className="btn aa">
+              <FontSize />
+            </div>
+            <div className="btn dots">
+              <Dots />
+            </div>
+          </div>
         </div>
       </nav>
       <SuraModal open={suraModalVisible} onCancel={() => { setSuraModalVisible(false)}} />

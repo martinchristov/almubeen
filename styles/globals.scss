@@ -60,31 +60,47 @@ nav {
 		display: flex;
 		justify-content: space-between;
 		position: relative;
-		padding: 0 27px;
+		width: calc(514px + 34px);
 	}
-	line-height: 42px;
-	.src {
-		position: absolute;
-		left: -12px;
-		color: #af8a21;
-		font-size: 22px;
-	}
-	.gotoaya {
-		font-family: "KFGQPC";
-		position: absolute;
-		right: -12px;
-		// font-weight: bold;
-		color: #af8a21;
-		-webkit-text-stroke-width: 0.5px;
-		-webkit-text-stroke-color: #af8a21;
-		font-size: 2em;
-		&:after {
-			content: ":";
-			position: absolute;
-			left: 9.5px;
-			top: 0;
-			line-height: 44px;
-			font-size: 14px;
+	line-height: 48px;
+	.collapsible {
+		display: flex;
+		&.left {
+			.btn {
+				margin-left: 5px;
+			}
+		}
+		.btn {
+			min-width: 30px;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			align-items: center;
+			cursor: pointer;
+			&.src {
+				svg {
+					width: 22px;
+				}
+			}
+			&.ayah {
+				svg {
+					width: 22px;
+					path:not(.ayah-marker_svg__circle) {
+						fill: #af8a21;
+					}
+				}
+			}
+			&.aa {
+				svg {
+					width: 22px;
+				}
+			}
+			&.dots {
+				svg {
+					height: 20px;
+				}
+			}
 		}
 	}
 	.pagen {
@@ -101,19 +117,35 @@ nav {
 		cursor: pointer;
 	}
 	@media screen and (max-width: 640px) {
-		.page-contain {
-			margin: 0 15px;
+		.collapsible {
+			.btn {
+				min-width: 25px;
+			}
+			.src.btn {
+				svg {
+					width: 19px;
+				}
+			}
+			.ayah.btn {
+				svg {
+					width: 19px;
+				}
+			}
+			.aa.btn svg {
+				width: 19px;
+			}
+			.dots.btn svg {
+				height: 17px;
+			}
 		}
-	}
-	@media screen and (max-width: 640px) {
-		.src {
-			left: -7px;
+		.pagen {
+			width: 40px;
+		}
+		.page-contain {
+			margin: 0 5px;
 		}
 		.caption {
-			font-size: 1.4rem;
-		}
-		.gotoaya {
-			right: -7px;
+			// font-size: 1.4rem;
 		}
 	}
 }
