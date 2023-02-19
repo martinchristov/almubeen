@@ -65,6 +65,7 @@ nav {
 	line-height: 48px;
 	.collapsible {
 		display: flex;
+		transition: all 0.3s ease-out;
 		&.left {
 			.btn {
 				margin-left: 5px;
@@ -102,18 +103,33 @@ nav {
 				}
 			}
 		}
+		.hbtn {
+			position: absolute;
+			left: 10px;
+			top: 6px;
+			z-index: 2;
+			opacity: 0;
+			height: 20px;
+			width: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.27s ease-out;
+			transform: translateY(-30px);
+		}
 	}
 	.pagen {
 		color: #af8a21;
 		font-weight: bold;
-		font-size: 1.3rem;
+		font-size: 1.3em;
 		width: 60px;
 		text-align: center;
 		cursor: pointer;
 	}
 	.caption {
 		color: #005735;
-		font-size: 1.2rem;
+		font-size: 1.2em;
+		transition: font-size 0.2s ease-out;
 		cursor: pointer;
 	}
 	@media screen and (max-width: 640px) {
@@ -146,6 +162,28 @@ nav {
 		}
 		.caption {
 			// font-size: 1.4rem;
+		}
+		.collapsible {
+			.btn {
+				transition: all 0.3s ease-out;
+			}
+		}
+		transition: line-height 0.2s ease-out;
+		&.collapsed {
+			line-height: 30px;
+			font-size: 12px;
+			.collapsible {
+				.hbtn {
+					opacity: 1;
+					transform: translateY(0px);
+				}
+				.btn:not(.dots) {
+					opacity: 0;
+				}
+				.dots {
+					transform: rotate(90deg);
+				}
+			}
 		}
 	}
 }

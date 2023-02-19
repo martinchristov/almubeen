@@ -8,8 +8,10 @@ import AyahMarker from '../assets/ayah-marker.svg'
 import FontSize from '../assets/aA.svg'
 import Src from '../assets/src.svg'
 import Dots from '../assets/dots.svg'
+import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
+import classNames from "classnames";
 
 let pageh = 860;
 const marginY = 48
@@ -21,6 +23,8 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const [juzModalVisible, setJuzModalVisible] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
   const pages = useRef()
+  const prevScrollY = useRef(0)
+  const [collapsed, setCollapsed] = useState(false)
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
@@ -83,6 +87,16 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         }
         return page
       })
+      if(window.innerWidth < 640){
+        console.log(prevScrollY.current, window.scrollY)
+        if(prevScrollY.current < window.scrollY){
+          setCollapsed(true)
+          prevScrollY.current = window.scrollY
+        } else if(prevScrollY.current > window.scrollY) {
+          setCollapsed(false)
+          prevScrollY.current = window.scrollY
+        }
+      }
     })
   }, [])
   const handleSrcClick = () => {
@@ -110,9 +124,12 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   }
   return (
     <>
-      <nav>
+      <nav className={classNames({ collapsed })}>
         <div className="page-contain">
           <div className="collapsible left">
+            <div className="pointer hbtn" onClick={() => setCollapsed(false)}>
+              <Pointer />
+            </div>
             <div className="src btn" onClick={handleSrcClick}>
               <Src />
             </div>
