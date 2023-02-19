@@ -175,13 +175,13 @@ nav {
 			.collapsible {
 				.hbtn {
 					opacity: 1;
-					transform: translateY(0px);
+					transform: translateY(-1px);
 				}
 				.btn:not(.dots) {
 					opacity: 0;
 				}
 				.dots {
-					transform: rotate(90deg);
+					transform: translateY(1px) rotate(90deg);
 				}
 			}
 		}
