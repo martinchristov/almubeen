@@ -687,6 +687,30 @@ html {
 		width: 200px;
 	}
 }
+.iframe-modal {
+	z-index: 99999 !important;
+	width: calc(100vw) !important;
+	height: calc(100vh) !important;
+	top: 15px;
+	iframe {
+		height: calc(100vh - 60px);
+		border: none !important;
+	}
+	.ant-modal-title {
+		.ant-btn {
+			.anticon {
+				transform: rotate(-45deg);
+			}
+		}
+	}
+	@media screen and (max-width: 640px) {
+		max-width: 100vw;
+		.ant-modal-content {
+			border-radius: 0;
+			padding: 20px 15px;
+		}
+	}
+}
 
 // @media (prefers-color-scheme: dark) {
 // 	html {

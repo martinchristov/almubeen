@@ -23,7 +23,7 @@ function transformJSON(input) {
     return Object.values(lines);
 }
 
-const Lines = ({ p, setSelectedAya, markAya }) => {
+const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
   const lines = transformJSON(pageData[p - 1])
   const ret = []
   const handleClickAya = (word) => () => {
@@ -55,7 +55,7 @@ const Lines = ({ p, setSelectedAya, markAya }) => {
     const lineContent = line.map(word => {
       let kalima = <span className={`kalima l-${word.lineNumber} id-${word.id} t-${word.charTypeName}`} key={word.id}>{word.codeV2}</span>
       if(word.charTypeName === 'word'){
-        kalima = <Popover destroyTooltipOnHide content={<PopupContent word={word} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
+        kalima = <Popover destroyTooltipOnHide content={<PopupContent {...{ word, setIframe }} />} trigger="click" autoAdjustOverflow>{kalima}</Popover>
       } else {
         if(word.verseKey === markAya){
           console.log(word)
@@ -89,7 +89,7 @@ const Lines = ({ p, setSelectedAya, markAya }) => {
   return <ul>{ret}</ul>
 }
 
-const PopupContent = ({ word }) => {
+const PopupContent = ({ word, setIframe }) => {
   const keys = word.verseKey.split(':')
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
@@ -117,12 +117,12 @@ const PopupContent = ({ word }) => {
       <span className="arabic">{morphWord}</span>
       <span className="morpho">{morphz}</span>
       <span className="translation">{word.translation.text}</span>
-      {koklu && <span className="kok"><small>ROOT: </small><a href={`https://ejtaal.net/aa#bwq=${kok}`} target="_blank" rel="noreferrer">{kokJSX}</a></span>}
+      {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>}
     </div>
   )
 }
 
-const Safha = ({ p, init = false, setSelectedAya, markAya, scale }) => {
+const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) => {
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
@@ -133,7 +133,7 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale }) => {
             </div>
           )}
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
-          {init && <Lines {...{ setSelectedAya, p, markAya }} />}
+          {init && <Lines {...{ setSelectedAya, p, markAya, setIframe }} />}
         </div>
       </div>
     </div>
