@@ -82,6 +82,7 @@ nav {
 			&.src {
 				svg {
 					width: 22px;
+					margin-left: -2px;
 				}
 			}
 			&.ayah {
@@ -135,23 +136,23 @@ nav {
 	@media screen and (max-width: 640px) {
 		.collapsible {
 			.btn {
-				min-width: 25px;
+				// min-width: 25px;
 			}
 			.src.btn {
 				svg {
-					width: 19px;
+					// width: 19px;
 				}
 			}
 			.ayah.btn {
 				svg {
-					width: 19px;
+					// width: 19px;
 				}
 			}
 			.aa.btn svg {
-				width: 19px;
+				// width: 19px;
 			}
 			.dots.btn svg {
-				height: 17px;
+				// height: 17px;
 			}
 		}
 		.pagen {
