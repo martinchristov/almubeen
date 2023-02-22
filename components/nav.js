@@ -1,4 +1,4 @@
-import { Input, Modal, Popover, Radio } from "antd"
+import { Input, Modal, Popover, Radio, Slider } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
 import { SearchOutlined } from '@ant-design/icons'
@@ -119,8 +119,8 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       }
     }
   }
-  const onChangeScale = (e) => {
-    setScale(e.target.value / 100)
+  const onChangeScale = (value) => {
+    setScale(value / 100)
   }
   return (
     <>
@@ -141,15 +141,17 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            <Popover trigger="click" placement="bottomRight" content={
-              <div>
+            <Popover overlayClassName="popover-fontsize" trigger="click" placement="bottomRight" content={
+              <div className="font-size-popover">
                 <h4>Font size</h4>
-                <Radio.Group onChange={onChangeScale} defaultValue={100}>
-                  <Radio.Button value={100}>100%</Radio.Button>
-                  <Radio.Button value={120}>120%</Radio.Button>
-                  <Radio.Button value={140}>140%</Radio.Button>
-                  <Radio.Button value={160}>160%</Radio.Button>
-                </Radio.Group>
+                <Slider
+                  min={100} max={170}
+                  defaultValue={100}
+                  tooltip={{ formatter: (val) => `${val}%`}}
+                  onAfterChange={(val) => {
+                    onChangeScale(val)
+                  }}
+                />
               </div>
             }>
               <div className="btn aa">

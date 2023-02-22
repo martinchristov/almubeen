@@ -4,6 +4,7 @@ import Nav from '../components/nav'
 import AyaTranslations from '../components/translations'
 import mixpanel from 'mixpanel-browser';
 import Head from 'next/head'
+import { ConfigProvider } from 'antd'
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
 export default function Home() {
@@ -29,11 +30,19 @@ export default function Home() {
           content='width=device-width' 
       />
     </Head>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#275B3C',
+          },
+        }}
+      >
       <div className={scale > 1 ? 'scaled' : null}>
         <Nav {...{ initers, setIniters, highlightAya, scale, setScale }} />
         {pages}
         <AyaTranslations {...{ selectedAya, setSelectedAya }} />
       </div>
+      </ConfigProvider>
     </>
   )
 }

@@ -677,6 +677,16 @@ html {
 	font-weight: bold;
 	z-index: 100;
 }
+.popover-fontsize {
+	position: fixed;
+	top: 54px !important;
+	h4 {
+		margin-top: 5px;
+	}
+	.ant-slider {
+		width: 200px;
+	}
+}
 
 // @media (prefers-color-scheme: dark) {
 // 	html {
