@@ -31,6 +31,7 @@ export default function Home() {
           name='viewport' 
           content='width=device-width' 
       />
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
       <title>Al Mubeen | المبين</title>
     </Head>
       <ConfigProvider
