@@ -31,7 +31,9 @@ export default function Home() {
           name='viewport' 
           content='width=device-width' 
       />
+      <meta name="theme-color" content="#04703D" />
       <link rel="manifest" href="./manifest.json" />
+      <link rel="apple-touch-icon" href="./icon-192.png" />
       <title>Al Mubeen | المبين</title>
     </Head>
       <ConfigProvider
