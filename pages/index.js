@@ -31,6 +31,7 @@ export default function Home() {
           name='viewport' 
           content='width=device-width' 
       />
+      <link rel="manifest" href="./manifest.json" />
       <title>Al Mubeen | المبين</title>
     </Head>
       <ConfigProvider
