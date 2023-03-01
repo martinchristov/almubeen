@@ -25,6 +25,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const [juzModalVisible, setJuzModalVisible] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
   const pages = useRef()
+  const displayModeRef = useRef()
   const prevScrollY = useRef(0)
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
@@ -70,13 +71,29 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     });
     
     resizeObserver.observe(pages.current[2]);
+    window.addEventListener('DOMContentLoaded', () => {
+      let displayMode = 'browser tab';
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        displayMode = 'standalone';
+      }
+      // Log launch display mode to analytics
+      console.log('DISPLAY_MODE_LAUNCH:', displayMode);
+      if(displayMode === 'standalone'){
+        const arr = []
+        for(let i = 0; i <= 604; i += 1){
+          arr.push(true)
+        }
+        setIniters(arr)
+        displayModeRef.current = true
+      }
+    });
     document.addEventListener('scroll', () => {
       const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
       setPage(page => {
         if(pageYPos > -1 && pageYPos + 1 !== page){
           setJuz(getJuzFromPage(pageYPos + 1))
           setCurrentSura(surat.chapters[page2sura[pageYPos + 1] - 1]?.name_arabic)
-          if(!initers[pageYPos] || !initers[pageYPos + 1] || !initers[pageYPos + 2]){
+          if(!displayModeRef.current && !initers[pageYPos] || !initers[pageYPos + 1] || !initers[pageYPos + 2]){
             
             setIniters((_cp) => {
               const cp = [..._cp]
