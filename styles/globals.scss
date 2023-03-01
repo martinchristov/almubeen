@@ -132,6 +132,11 @@ nav {
 		font-size: 1.2em;
 		transition: font-size 0.2s ease-out;
 		cursor: pointer;
+		// font-weight: 500;
+		span {
+			font-size: 1.3em;
+			font-family: KFGQPC;
+		}
 		&.surah {
 			transform: translateX(10px);
 		}

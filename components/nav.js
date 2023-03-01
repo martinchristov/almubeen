@@ -136,9 +136,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
               <AyahMarker />
             </div> */}
           </div>
-          <div className="surah caption" onClick={() => setSuraModalVisible(true)}>{currentSura}</div>
+          <div className="surah caption" onClick={() => setSuraModalVisible(true)}><span>{currentSura}</span></div>
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
-          <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
+          <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
             {/* <div className="btn aa">
               <FontSize />
