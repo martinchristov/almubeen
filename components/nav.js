@@ -227,7 +227,7 @@ const SuraModal = ({ open, onCancel }) => {
         {surat.chapters.filter(filterSrc).map((sura) =>
         <li key={sura.id} onClick={handleClickSurah(sura)}>
           <h3>{sura.id}. {sura.name_simple}</h3>
-          <div className="ar">{ConvertToArabicNumbers(sura.id)} - {sura.name_arabic}</div>
+          <div className="ar">{ConvertToArabicNumbers(sura.id)} - <span>{sura.name_arabic}</span></div>
         </li>
         )}
       </ul>
@@ -252,7 +252,7 @@ const JuzModal = ({ open, onCancel }) => {
         {[...Array(30)].map((i, ind) =>
           <li key={ind} onClick={handleClickJuz(ind)}>
             <span>Juz {ind + 1}</span>
-            <div className="ar">الجوز - {ConvertToArabicNumbers(ind + 1)}</div>
+            <div className="ar"><span>الجزء</span> {ConvertToArabicNumbers(ind + 1)}</div>
           </li>
         )}
       </ul>
