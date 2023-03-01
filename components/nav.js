@@ -88,8 +88,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         return page
       })
       if(window.innerWidth < 640){
-        console.log(prevScrollY.current, window.scrollY)
-        if(prevScrollY.current < window.scrollY){
+        if(prevScrollY.current < window.scrollY - 3){
           setCollapsed(true)
           prevScrollY.current = window.scrollY
         } else if(prevScrollY.current > window.scrollY) {
@@ -130,9 +129,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
             <div className="pointer hbtn" onClick={() => setCollapsed(false)}>
               <Pointer />
             </div>
-            <div className="src btn" onClick={handleSrcClick}>
+            {/* <div className="src btn" onClick={handleSrcClick}>
               <Src />
-            </div>
+            </div> */}
             <div className="btn ayah" onClick={handleGotoayaClick}>
               <AyahMarker />
             </div>
@@ -158,9 +157,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
                 <FontSize />
               </div>
             </Popover>
-            <div className="btn dots">
+            {/* <div className="btn dots">
               <Dots />
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
