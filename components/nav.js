@@ -1,7 +1,7 @@
-import { Input, Modal, Popover, Radio, Slider } from "antd"
+import { Button, Drawer, Input, Modal, Popover, Radio, Slider } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
-import { SearchOutlined } from '@ant-design/icons'
+import { ArrowUpOutlined, SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import AyahMarker from '../assets/ayah-marker.svg'
@@ -12,6 +12,8 @@ import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 import classNames from "classnames";
+
+const { Search } = Input
 
 let pageh = 860;
 const marginY = 48
@@ -25,6 +27,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const pages = useRef()
   const prevScrollY = useRef(0)
   const [collapsed, setCollapsed] = useState(false)
+  const [open, setOpen] = useState(false)
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
@@ -98,17 +101,14 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       }
     })
   }, [])
-  const handleSrcClick = () => {
-    mixpanel.track('Search click')
-    alert('Coming soon')
-  }
-  const handleGotoayaClick = () => {
+  const handleGotoaya = (inp) => {
     mixpanel.track('Go to ayah')
-    const inp = prompt('Jump to ayah', '2:255')
+    // const inp = prompt('Jump to ayah', '2:255')
     if(inp){
       const keys = inp.split(':')
       const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
       if(tsura){
+        setOpen(false)
         const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
         const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
         if(tverse.length > 0) {
@@ -126,37 +126,23 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       <nav className={classNames({ collapsed })}>
         <div className="page-contain">
           <div className="collapsible left">
-            <div className="pointer hbtn" onClick={() => setCollapsed(false)}>
+            <div className="pointer hbtn" onClick={() => setOpen(true)}>
               <Pointer />
             </div>
             {/* <div className="src btn" onClick={handleSrcClick}>
               <Src />
             </div> */}
-            <div className="btn ayah" onClick={handleGotoayaClick}>
+            {/* <div className="btn ayah" onClick={handleGotoayaClick}>
               <AyahMarker />
-            </div>
+            </div> */}
           </div>
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}>{currentSura}</div>
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}>الجزء {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            <Popover overlayClassName="popover-fontsize" trigger="click" placement="bottomRight" content={
-              <div className="font-size-popover">
-                <h4>Font size</h4>
-                <Slider
-                  min={100} max={170}
-                  defaultValue={100}
-                  tooltip={{ formatter: (val) => `${val}%`}}
-                  onAfterChange={(val) => {
-                    onChangeScale(val)
-                  }}
-                />
-              </div>
-            }>
-              <div className="btn aa">
-                <FontSize />
-              </div>
-            </Popover>
+            {/* <div className="btn aa">
+              <FontSize />
+            </div> */}
             {/* <div className="btn dots">
               <Dots />
             </div> */}
@@ -165,6 +151,40 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       </nav>
       <SuraModal open={suraModalVisible} onCancel={() => { setSuraModalVisible(false)}} />
       <JuzModal open={juzModalVisible} onCancel={() => { setJuzModalVisible(false)}} />
+      <Drawer height={300} className="drawer-nav" placement="top" onClose={() => { setOpen(false) }} open={open}>
+        <ul>
+          <li>
+            <span>Go to top</span>
+            <Button icon={<ArrowUpOutlined />} onClick={() => { setOpen(false); window.scrollTo({ top: pages.current[0].offsetTop - 50 }) } } />
+          </li>
+          <li>
+            <span>Go to aya</span>
+            <div>
+              <Search
+                // width={50}
+                placeholder="2:255"
+                enterButton="Go"
+                size="large"
+                onSearch={handleGotoaya}
+              />
+            </div>
+          </li>
+          <li>
+            <span>Font size</span>
+            <Slider
+              min={100} max={170}
+              defaultValue={100}
+              step={10}
+              // railStyle={{ background: '#ccc'}}
+              // handleStyle={{ width: 30 }}
+              tooltip={{ formatter: (val) => `${val}%`}}
+              onAfterChange={(val) => {
+                onChangeScale(val)
+              }}
+            />
+          </li>
+        </ul>
+      </Drawer>
     </>
   )
 }
