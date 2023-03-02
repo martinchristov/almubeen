@@ -1,5 +1,5 @@
 // @import "reset.scss";
-@import "./assets/uthmanicfont/stylesheet.scss";
+@import "../public/uthmanicfont/stylesheet.scss";
 html,
 body {
 	padding: 0;
@@ -16,14 +16,14 @@ body {
 @for $i from 1 through 604 {
 	@font-face {
 		font-family: "page#{$i}";
-		src: url("../assets/v2/ttf/p#{$i}.ttf") format("truetype");
+		src: url("../public/v2/ttf/p#{$i}.ttf") format("truetype");
 		// src: url("../assets/ttf/p#{$i}.ttf") format("truetype");
 	}
 }
 
 @font-face {
 	font-family: "surah-title";
-	src: url("../assets/surah_names/QuranTitles.ttf") format("truetype");
+	src: url("../public/surah_names/QuranTitles.ttf") format("truetype");
 }
 
 a {
@@ -727,6 +727,18 @@ html {
 }
 
 .drawer-nav {
+	.ant-drawer-body {
+		background-color: #f9f9f9;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.pointer.hbtn {
+		transform: translate(-5px, -20px);
+		svg {
+			transform: rotate(180deg);
+		}
+	}
 	ul {
 		list-style: none;
 		margin: 0;

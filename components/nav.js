@@ -71,22 +71,18 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     });
     
     resizeObserver.observe(pages.current[2]);
-    window.addEventListener('DOMContentLoaded', () => {
-      let displayMode = 'browser tab';
-      if (window.matchMedia('(display-mode: standalone)').matches) {
-        displayMode = 'standalone';
-      }
-      // Log launch display mode to analytics
-      console.log('DISPLAY_MODE_LAUNCH:', displayMode);
-      if(displayMode === 'standalone'){
-        const arr = []
-        for(let i = 0; i <= 604; i += 1){
-          arr.push(true)
-        }
-        setIniters(arr)
-        displayModeRef.current = true
-      }
-    });
+    // try{
+    //   if(window.matchMedia('(display-mode: standalone)').matches){
+    //     console.log('YO ?!')
+    //     const arr = []
+    //     for(let i = 0; i < 104; i += 1){
+    //       arr.push(true)
+    //     }
+    //     setIniters(arr)
+    //     displayModeRef.current = true
+    //   }
+    // } catch(e){ }
+    
     document.addEventListener('scroll', () => {
       const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
       setPage(page => {
@@ -168,39 +164,44 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       </nav>
       <SuraModal open={suraModalVisible} onCancel={() => { setSuraModalVisible(false)}} />
       <JuzModal open={juzModalVisible} onCancel={() => { setJuzModalVisible(false)}} />
-      <Drawer height={300} className="drawer-nav" placement="top" onClose={() => { setOpen(false) }} open={open}>
-        <ul>
-          <li>
-            <span>Go to top</span>
-            <Button icon={<ArrowUpOutlined />} onClick={() => { setOpen(false); window.scrollTo({ top: pages.current[0].offsetTop - 50 }) } } />
-          </li>
-          <li>
-            <span>Go to aya</span>
-            <div>
-              <Search
-                // width={50}
-                placeholder="2:255"
-                enterButton="Go"
-                size="large"
-                onSearch={handleGotoaya}
+      <Drawer closable={false} height={300} className="drawer-nav" placement="top" onClose={() => { setOpen(false) }} open={open}>
+        <div className="page-contain">
+          <div className="pointer hbtn" onClick={() => setOpen(false)}>
+            <Pointer />
+          </div>
+          <ul>
+            <li>
+              <span>Go to top</span>
+              <Button icon={<ArrowUpOutlined />} onClick={() => { setOpen(false); window.scrollTo({ top: pages.current[0].offsetTop - 50 }) } } />
+            </li>
+            <li>
+              <span>Go to aya</span>
+              <div>
+                <Search
+                  // width={50}
+                  placeholder="2:255"
+                  enterButton="Go"
+                  size="large"
+                  onSearch={handleGotoaya}
+                />
+              </div>
+            </li>
+            <li>
+              <span>Font size</span>
+              <Slider
+                min={100} max={170}
+                defaultValue={100}
+                step={10}
+                // railStyle={{ background: '#ccc'}}
+                // handleStyle={{ width: 30 }}
+                tooltip={{ formatter: (val) => `${val}%`}}
+                onAfterChange={(val) => {
+                  onChangeScale(val)
+                }}
               />
-            </div>
-          </li>
-          <li>
-            <span>Font size</span>
-            <Slider
-              min={100} max={170}
-              defaultValue={100}
-              step={10}
-              // railStyle={{ background: '#ccc'}}
-              // handleStyle={{ width: 30 }}
-              tooltip={{ formatter: (val) => `${val}%`}}
-              onAfterChange={(val) => {
-                onChangeScale(val)
-              }}
-            />
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </Drawer>
     </>
   )
