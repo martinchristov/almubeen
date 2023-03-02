@@ -79,6 +79,7 @@ const ModalContent = ({ selectedAya }) => {
       {mode === 'edit' &&
       <>
         <h3>Setup your preferred translations</h3>
+        <p><i>You only need to do this once</i></p>
         <EditSources {...{ handleChangeSources }} />
       </>
       }
@@ -123,7 +124,9 @@ const EditSources = ({ handleChangeSources }) => {
         </CollapsePanel>
         )}
       </Collapse>
-      <Button type="primary" onClick={handleDoneClick}>Done</Button>
+      <div className="sticky-footer">
+        <Button disabled={selected.length === 0} size="large" type="primary" onClick={handleDoneClick}>Done</Button>
+      </div>
     </div>
   )
 }

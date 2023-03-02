@@ -651,7 +651,18 @@ html {
 		margin-bottom: 10px;
 	}
 	.ant-btn.ant-btn-primary {
-		margin-top: 10px;
+		// margin-top: 10px;
+	}
+	.sticky-footer {
+		position: sticky;
+		bottom: 0;
+		background-color: #fff;
+		padding: 15px 0;
+		display: flex;
+		justify-content: center;
+		.ant-btn {
+			// margin-left: auto;
+		}
 	}
 }
 .page1,
