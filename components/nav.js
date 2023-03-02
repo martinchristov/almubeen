@@ -1,13 +1,9 @@
-import { Button, Drawer, Input, Modal, Popover, Radio, Slider } from "antd"
+import { Button, Drawer, Input, Modal, Slider } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
 import { ArrowUpOutlined, SearchOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
-import AyahMarker from '../assets/ayah-marker.svg'
-import FontSize from '../assets/aA.svg'
-import Src from '../assets/src.svg'
-import Dots from '../assets/dots.svg'
 import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
@@ -37,7 +33,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     }
   }
   const calcPageH = () => {
-    const pagew = window.innerWidth > 512 ? 512 : window.innerWidth
+    const pagew = window.innerWidth > 572 ? 572 : window.innerWidth
     setScale((_scale) => {
       const fontSize = ((pagew - 40) / 34.77) * 2 /*em*/ * _scale
       if(_scale === 1){
@@ -93,9 +89,11 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
             
             setIniters((_cp) => {
               const cp = [..._cp]
+              if(pageYPos > 1) cp[pageYPos - 1] = true
+              if(pageYPos > 2) cp[pageYPos - 2] = true
               cp[pageYPos] = true
-              cp[pageYPos + 1] = true
-              cp[pageYPos + 2] = true
+              if(pageYPos < 602) cp[pageYPos + 1] = true
+              if(pageYPos < 601) cp[pageYPos + 2] = true
               return cp
             })
           }

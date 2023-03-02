@@ -16,8 +16,7 @@ body {
 @for $i from 1 through 604 {
 	@font-face {
 		font-family: "page#{$i}";
-		src: url("../public/v2/ttf/p#{$i}.ttf") format("truetype"),
-			url("../public/v2/woff/p#{$i}.woff") format("woff"),
+		src: url("../public/v2/woff/p#{$i}.woff") format("woff"),
 			url("../public/v2/woff2/p#{$i}.woff2") format("woff2");
 		font-display: block;
 	}
@@ -223,12 +222,12 @@ nav {
 
 	.content {
 		padding: 15px 15px;
-		width: 512px; // 517px - only for chrome ?!
+		min-width: 512px; // 517px - only for chrome ?!
 		text-align: center;
 		min-height: 720px;
 		font-size: 2em;
 		height: auto;
-		min-height: calc(((512px - 40px) / 34.77) * 2 * 1.9 * 15);
+		min-height: calc((532px / 34.77) * 2 * 1.9 * 15);
 		line-height: 1.9;
 		box-sizing: content-box;
 		margin-bottom: 20px;
@@ -459,11 +458,11 @@ html {
 			margin-top: 60px;
 		}
 		.page {
-			// font-size: 10.7px;
 			font-size: calc((100vw - 40px) / 34.77);
 			.content {
 				width: auto;
 				height: auto;
+				min-width: auto;
 				min-height: calc(((100vw - 40px) / 34.77) * 2 * 1.9 * 15);
 				.inner {
 					width: calc(100vw - 44px);
