@@ -16,14 +16,18 @@ body {
 @for $i from 1 through 604 {
 	@font-face {
 		font-family: "page#{$i}";
-		src: url("../public/v2/ttf/p#{$i}.ttf") format("truetype");
-		// src: url("../assets/ttf/p#{$i}.ttf") format("truetype");
+		src: url("../public/v2/ttf/p#{$i}.ttf") format("truetype"),
+			url("../public/v2/woff/p#{$i}.woff") format("woff"),
+			url("../public/v2/woff2/p#{$i}.woff2") format("woff2");
+		font-display: block;
 	}
 }
 
 @font-face {
 	font-family: "surah-title";
-	src: url("../public/surah_names/QuranTitles.ttf") format("truetype");
+	src: url("../public/surah_names/QuranTitles.ttf") format("truetype"),
+		url("../public/surah_names/QuranTitles.woff2") format("woff2");
+	font-display: block;
 }
 
 a {
