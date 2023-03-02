@@ -280,7 +280,7 @@ nav {
 		.marker {
 			cursor: pointer;
 			width: 1em;
-			height: 1.3em;
+			height: 1.1em;
 			display: inline-block;
 			transform: translate(2px, 12px);
 			position: relative;
@@ -294,7 +294,7 @@ nav {
 				text-align: center;
 				font-style: normal;
 				font-size: 0.6em;
-				line-height: 2.2;
+				line-height: 2.4;
 				font-family: Arial, Helvetica, sans-serif;
 				color: #275b3c;
 				font-weight: 600;
@@ -650,9 +650,6 @@ html {
 		width: 100%;
 		margin-bottom: 10px;
 	}
-	.ant-btn.ant-btn-primary {
-		// margin-top: 10px;
-	}
 	.sticky-footer {
 		position: sticky;
 		bottom: 0;
@@ -660,9 +657,6 @@ html {
 		padding: 15px 0;
 		display: flex;
 		justify-content: center;
-		.ant-btn {
-			// margin-left: auto;
-		}
 	}
 }
 .page1,
@@ -682,7 +676,7 @@ html {
 		.content {
 			line-height: 3.3;
 			.marker i {
-				line-height: 4.2;
+				line-height: 4.8;
 			}
 		}
 	}
