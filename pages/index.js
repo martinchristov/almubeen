@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
 import AyaTranslations from '../components/translations'
@@ -6,6 +6,7 @@ import mixpanel from 'mixpanel-browser';
 import Head from 'next/head'
 import { Alert, Button, ConfigProvider, Modal } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons';
+import smartlookClient from 'smartlook-client'
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
 export default function Home() {
@@ -24,6 +25,9 @@ export default function Home() {
       setMarkAya(null)
     }, 15000)
   }
+  useEffect(() => {
+    smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
+  }, [])
   return (
     <>
     <Head>
