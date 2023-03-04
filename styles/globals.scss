@@ -628,6 +628,13 @@ html {
 	}
 }
 .aya-modal {
+	.aya-title {
+		display: flex;
+		justify-content: space-around;
+		.ant-btn {
+			margin-top: 10px;
+		}
+	}
 	ul {
 		list-style: none;
 		margin: 0;

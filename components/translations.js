@@ -1,8 +1,9 @@
 import { Button, Checkbox, Collapse, Divider, Modal, Select, Spin } from 'antd'
-import { UnorderedListOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, UnorderedListOutlined } from '@ant-design/icons'
 // import translation from '../assets/translations/eng-muhammadasad.json'
 import sources from '../assets/translation-sources2.json'
 import { memo, useEffect, useRef, useState } from 'react'
+import surat from '../assets/surat.json'
 // import CollapsePanel from 'antd/es/collapse/CollapsePanel'
 const CollapsePanel = Collapse.Panel
 
@@ -14,12 +15,12 @@ const getTranslation = (translation, chapter, verse) => {
 const AyaTranslations = ({ selectedAya, setSelectedAya }) => {
   return (
     <Modal className='aya-modal' open={selectedAya != null} onCancel={() => { setSelectedAya(null) }} destroyOnClose footer={null}>
-      <ModalContent selectedAya={selectedAya} />
+      <ModalContent {...{ selectedAya, setSelectedAya }} />
     </Modal>
   )
 }
 
-const ModalContent = ({ selectedAya }) => {
+const ModalContent = ({ selectedAya, setSelectedAya }) => {
   const keys = selectedAya.split(':')
   const [translated, setTranslated] = useState([])
   const _selected = localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : []
@@ -27,20 +28,21 @@ const ModalContent = ({ selectedAya }) => {
   const [selected, setSelected] = useState(_selected)
   const [loading, setLoading] = useState(true)
   const prev = useRef()
+  const prevAya = useRef(selectedAya)
   const loadTranslations = ($selected) => {
     const SS = $selected != null ? $selected : selected
     SS.forEach((key, ind) => {
-        fetch(sources[key].linkmin)
-        .then(d => d.json())
-        .then(d => {
-          if(ind === SS.length - 1) setLoading(false)
-          setTranslated(($translated) => {
-            const _translated = [...$translated]
-            _translated[ind] = getTranslation(d, keys[0], keys[1])
-            return _translated
-          })
+      fetch(sources[key].linkmin)
+      .then(d => d.json())
+      .then(d => {
+        if(ind === SS.length - 1) setLoading(false)
+        setTranslated(($translated) => {
+          const _translated = [...$translated]
+          _translated[ind] = getTranslation(d, keys[0], keys[1])
+          return _translated
         })
       })
+    })
   }
   
   useEffect(() => {
@@ -49,6 +51,14 @@ const ModalContent = ({ selectedAya }) => {
     }
     prev.current = selected
   }, [])
+  useEffect(() => {
+    if(prevAya.current !== selectedAya){
+      // setTranslated([])
+      // setLoading(true)
+      loadTranslations()
+      prevAya.current = selectedAya
+    }
+  }, [selectedAya])
   const handleChangeSources = (_selected) => {
     setLoading(true)
     setMode('view')
@@ -57,12 +67,25 @@ const ModalContent = ({ selectedAya }) => {
     localStorage.setItem('selected-translations', JSON.stringify(_selected));
     loadTranslations(_selected)
   }
-  console.log(translated)
+  const handleClickNext = () => {
+    setSelectedAya(`${keys[0]}:${Number(keys[1]) + 1}`)
+  }
+  const handleClickPrev = () => {
+    setSelectedAya(`${keys[0]}:${Number(keys[1]) - 1}`)
+  }
   return (
     <div>
       {mode === 'view' &&
       <>
-      <h3>{selectedAya}</h3>
+      <div className="aya-title">
+        <Button disabled={Number(keys[1]) < 2} className="prev" type="link" size="large" onClick={handleClickPrev}>
+          <LeftOutlined />
+        </Button>
+        <h3>{selectedAya}</h3>
+        <Button disabled={Number(keys[1]) > surat.chapters[Number(keys[0]) - 1].verses_count - 1} className="next" type="link" size="large" onClick={handleClickNext}>
+          <RightOutlined />
+        </Button>
+      </div>
       <ul>
         {translated.map((item, ind) =>
           <li key={sources[ind]} className={selected[ind].substr(0, 3)}>
