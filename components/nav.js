@@ -1,7 +1,7 @@
 import { Button, Drawer, Input, Modal, Slider } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
-import { ArrowUpOutlined, SearchOutlined } from '@ant-design/icons'
+import { ArrowUpOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
@@ -13,6 +13,14 @@ const { Search } = Input
 
 let pageh = 860;
 const marginY = 48
+
+let lrid
+const setLastRead = () => {
+  clearTimeout(lrid)
+  lrid = setTimeout(() => {
+    localStorage.setItem("lastRead", window.scrollY);
+  }, 3000)
+}
 
 const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const [page, setPage] = useState(1)
@@ -67,18 +75,8 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     });
     
     resizeObserver.observe(pages.current[2]);
-    // try{
-    //   if(window.matchMedia('(display-mode: standalone)').matches){
-    //     console.log('YO ?!')
-    //     const arr = []
-    //     for(let i = 0; i < 104; i += 1){
-    //       arr.push(true)
-    //     }
-    //     setIniters(arr)
-    //     displayModeRef.current = true
-    //   }
-    // } catch(e){ }
-    
+    const lastRead = localStorage.getItem('lastRead')
+
     document.addEventListener('scroll', () => {
       const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
       setPage(page => {
@@ -110,7 +108,13 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           prevScrollY.current = window.scrollY
         }
       }
+      setLastRead()
     })
+    if(lastRead){
+      setTimeout(() => {
+        window.scrollTo({ top: lastRead })
+      }, 3000)
+    }
   }, [])
   const handleGotoaya = (inp) => {
     mixpanel.track('Go to ayah')
