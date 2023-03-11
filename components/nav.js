@@ -1,7 +1,7 @@
-import { Button, Drawer, Input, Modal, Slider } from "antd"
+import { Button, Drawer, Input, Modal, Slider, Spin } from "antd"
 import { useState, useEffect, useRef } from "react"
 import mixpanel from 'mixpanel-browser';
-import { ArrowUpOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
@@ -28,6 +28,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
+  const [search, setSearch] = useState()
   const pages = useRef()
   const displayModeRef = useRef()
   const prevScrollY = useRef(0)
@@ -136,6 +137,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const onChangeScale = (value) => {
     setScale(value / 100)
   }
+  const handleSearch = (inp) => {
+    setSearch(inp)
+  }
   return (
     <>
       <nav className={classNames({ collapsed })}>
@@ -173,29 +177,32 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           </div>
           <ul>
             <li>
-              <span>Go to top</span>
-              <Button icon={<ArrowUpOutlined />} onClick={() => { setOpen(false); window.scrollTo({ top: pages.current[0].offsetTop - 50 }) } } />
+              <Search
+                className="src"
+                enterButton={<Button><ArrowRightOutlined /></Button>}
+                size="large"
+                placeholder="Search"
+                onSearch={handleSearch}
+              />
             </li>
             <li>
-              <span>Go to aya</span>
+              <span className="label">Go to ayah</span>
               <div>
                 <Search
-                  // width={50}
+                  className="gotoayah"
                   placeholder="2:255"
-                  enterButton="Go"
+                  enterButton={<Button><ArrowRightOutlined /></Button>}
                   size="large"
                   onSearch={handleGotoaya}
                 />
               </div>
             </li>
             <li>
-              <span>Font size</span>
+              <span className="label">Font size</span>
               <Slider
                 min={100} max={170}
                 defaultValue={100}
                 step={10}
-                // railStyle={{ background: '#ccc'}}
-                // handleStyle={{ width: 30 }}
                 tooltip={{ formatter: (val) => `${val}%`}}
                 onAfterChange={(val) => {
                   onChangeScale(val)
@@ -205,6 +212,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           </ul>
         </div>
       </Drawer>
+      <SearchModal {...{ search, setSearch, handleGotoaya }} closeDrawer={() => { setOpen(false) }} />
     </>
   )
 }
@@ -259,6 +267,46 @@ const JuzModal = ({ open, onCancel }) => {
           </li>
         )}
       </ul>
+    </Modal>
+  )
+}
+const SearchModal = ({ search, setSearch, handleGotoaya, closeDrawer }) => {
+  const [loading, setLoading] = useState(false)
+  const [results, setResults] = useState([])
+  useEffect(() => {
+    if(search){
+      setLoading(true)
+      fetch(`https://api.quran.com/api/v4/search?size=20&page=0&language=en&q=${search}`)
+      .then(d => d.json())
+      .then(d => {
+        setLoading(false)
+        setResults(d.search.results)
+      })
+    }
+  }, [search])
+  const handleClickRes = (res) => () => {
+    setSearch(null)
+    closeDrawer()
+    handleGotoaya(res.verse_key)
+  }
+  return (
+    <Modal className="search-modal" open={search != null && search !== ''} onCancel={() => setSearch(null)} footer={null}>
+      {loading && <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />}
+      {!loading && (
+        <>
+        <ul>
+          {results.map(res =>
+          <li key={res.verse_id} onClick={handleClickRes(res)}>
+            {res.words.map(word => {
+              if(word.highlight) return <><b>{word.text}</b>{" "}</>
+              if(word.char_type === 'end') return <><br /><span>{res.verse_key}</span></>
+              return <><span key={`${res.verse_key}-${word.text}`}>{word.text}</span>{' '}</>
+            })}
+          </li>
+          )}
+        </ul>
+        </>
+      )}
     </Modal>
   )
 }

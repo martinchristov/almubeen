@@ -23,7 +23,7 @@ export default function Home() {
     setMarkAya(key)
     setTimeout(() => {
       setMarkAya(null)
-    }, 15000)
+    }, 20000)
   }
   useEffect(() => {
     if(window.location.href.indexOf('localhost') !== -1){

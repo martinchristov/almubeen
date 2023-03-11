@@ -305,17 +305,12 @@ nav {
 			}
 		}
 		.marked {
-			.kalima {
-				color: #af8a21;
-				-webkit-text-stroke-color: #af8a21;
-				// font-size: 2.3rem;
-				display: inline-block;
-				// transform: scale(1.3);
-				animation-name: bounce;
-				animation-duration: 0.7s;
-				animation-iteration-count: 4;
-				animation-timing-function: ease-in-out;
-			}
+			// display: inline-block;
+			// transform: scale(1.3);
+			animation-name: bounce;
+			animation-duration: 0.7s;
+			animation-iteration-count: 4;
+			animation-timing-function: ease-in-out;
 		}
 	}
 	.aya {
@@ -761,23 +756,46 @@ html {
 			justify-content: space-between;
 			line-height: 30px;
 			padding: 15px 0;
-			span {
+			& > .label {
 				white-space: nowrap;
+				padding-left: 10px;
 			}
-			input {
-				// width: 120px;
-				width: 100px !important;
+			.ant-btn {
+				box-shadow: none;
+			}
+			.gotoayah {
+				input {
+					width: 110px !important;
+				}
 			}
 		}
 	}
 	.ant-slider {
-		width: 150px;
+		width: 170px;
 		.ant-slider-rail,
 		.ant-slider-track {
 			height: 6px;
 		}
 		.ant-slider-handle {
 			transform: scale(1.7) !important;
+		}
+	}
+}
+
+.search-modal {
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		margin-top: 30px;
+		li {
+			margin-left: 0;
+			padding: 10px 0;
+			font-family: KFGQPC;
+			font-size: 20px;
+			direction: rtl;
+			text-align: right;
+			word-wrap: normal;
 		}
 	}
 }
