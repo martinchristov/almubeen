@@ -139,6 +139,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   }
   const handleSearch = (inp) => {
     setSearch(inp)
+    setOpen(false)
   }
   return (
     <>
@@ -181,7 +182,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
                 className="src"
                 enterButton={<Button><ArrowRightOutlined /></Button>}
                 size="large"
-                placeholder="Search"
+                placeholder="Search in Quran"
                 onSearch={handleSearch}
               />
             </li>
@@ -212,7 +213,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           </ul>
         </div>
       </Drawer>
-      <SearchModal {...{ search, setSearch, handleGotoaya }} closeDrawer={() => { setOpen(false) }} />
+      <SearchModal {...{ search, setSearch, handleGotoaya }} />
     </>
   )
 }
@@ -270,7 +271,7 @@ const JuzModal = ({ open, onCancel }) => {
     </Modal>
   )
 }
-const SearchModal = ({ search, setSearch, handleGotoaya, closeDrawer }) => {
+const SearchModal = ({ search, setSearch, handleGotoaya }) => {
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState([])
   useEffect(() => {
@@ -286,7 +287,6 @@ const SearchModal = ({ search, setSearch, handleGotoaya, closeDrawer }) => {
   }, [search])
   const handleClickRes = (res) => () => {
     setSearch(null)
-    closeDrawer()
     handleGotoaya(res.verse_key)
   }
   return (
@@ -299,7 +299,7 @@ const SearchModal = ({ search, setSearch, handleGotoaya, closeDrawer }) => {
           <li key={res.verse_id} onClick={handleClickRes(res)}>
             {res.words.map(word => {
               if(word.highlight) return <><b>{word.text}</b>{" "}</>
-              if(word.char_type === 'end') return <><br /><span>{res.verse_key}</span></>
+              if(word.char_type === 'end') return <><br /><span className="key">{res.verse_key}</span></>
               return <><span key={`${res.verse_key}-${word.text}`}>{word.text}</span>{' '}</>
             })}
           </li>

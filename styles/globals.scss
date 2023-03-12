@@ -796,8 +796,15 @@ html {
 			direction: rtl;
 			text-align: right;
 			word-wrap: normal;
+			border-bottom: 1px solid #ededed;
+			margin-bottom: 5px;
+			cursor: pointer;
 			b {
 				color: #9e740a;
+			}
+			.key {
+				color: rgb(54, 143, 221);
+				text-decoration: underline;
 			}
 		}
 	}
