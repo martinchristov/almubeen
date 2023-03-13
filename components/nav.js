@@ -182,7 +182,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
                 className="src"
                 enterButton={<Button><ArrowRightOutlined /></Button>}
                 size="large"
-                placeholder="Search in Quran"
+                placeholder="Search the Quran |  ابحث القران"
                 onSearch={handleSearch}
               />
             </li>
