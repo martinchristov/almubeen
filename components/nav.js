@@ -1,7 +1,8 @@
-import { Button, Drawer, Input, Modal, Slider, Spin } from "antd"
+import { Button, Drawer, Form, Input, Modal, Slider, Spin } from "antd"
 import { useState, useEffect, useRef } from "react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import mixpanel from 'mixpanel-browser';
-import { ArrowRightOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
@@ -22,11 +23,12 @@ const setLastRead = () => {
   }, 3000)
 }
 
-const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
+const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
+  const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
   const [search, setSearch] = useState()
   const pages = useRef()
@@ -160,12 +162,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            {/* <div className="btn aa">
-              <FontSize />
-            </div> */}
-            {/* <div className="btn dots">
-              <Dots />
-            </div> */}
+            <div className="btn" onClick={() => { if(authStatus === 'unauthenticated') { setLoginModalOpen(true) } }}>
+              <BookOutlined />
+            </div>
           </div>
         </div>
       </nav>
@@ -176,6 +175,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pointer hbtn" onClick={() => setOpen(false)}>
             <Pointer />
           </div>
+          {authStatus === 'authenticated' &&
+            <Button type="link" className="logout-btn" onClick={signOut}>Logout</Button>
+          }
           <ul>
             <li>
               <Search
@@ -214,6 +216,8 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         </div>
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
+      <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
+
     </>
   )
 }
@@ -307,6 +311,31 @@ const SearchModal = ({ search, setSearch, handleGotoaya }) => {
         </ul>
         </>
       )}
+    </Modal>
+  )
+}
+
+const LoginModal = ({ open, setOpen }) => {
+  const handleSubmit = (values) => {
+    console.log(values)
+    signIn('email', values )
+  }
+  return (
+    <Modal className="login-modal" footer={null} title="Login to make an ayat collection" open={open} onCancel={() => setOpen(false)}>
+      <div className="container">
+        <Form onFinish={handleSubmit}>
+          <Form.Item name="email" required rules={[
+            {
+              required: true,
+              message: 'Please enter a valid email',
+              type: 'email'
+            },
+          ]}>
+            <Input size="large" placeholder='example@email.com' />
+          </Form.Item>
+          <Button size="large" type="primary" htmlType="submit">Login with Email</Button>
+        </Form>
+      </div>
     </Modal>
   )
 }
