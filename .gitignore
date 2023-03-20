@@ -36,3 +36,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 public/quran-dnl
+public/sw.js
+public/sw.js.map
