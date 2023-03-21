@@ -26,7 +26,7 @@ export default function Home() {
     }, 20000)
   }
   useEffect(() => {
-    if(window.location.href.indexOf('localhost') !== -1){
+    if(window.location.href.indexOf('localhost') === -1){
       smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
     }
   }, [])
