@@ -13,6 +13,7 @@ const { Search } = Input
 
 let pageh = 860;
 const marginY = 48
+let coverPageOffset = 922
 
 let lrid
 const setLastRead = () => {
@@ -37,7 +38,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
-      window.scrollTo({ top: pages.current[Number(inp) - 1].offsetTop - 50 })
+      window.scrollTo({ top: pages.current[Number(inp)].offsetTop - 50 })
       mixpanel.track('Go to page')
     }
   }
@@ -75,11 +76,16 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       calcPageH()
     });
     
-    resizeObserver.observe(pages.current[2]);
+    resizeObserver.observe(pages.current[3]);
     const lastRead = localStorage.getItem('lastRead')
 
+    coverPageOffset = pages.current[0].clientHeight
+    document.addEventListener('resize', () => {
+      coverPageOffset = pages.current[0].clientHeight
+    })
+
     document.addEventListener('scroll', () => {
-      const pageYPos = Math.floor((window.scrollY + marginY) / pageh)
+      const pageYPos = Math.floor((window.scrollY - coverPageOffset + marginY) / pageh)
       setPage(page => {
         if(pageYPos > -1 && pageYPos + 1 !== page){
           setJuz(getJuzFromPage(pageYPos + 1))
@@ -101,13 +107,17 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         return page
       })
       if(window.innerWidth < 640){
-        if(prevScrollY.current < window.scrollY - 3){
-          setCollapsed(true)
-          prevScrollY.current = window.scrollY
-        } else if(prevScrollY.current > window.scrollY) {
-          setCollapsed(false)
-          prevScrollY.current = window.scrollY
-        }
+        setCollapsed(true)
+        // console.log(prevScrollY.current, window.scrollY)
+        // if(prevScrollY.current < window.scrollY - 7){
+        //   console.log('COLLAPSE')
+        //   setCollapsed(true)
+        //   prevScrollY.current = window.scrollY
+        // } else if(prevScrollY.current > window.scrollY + 5) {
+        //   console.log('EXPAND')
+        //   setCollapsed(false)
+        //   prevScrollY.current = window.scrollY
+        // }
       }
       setLastRead()
     })
@@ -119,7 +129,6 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   }, [])
   const handleGotoaya = (inp) => {
     mixpanel.track('Go to ayah')
-    // const inp = prompt('Jump to ayah', '2:255')
     if(inp){
       const keys = inp.split(':')
       const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
@@ -128,7 +137,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
         const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
         if(tverse.length > 0) {
-          window.scrollTo({ top: document.getElementsByClassName('page')[tverse[0].pageNumber - 1].offsetTop - 50 })
+          window.scrollTo({ top: document.getElementsByClassName('page')[tverse[0].pageNumber].offsetTop - 50 })
           highlightAya(inp)
         }
       }
@@ -149,12 +158,6 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
             <div className="pointer hbtn" onClick={() => setOpen(true)}>
               <Pointer />
             </div>
-            {/* <div className="src btn" onClick={handleSrcClick}>
-              <Src />
-            </div> */}
-            {/* <div className="btn ayah" onClick={handleGotoayaClick}>
-              <AyahMarker />
-            </div> */}
           </div>
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}><span>{currentSura}</span></div>
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
@@ -222,7 +225,7 @@ const SuraModal = ({ open, onCancel }) => {
   const [src, setSrc] = useState('')
   const handleClickSurah = (sura, index) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0] - 1].offsetTop - 50 })
+    window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0]].offsetTop - 50 })
     mixpanel.track('Go to Sura')
   }
   const filterSrc = it => { 
