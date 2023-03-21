@@ -43,7 +43,7 @@ a {
 	font-size: 1.6em;
 	direction: rtl;
 	text-align: center;
-	border: 1.7px solid #005331;
+	// border: 1.7px solid #005331;
 	color: #9e740a;
 }
 
@@ -433,9 +433,9 @@ nav {
 	&:not(.page2) {
 		.bismillah {
 			font-family: surah-title;
-			font-size: 2.4rem;
+			font-size: 1.5em;
 			span:last-child {
-				letter-spacing: 4.4rem;
+				letter-spacing: 1.8em;
 			}
 			&::after {
 				content: "\a";
@@ -676,6 +676,7 @@ html {
 	.surah-title {
 		margin-bottom: 1.5em;
 		margin-top: -2em;
+		border: none;
 	}
 }
 .scaled {
