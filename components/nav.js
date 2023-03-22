@@ -58,9 +58,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         }
       } else {
         const lineHeight = fontSize * 1.9
-        pageh = pages.current[2].clientHeight + lineHeight /* add extra line */
-        pages.current[0].style.height = `${pageh}px`
+        pageh = pages.current[3].clientHeight + lineHeight /* add extra line */
         pages.current[1].style.height = `${pageh}px`
+        pages.current[2].style.height = `${pageh}px`
         for(let i = 3; i < 604; i += 1){
           pages.current[i].style.height = `${pageh}px`
         }
