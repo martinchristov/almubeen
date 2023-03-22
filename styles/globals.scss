@@ -519,8 +519,10 @@ html {
 	.kok {
 		border-top: 1px solid #f7f7f7;
 		margin-top: 3px;
-		font-family: KFGQPC;
-		font-style: normal;
+		a {
+			font-family: KFGQPC;
+			font-style: normal;
+		}
 		small {
 			font-size: 9px;
 			font-weight: 550;
@@ -979,3 +981,29 @@ html {
 // 		}
 // 	}
 // }
+
+.noscroll {
+	overflow: hidden;
+}
+.ant-tour {
+	width: 250px;
+	font-family: Reem Kufi, serif;
+	font-size: 1em;
+	font-weight: normal;
+	.ant-tour-header .ant-tour-title {
+		font-size: 1.2em !important;
+	}
+	.ant-tour-description {
+		a {
+			color: #538dd3;
+		}
+	}
+	.ant-tour-content {
+		.ant-tour-arrow {
+			display: none;
+		}
+	}
+	.ant-tour-buttons {
+		// display: none;
+	}
+}

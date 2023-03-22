@@ -22,7 +22,7 @@ const Cover = () => {
         <h1><span>al</span>mubeen</h1>
         <Image src="/logo.svg" alt="" width={130} height={161} className="logo" />
         <div>
-          <h5>a fine digital mushaf for students<br />of arabic and the quran</h5>
+          <h5>a fine digital mushaf<br />for learners of arabic</h5>
         </div>
         <div className="bottom">
           <div className="btn">

@@ -1,5 +1,5 @@
 import { Button, Drawer, Input, Modal, Slider, Spin } from "antd"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useContext } from "react"
 import mixpanel from 'mixpanel-browser';
 import { ArrowRightOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
@@ -8,6 +8,7 @@ import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 import classNames from "classnames";
+import Guide from "./guide";
 
 const { Search } = Input
 
@@ -16,6 +17,8 @@ const marginY = 48
 let coverPageOffset = 922
 
 let lrid
+let lasrReadScrollTmid
+
 const setLastRead = () => {
   clearTimeout(lrid)
   lrid = setTimeout(() => {
@@ -35,6 +38,8 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const prevScrollY = useRef(0)
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
+  const [guideOpen, setGuideOpen] = useState(false)
+  const [guideStep, setGuideStep] = useState(0)
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
@@ -122,9 +127,26 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
       setLastRead()
     })
     if(lastRead){
-      setTimeout(() => {
-        window.scrollTo({ top: lastRead })
-      }, 3000)
+      // TODO modal jump to
+      // lasrReadScrollTmid = setTimeout(() => {
+      //   window.scrollTo({ top: lastRead })
+      // }, 3000)
+    }
+
+    // onboarding
+    let scrtmid
+    const scrollOnboardListener = () => {
+      clearTimeout(scrtmid)
+      scrtmid = setTimeout(() => {
+        if(window.scrollY > pages.current[1].offsetTop - 100){
+          setGuideOpen(true)
+          document.removeEventListener('scroll', scrollOnboardListener)
+          localStorage.setItem('onboarded', true)
+        }
+      }, 200)
+    }
+    if(!localStorage.getItem('onboarded')){
+      document.addEventListener('scroll', scrollOnboardListener)
     }
   }, [])
   const handleGotoaya = (inp) => {
@@ -152,6 +174,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   }
   return (
     <>
+      <Guide open={guideOpen} setOpen={setGuideOpen} step={guideStep} scrollIntoViewOptions={false} />
       <nav className={classNames({ collapsed })}>
         <div className="page-contain">
           <div className="collapsible left">

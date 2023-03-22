@@ -8,6 +8,7 @@ import { Alert, Button, ConfigProvider, Modal } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons';
 import smartlookClient from 'smartlook-client'
 import Cover from './cover';
+import Guide from '../components/guide';
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
 export default function Home() {
