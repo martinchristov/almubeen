@@ -19,10 +19,10 @@ let coverPageOffset = 922
 let lrid
 let lasrReadScrollTmid
 
-const setLastRead = () => {
+const setLastRead = (page) => {
   clearTimeout(lrid)
   lrid = setTimeout(() => {
-    localStorage.setItem("lastRead", window.scrollY);
+    localStorage.setItem("lastRead", page);
   }, 3000)
 }
 
@@ -83,8 +83,6 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     });
     
     resizeObserver.observe(pages.current[3]);
-    console.log(pages.current[3])
-    const lastRead = localStorage.getItem('lastRead')
 
     coverPageOffset = pages.current[0].clientHeight
     document.addEventListener('resize', () => {
@@ -111,29 +109,10 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           }
           return pageYPos + 1
         }
+        if(page > 5) setLastRead(page)
         return page
       })
-      if(window.innerWidth < 640){
-        // setCollapsed(true)
-        // console.log(prevScrollY.current, window.scrollY)
-        // if(prevScrollY.current < window.scrollY - 7){
-        //   console.log('COLLAPSE')
-        //   setCollapsed(true)
-        //   prevScrollY.current = window.scrollY
-        // } else if(prevScrollY.current > window.scrollY + 5) {
-        //   console.log('EXPAND')
-        //   setCollapsed(false)
-        //   prevScrollY.current = window.scrollY
-        // }
-      }
-      setLastRead()
     })
-    if(lastRead){
-      // TODO modal jump to
-      // lasrReadScrollTmid = setTimeout(() => {
-      //   window.scrollTo({ top: lastRead })
-      // }, 3000)
-    }
 
     // onboarding
     let scrtmid

@@ -1,10 +1,17 @@
+import { ArrowRightOutlined, CaretRightOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import Image from "next/image"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PointerRead from '../assets/pointer-read.svg'
 
 const Cover = () => {
   const [creditsOpen, setCreditsOpen] = useState(false)
+  const [lastRead, setLastRead] = useState(null)
+  useEffect(() => {
+    if(localStorage.getItem('lastRead') > 5){
+      setLastRead(localStorage.getItem('lastRead'))
+    }
+  }, [])
   const handleClickRead = () => {
     window.scrollTo({
       top: document.getElementsByClassName('page')[1].offsetTop - 60,
@@ -13,6 +20,9 @@ const Cover = () => {
   }
   const handleClickCredits = () => {
     setCreditsOpen(true)
+  }
+  const handleClickLastRead = () => {
+    window.scrollTo({ top: document.getElementsByClassName('page')[Number(localStorage.getItem('lastRead'))].offsetTop - 50 })
   }
   return (
     <div className="cover page">
@@ -25,18 +35,26 @@ const Cover = () => {
           <h5>a fine digital mushaf<br />for learners of arabic</h5>
         </div>
         <div className="bottom">
-          <div className="btn">
-            <a href="https://t.me/+kqPyEThUi8QyMWFk" target="_blank" rel="noreferrer">
-              <div>community</div>
-            </a>
+          <div className="btn" onClick={handleClickCredits}>
+            <div>credits</div>
           </div>
           <div className="btn read" onClick={handleClickRead}>
             <div>read</div>
             <PointerRead />
           </div>
-          <div className="btn" onClick={handleClickCredits}>
-            <div>credits</div>
+          {!lastRead &&
+          <div className="btn">
+            <a href="https://t.me/+kqPyEThUi8QyMWFk" target="_blank" rel="noreferrer">
+              <div>community</div>
+            </a>
           </div>
+          }
+          {lastRead != null &&
+          <div className="btn" onClick={handleClickLastRead}>
+            <div>last read</div>
+            <div className="pg">{lastRead} <ArrowRightOutlined /></div>
+          </div>
+          }
         </div>
       </div>
       <CreditsModal open={creditsOpen} onCancel={() => setCreditsOpen(false)} />
