@@ -61,7 +61,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         pageh = pages.current[3].clientHeight + lineHeight /* add extra line */
         pages.current[1].style.height = `${pageh}px`
         pages.current[2].style.height = `${pageh}px`
-        for(let i = 3; i < 604; i += 1){
+        for(let i = 4; i < 604; i += 1){
           pages.current[i].style.height = `${pageh}px`
         }
       }
@@ -69,7 +69,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     })
     setPage((_page) => {
       setTimeout(() => {
-        window.scrollTo({ top: pages.current[_page - 1].offsetTop - 50 })
+        window.scrollTo({ top: pages.current[_page].offsetTop - 50 })
       }, 100)
       return _page
     })
@@ -78,10 +78,12 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   useEffect(() => {
     pages.current = document.getElementsByClassName('page')
     const resizeObserver = new ResizeObserver((entries) => {
+      console.log(entries)
       calcPageH()
     });
     
     resizeObserver.observe(pages.current[3]);
+    console.log(pages.current[3])
     const lastRead = localStorage.getItem('lastRead')
 
     coverPageOffset = pages.current[0].clientHeight
@@ -112,7 +114,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         return page
       })
       if(window.innerWidth < 640){
-        setCollapsed(true)
+        // setCollapsed(true)
         // console.log(prevScrollY.current, window.scrollY)
         // if(prevScrollY.current < window.scrollY - 7){
         //   console.log('COLLAPSE')

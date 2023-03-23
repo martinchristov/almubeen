@@ -686,18 +686,24 @@ html {
 		white-space: normal;
 		display: inline;
 	}
+	.page .content {
+		display: flex;
+		align-items: center;
+		.marker i {
+			font-size: 0.6em;
+			line-height: 2.5;
+			letter-spacing: -3px;
+		}
+	}
 	.page1,
 	.page2 {
 		.content {
 			line-height: 3.3;
 			.marker i {
 				line-height: 4.8;
+				font-size: 0.6em;
 			}
 		}
-	}
-	.page .content {
-		display: flex;
-		align-items: center;
 	}
 }
 .cover.page {
@@ -759,6 +765,7 @@ html {
 		flex-flow: row;
 		position: relative;
 		z-index: 2;
+		width: 100%;
 		.btn {
 			flex: 1;
 			& > a {
