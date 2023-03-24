@@ -5,34 +5,30 @@ const steps = [
         title: 'Word Meaning',
         description: 'Click on words you don\'t fully understand',
         placement: 'top',
-        // arrow: false,
-        target: () => document.getElementsByClassName('id-6844')[0]
       }, {
         placement: 'top',
         title: 'Ayah translations',
         description: 'Click on ayah markers to view multiple translations and more',
-        target: () => document.getElementsByClassName('id-6844')[0].previousElementSibling
       }, {
         placement: 'bottom',
-        title: 'Navigate to Surah',
-        description: 'Click on surah to open list',
+        title: 'Navigate to Surah, Page and Juz',
+        description: 'Each three are clickable',
         target: () => document.getElementsByClassName('surah')[0]
       }, {
         placement: 'bottom',
-        title: 'Navigate to page',
-        description: 'Click to jump to page',
-        target: () => document.getElementsByClassName('pagen')[0]
-      }, {
-        // placement: 'bottom',
-        title: 'And much more soon',
-        description: <>Join our <a href="https://t.me/+kqPyEThUi8QyMWFk" target="_blank" rel="noreferrer">Telegram community</a> to get updates on new stuff, suggest features and report issues.</>,
-        // target: () => document.getElementsByClassName('pagen')[0]
+        title: 'Search and more',
+        description: 'Expand the menu for more',
+        target: () => document.getElementsByClassName('hbtn')[0]
       }
     ]
 
 const Guide = ({ open, setOpen }) => {
+  const handleOnClose = () => {
+    document.body.className = ''
+    setOpen(false)
+  }
   return (
-    <Tour open={open} onClose={() => setOpen(false)} steps={steps} />
+    <Tour open={open} onClose={handleOnClose} steps={steps} />
   )
 }
 
