@@ -9,6 +9,7 @@ import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 import classNames from "classnames";
+import BookmarkSvg from '../assets/bookmark.svg'
 
 const { Search } = Input
 
@@ -163,7 +164,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus })
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
             <div className="btn" onClick={() => { if(authStatus === 'unauthenticated') { setLoginModalOpen(true) } }}>
-              <BookOutlined />
+              <BookmarkSvg />
             </div>
           </div>
         </div>
