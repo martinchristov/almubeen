@@ -1,9 +1,10 @@
 import { Button, Checkbox, Collapse, Divider, Modal, Select, Spin } from 'antd'
-import { LeftOutlined, RightOutlined, UnorderedListOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
 // import translation from '../assets/translations/eng-muhammadasad.json'
 import sources from '../assets/translation-sources2.json'
 import { memo, useEffect, useRef, useState } from 'react'
 import surat from '../assets/surat.json'
+import pageData from '../assets/pages.json'
 // import CollapsePanel from 'antd/es/collapse/CollapsePanel'
 const CollapsePanel = Collapse.Panel
 
@@ -12,15 +13,15 @@ const getTranslation = (translation, chapter, verse) => {
   return ret?.text
 }
 
-const AyaTranslations = ({ selectedAya, setSelectedAya }) => {
+const AyaTranslations = ({ selectedAya, setSelectedAya, page }) => {
   return (
     <Modal className='aya-modal' open={selectedAya != null} onCancel={() => { setSelectedAya(null) }} destroyOnClose footer={null}>
-      <ModalContent {...{ selectedAya, setSelectedAya }} />
+      <ModalContent {...{ selectedAya, setSelectedAya, page }} />
     </Modal>
   )
 }
 
-const ModalContent = ({ selectedAya, setSelectedAya }) => {
+const ModalContent = ({ selectedAya, setSelectedAya, page }) => {
   const keys = selectedAya.split(':')
   const [translated, setTranslated] = useState([])
   const _selected = localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : []
@@ -73,6 +74,7 @@ const ModalContent = ({ selectedAya, setSelectedAya }) => {
   const handleClickPrev = () => {
     setSelectedAya(`${keys[0]}:${Number(keys[1]) - 1}`)
   }
+  console.log(page)
   return (
     <div>
       {mode === 'view' &&
@@ -85,6 +87,16 @@ const ModalContent = ({ selectedAya, setSelectedAya }) => {
         <Button disabled={Number(keys[1]) > surat.chapters[Number(keys[0]) - 1].verses_count - 1} className="next" type="link" size="large" onClick={handleClickNext}>
           <RightOutlined />
         </Button>
+      </div>
+      <div className="aya-arabic">
+        {selectedAya && pageData[page]?.find(it => it.verseKey === selectedAya)?.words?.map(it => <span key={it.id}>{it.textUthmani} </span>)}
+      </div>
+      <div className="collection">
+        <div className="label">Add to:</div>
+        <ul>
+          <li><Button type="link"><StarOutlined />Bookmarks</Button></li>
+          <li className="edit-collections"><Button type="link"><UnorderedListOutlined /> Edit Collections</Button></li>
+        </ul>
       </div>
       <ul>
         {translated.map((item, ind) =>

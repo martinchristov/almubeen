@@ -276,7 +276,7 @@ nav {
 			position: relative;
 			&:not(.t-end):hover {
 				border-radius: 3px;
-				background-color: rgba(0, 0, 0, 0.05);
+				background-color: #e6f1eb;
 			}
 			&.t-end {
 				color: #005635;
@@ -635,6 +635,33 @@ html {
 		justify-content: space-around;
 		.ant-btn {
 			margin-top: 10px;
+		}
+	}
+	.aya-arabic {
+		font-family: KFGQPC;
+		font-size: 2em;
+		direction: rtl;
+	}
+	.collection {
+		display: flex;
+		margin-top: 10px;
+		border-bottom: 1px solid #eeeeee;
+		border-top: 1px solid #eee;
+		line-height: 30px;
+		padding-top: 9px;
+		.label {
+			opacity: 0.5;
+		}
+		ul {
+			list-style: none;
+			display: flex;
+			flex: 1;
+			.edit-collections {
+				margin-left: auto;
+				.ant-btn {
+					color: #cfb167;
+				}
+			}
 		}
 	}
 	ul {

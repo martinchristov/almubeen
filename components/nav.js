@@ -10,6 +10,7 @@ import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 import classNames from "classnames";
 import BookmarkSvg from '../assets/bookmark.svg'
+import AyaTranslations from '../components/translations'
 
 const { Search } = Input
 
@@ -24,7 +25,7 @@ const setLastRead = () => {
   }, 3000)
 }
 
-const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus }) => {
+const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
@@ -218,7 +219,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus })
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
       <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
-
+      <AyaTranslations {...{ selectedAya, setSelectedAya, page }} />
     </>
   )
 }

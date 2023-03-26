@@ -7,7 +7,6 @@ import { ArrowRightOutlined } from '@ant-design/icons';
 import smartlookClient from 'smartlook-client'
 import Safha from '../components/safha'
 import Nav from '../components/nav'
-import AyaTranslations from '../components/translations'
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
 export default function Home() {
@@ -72,9 +71,8 @@ export default function Home() {
         }}
       >
       <div className={scale > 1 ? 'scaled' : null}>
-        <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus }} />
+        <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }} />
         {pages}
-        <AyaTranslations {...{ selectedAya, setSelectedAya }} />
         <IframeView {...{ iframe, setIframe }} />
       </div>
       </ConfigProvider>
