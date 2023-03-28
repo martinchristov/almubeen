@@ -129,7 +129,7 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) =
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
-        <div className="sticky-page">{p}</div>
+        {/* <div className="sticky-page">{p}</div> */}
         <div className="inner">
           {(p === 1 || p === 2) && (
             <div className="surah-title" key={`vt-${p - 1}`}>
