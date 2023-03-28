@@ -116,9 +116,10 @@ nav {
 			}
 		}
 		.hbtn {
-			position: absolute;
-			left: 0px;
-			top: 6px;
+			// position: absolute;
+			// left: 0px;
+			// top: 6px;
+			margin-top: 6px;
 			z-index: 2;
 			// opacity: 0;
 			height: 40px;
@@ -129,14 +130,6 @@ nav {
 			transition: all 0.27s ease-out;
 			transform: translateY(0px);
 		}
-	}
-	.pagen {
-		color: #af8a21;
-		font-weight: bold;
-		font-size: 1.3em;
-		width: 60px;
-		text-align: center;
-		cursor: pointer;
 	}
 	.caption {
 		color: #005735;
@@ -151,6 +144,9 @@ nav {
 		&.surah {
 			transform: translateX(10px);
 		}
+	}
+	.pagen-spacer {
+		width: 80px;
 	}
 	@media screen and (max-width: 640px) {
 		.collapsible {
@@ -208,6 +204,22 @@ nav {
 		}
 	}
 }
+
+.pagen {
+	color: #af8a21;
+	font-weight: bold;
+	font-size: 1.3em;
+	width: 80px;
+	height: 50px;
+	text-align: center;
+	cursor: pointer;
+	position: fixed;
+	z-index: 1120;
+	left: 50%;
+	top: 0;
+	margin-left: -40px;
+	// background-color: rgba(0, 0, 0, 0.5);
+}
 .page-nav {
 	display: flex;
 	justify-content: space-around;
@@ -228,16 +240,29 @@ nav {
 	display: flex;
 	justify-content: center;
 	font-size: 15px;
+	flex-direction: column;
+	align-items: center;
 	.sticky-page {
 		height: 0;
 		position: sticky;
-		top: 0;
-		margin-top: -50px;
-		margin-bottom: 50px;
+		top: 9px;
+		margin-top: -25px;
+		margin-bottom: 25px;
 		z-index: 111;
-		font-size: 18px;
-		background-color: #e7e7e5;
-		padding: 5px 10px;
+		display: flex;
+		justify-content: center;
+		& > div {
+			font-size: 18px;
+			background-color: #e7e7e5;
+			// padding: 5px 10px;
+			border: 1.5px solid $yellow;
+			color: darken($color: $yellow, $amount: 10);
+			font-weight: bold;
+			line-height: 30px;
+			padding: 0 15px;
+			border-radius: 15px;
+			height: 30px;
+		}
 	}
 	.content {
 		padding: 15px 15px;

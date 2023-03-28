@@ -174,7 +174,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
             </div>
           </div>
           <div className="surah caption" onClick={() => setSuraModalVisible(true)}><span>{currentSura}</span></div>
-          <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
+          <div className="pagen-spacer" />
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
             <div className="btn" onClick={handleBookmarkClick}>
@@ -183,6 +183,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
           </div>
         </div>
       </nav>
+      <div className="pagen" onClick={handlePageClick} />
       <SuraModal open={suraModalVisible} onCancel={() => { setSuraModalVisible(false)}} />
       <JuzModal open={juzModalVisible} onCancel={() => { setJuzModalVisible(false)}} />
       <Drawer closable={false} height={300} className="drawer-nav" placement="top" onClose={() => { setOpen(false) }} open={open}>
