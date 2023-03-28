@@ -63,7 +63,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
           console.log(word)
         }
         kalima = (
-        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya, bookmarked: collections?.[0]?.keys.indexOf(word.verseKey) !== -1 })} onClick={handleClickAya(word)}>
+        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya, bookmarked: collections.length > 0 && collections[0].keys.indexOf(word.verseKey) !== -1 })} onClick={handleClickAya(word)}>
           <i>{ConvertToArabicNumbers(word.verseKey.split(':')[1])}</i>
           <AyahMarker />
         </span>)
@@ -129,6 +129,7 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) =
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
+        <div className="sticky-page">{p}</div>
         <div className="inner">
           {(p === 1 || p === 2) && (
             <div className="surah-title" key={`vt-${p - 1}`}>
