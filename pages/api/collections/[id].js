@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from '../auth/[...nextauth]'
 
 export default async function handler(req, res) {
+  const id = Number(req.query.id);
+
   const session = await getServerSession(req, res, authOptions)
 
   if (!session) {
@@ -29,25 +31,28 @@ export default async function handler(req, res) {
       return res.json({ message: 'Error', error: 'No key' })
     }
     
-    // CREATE COLLECTION
-    // --
+    await supabase
+      .from('ayat')
+      .insert({ key: req.body.key, coll_id: id })
+    return res.json({
+      message: 'Success',
+      // error
+    })
+  }
+  else if(req.method === 'DELETE'){
+    if(!req.body.key){
+      return res.json({ message: 'Error', error: 'No key' })
+    }
+    
+    const res = await supabase
+      .from('ayat')
+      .delete()
+      .eq('key', req.body.key)
+      .eq('coll_id', id)
     
     return res.json({
       message: 'Success',
       // error
     })
   }
-
-  const { data, error } = await supabase.from("collections").select("*").eq('uid', session.uid)
-  const resp = []
-  for(let item of data){
-    const keys = await supabase.from('ayat').select('key').eq('coll_id', item.id)
-    resp.push({...item, keys: keys.data.map(it => it.key) })
-  }
-
-  return res.json({
-    message: 'Success',
-    data: resp,
-    error
-  })
 }

@@ -652,10 +652,16 @@ html {
 		.label {
 			opacity: 0.5;
 		}
+		.ant-btn {
+			margin-bottom: 8px;
+		}
 		ul {
 			list-style: none;
 			display: flex;
 			flex: 1;
+			li {
+				margin-left: 10px;
+			}
 			.edit-collections {
 				margin-left: auto;
 				.ant-btn {

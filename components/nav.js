@@ -1,5 +1,5 @@
-import { Button, Drawer, Form, Input, Modal, Slider, Spin } from "antd"
-import { useState, useEffect, useRef } from "react"
+import { Button, Collapse, Divider, Drawer, Form, Input, Modal, Slider, Spin } from "antd"
+import { useState, useEffect, useRef, useContext } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import mixpanel from 'mixpanel-browser';
 import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, LoadingOutlined } from '@ant-design/icons'
@@ -13,6 +13,7 @@ import BookmarkSvg from '../assets/bookmark.svg'
 import AyaTranslations from '../components/translations'
 
 const { Search } = Input
+import { CollectionsContext } from "./context";
 
 let pageh = 860;
 const marginY = 48
@@ -38,6 +39,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
   const prevScrollY = useRef(0)
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
+  const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
@@ -145,6 +147,10 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
     setSearch(inp)
     setOpen(false)
   }
+  const handleBookmarkClick = () => {
+    if(authStatus === 'unauthenticated') { setLoginModalOpen(true) }
+    else setBookmarksOpen(true)
+  }
   return (
     <>
       <nav className={classNames({ collapsed })}>
@@ -164,7 +170,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            <div className="btn" onClick={() => { if(authStatus === 'unauthenticated') { setLoginModalOpen(true) } }}>
+            <div className="btn" onClick={handleBookmarkClick}>
               <BookmarkSvg />
             </div>
           </div>
@@ -218,8 +224,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
         </div>
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
+      <AyaTranslations {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
       <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
-      <AyaTranslations {...{ selectedAya, setSelectedAya, page }} />
+      <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} />
     </>
   )
 }
@@ -338,6 +345,27 @@ const LoginModal = ({ open, setOpen }) => {
           <Button size="large" type="primary" htmlType="submit">Login with Email</Button>
         </Form>
       </div>
+    </Modal>
+  )
+}
+
+const CollectionsModal = ({ open, onCancel }) => {
+  const { collections, setCollections } = useContext(CollectionsContext)
+  return (
+    <Modal title="Collections" footer={null} {...{ open, onCancel }}>
+      <Collapse defaultActiveKey={['1']} destroyInactivePanel>
+      {collections.map(item =>
+      <Collapse.Panel key={item.id} header={item.title}>
+        {item.keys.length > 0 &&
+        <ul>
+          {item.keys.map(key => <li key={`${item.id}-${key}`}>{key}</li>)}
+        </ul>
+        }
+      </Collapse.Panel>
+      )}
+      </Collapse>
+      <Divider />
+      <Button>Create a new collection</Button>
     </Modal>
   )
 }

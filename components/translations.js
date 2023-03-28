@@ -2,9 +2,10 @@ import { Button, Checkbox, Collapse, Divider, Modal, Select, Spin } from 'antd'
 import { LeftOutlined, RightOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
 // import translation from '../assets/translations/eng-muhammadasad.json'
 import sources from '../assets/translation-sources2.json'
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useContext, useEffect, useRef, useState } from 'react'
 import surat from '../assets/surat.json'
 import pageData from '../assets/pages.json'
+import { AuthContext, CollectionsContext } from './context'
 // import CollapsePanel from 'antd/es/collapse/CollapsePanel'
 const CollapsePanel = Collapse.Panel
 
@@ -13,15 +14,17 @@ const getTranslation = (translation, chapter, verse) => {
   return ret?.text
 }
 
-const AyaTranslations = ({ selectedAya, setSelectedAya, page }) => {
+const AyaTranslations = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) => {
   return (
     <Modal className='aya-modal' open={selectedAya != null} onCancel={() => { setSelectedAya(null) }} destroyOnClose footer={null}>
-      <ModalContent {...{ selectedAya, setSelectedAya, page }} />
+      <ModalContent {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
     </Modal>
   )
 }
 
-const ModalContent = ({ selectedAya, setSelectedAya, page }) => {
+const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) => {
+  const { authStatus, session } = useContext(AuthContext)
+  const { collections, setCollections } = useContext(CollectionsContext)
   const keys = selectedAya.split(':')
   const [translated, setTranslated] = useState([])
   const _selected = localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : []
@@ -74,7 +77,44 @@ const ModalContent = ({ selectedAya, setSelectedAya, page }) => {
   const handleClickPrev = () => {
     setSelectedAya(`${keys[0]}:${Number(keys[1]) - 1}`)
   }
-  console.log(page)
+  const handleBookmarkClick = () => {
+    fetch('/api/collections', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ key: selectedAya })
+    })
+  }
+  const handleCheck = (collection) => (e) => {
+    const updated = [...collections]
+    const ind = updated.findIndex(it => collection.id === it.id)
+    let newKeys = [...collection.keys]
+    if(e.target.checked){
+      newKeys.push(selectedAya)
+      fetch(`/api/collections/${collection.id}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key: selectedAya })
+      })
+    }
+    else {
+      newKeys = newKeys.filter(it => it !== selectedAya)
+      fetch(`/api/collections/${collection.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key: selectedAya })
+      })
+    }
+    setCollections([...updated.slice(0, ind), { ...collection, keys: newKeys }, ...updated.slice(ind + 1)])
+  }
   return (
     <div>
       {mode === 'view' &&
@@ -91,13 +131,23 @@ const ModalContent = ({ selectedAya, setSelectedAya, page }) => {
       <div className="aya-arabic">
         {selectedAya && pageData[page]?.find(it => it.verseKey === selectedAya)?.words?.map(it => <span key={it.id}>{it.textUthmani} </span>)}
       </div>
+      {session != null &&
       <div className="collection">
         <div className="label">Add to:</div>
         <ul>
-          <li><Button type="link"><StarOutlined />Bookmarks</Button></li>
+          {/* <li><Button type="link" onClick={handleBookmarkClick}><StarOutlined />Bookmarks</Button></li> */}
+          {collections.map(it =>
+          <li key={it.id}><Checkbox value={it.id} checked={it.keys.indexOf(selectedAya) !== -1} onChange={handleCheck(it, keys)}>{it.title}</Checkbox></li>
+          )}
           <li className="edit-collections"><Button type="link"><UnorderedListOutlined /> Edit Collections</Button></li>
         </ul>
       </div>
+      }
+      {session == null && authStatus !== 'loading' && (
+        <div className="collection">
+          <Button type="link" onClick={() => setLoginModalOpen(true)}>Login to bookmark</Button>
+        </div>
+      )}
       <ul>
         {translated.map((item, ind) =>
           <li key={sources[ind]} className={selected[ind].substr(0, 3)}>

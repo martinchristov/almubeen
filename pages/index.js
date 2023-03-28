@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from "next-auth/react"
 import mixpanel from 'mixpanel-browser';
 import Head from 'next/head'
@@ -9,12 +9,15 @@ import Safha from '../components/safha'
 import Nav from '../components/nav'
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
 
+import { CollectionsContext, AuthContext } from '../components/context';
+
 export default function Home() {
   const [initers, setIniters] = useState([true, true, true, true])
   const [selectedAya, setSelectedAya] = useState(null)
   const [markAya, setMarkAya] = useState(null)
   const [scale, setScale] = useState(1)
   const [iframe, setIframe] = useState(null)
+  const [collections, setCollections] = useState([])
   const { data: session, status: authStatus } = useSession()
   const pages = []
   for(let i = 1; i < 605; i += 1){
@@ -27,19 +30,16 @@ export default function Home() {
     }, 20000)
   }
   useEffect(() => {
-    if(window.location.href.indexOf('localhost') !== -1){
+    if(window.location.href.indexOf('localhost') === -1){
       smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
     }
-    if(!session){
-      // signIn()
-    }
-    // console.log(session, status)
   }, [])
   useEffect(() => {
-    // console.log(session, status)
-    if(authStatus !== 'loading' && !session){
-      // signIn('email')
-      // signIn()
+    if(authStatus !== 'loading' && session != null){
+      fetch('/api/collections').then(d => d.json()).then(({ data, error }) => {
+        localStorage.setItem('collections', data)
+        setCollections(data)
+      })
     }
   }, [session, authStatus])
   return (
@@ -70,11 +70,15 @@ export default function Home() {
           },
         }}
       >
-      <div className={scale > 1 ? 'scaled' : null}>
-        <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }} />
-        {pages}
-        <IframeView {...{ iframe, setIframe }} />
-      </div>
+        <AuthContext.Provider value={{ session, authStatus }}>
+        <CollectionsContext.Provider value={{ collections, setCollections }}>
+          <div className={scale > 1 ? 'scaled' : null}>
+            <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya, collections }} />
+            {pages}
+            <IframeView {...{ iframe, setIframe }} />
+          </div>
+        </CollectionsContext.Provider>
+        </AuthContext.Provider>
       </ConfigProvider>
     </>
   )
