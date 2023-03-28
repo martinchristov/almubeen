@@ -33,6 +33,7 @@ export const authOptions = {
           role: "authenticated",
         }
         session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+        session.uid = user.id
       }
       return session
     },

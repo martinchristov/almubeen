@@ -1,16 +1,20 @@
-import { Button, Drawer, Input, Modal, Slider, Spin } from "antd"
+import { Button, Collapse, Divider, Drawer, Form, Input, Modal, Slider, Spin } from "antd"
 import { useState, useEffect, useRef, useContext } from "react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import mixpanel from 'mixpanel-browser';
-import { ArrowRightOutlined, ArrowUpOutlined, LoadingOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers } from "../assets/utils";
 import classNames from "classnames";
+import BookmarkSvg from '../assets/bookmark.svg'
+import AyaTranslations from '../components/translations'
 import Guide from "./guide";
 
 const { Search } = Input
+import { CollectionsContext } from "./context";
 
 let pageh = 860;
 const marginY = 48
@@ -26,11 +30,12 @@ const setLastRead = (page) => {
   }, 3000)
 }
 
-const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
+const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }) => {
   const [page, setPage] = useState(1)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
+  const [loginModalOpen, setLoginModalOpen] = useState(false)
   const [currentSura, setCurrentSura] = useState('الفاتحة')
   const [search, setSearch] = useState()
   const pages = useRef()
@@ -38,6 +43,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
   const prevScrollY = useRef(0)
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false)
+  const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [guideStep, setGuideStep] = useState(0)
   const handlePageClick = () => {
@@ -153,6 +159,10 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
     setSearch(inp)
     setOpen(false)
   }
+  const handleBookmarkClick = () => {
+    if(authStatus === 'unauthenticated') { setLoginModalOpen(true) }
+    else setBookmarksOpen(true)
+  }
   return (
     <>
       <Guide open={guideOpen} setOpen={setGuideOpen} step={guideStep} scrollIntoViewOptions={false} />
@@ -167,12 +177,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pagen" onClick={handlePageClick}>{ConvertToArabicNumbers(page)}</div>
           <div className="juz caption" onClick={() => setJuzModalVisible(true)}><span>الجزء</span> {ConvertToArabicNumbers(juz)}</div>
           <div className="collapsible right">
-            {/* <div className="btn aa">
-              <FontSize />
-            </div> */}
-            {/* <div className="btn dots">
-              <Dots />
-            </div> */}
+            <div className="btn" onClick={handleBookmarkClick}>
+              <BookmarkSvg />
+            </div>
           </div>
         </div>
       </nav>
@@ -183,6 +190,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
           <div className="pointer hbtn" onClick={() => setOpen(false)}>
             <Pointer />
           </div>
+          {authStatus === 'authenticated' &&
+            <Button type="link" className="logout-btn" onClick={signOut}>Logout</Button>
+          }
           <ul>
             <li>
               <Search
@@ -221,6 +231,9 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale }) => {
         </div>
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
+      <AyaTranslations {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
+      <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
+      <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} {...{ handleGotoaya }} />
     </>
   )
 }
@@ -262,7 +275,7 @@ const getJuzFromPage = (page) => {
 const JuzModal = ({ open, onCancel }) => {
   const handleClickJuz = (ind) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind] - 1].offsetTop - 45 })
+    window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind]].offsetTop - 45 })
     mixpanel.track('Go to Juz')
   }
   return (
@@ -314,6 +327,59 @@ const SearchModal = ({ search, setSearch, handleGotoaya }) => {
         </ul>
         </>
       )}
+    </Modal>
+  )
+}
+
+const LoginModal = ({ open, setOpen }) => {
+  const handleSubmit = (values) => {
+    console.log(values)
+    signIn('email', values )
+  }
+  return (
+    <Modal className="login-modal" footer={null} title="Login to make an ayat collection" open={open} onCancel={() => setOpen(false)}>
+      <div className="container">
+        <Form onFinish={handleSubmit}>
+          <Form.Item name="email" required rules={[
+            {
+              required: true,
+              message: 'Please enter a valid email',
+              type: 'email'
+            },
+          ]}>
+            <Input size="large" placeholder='example@email.com' />
+          </Form.Item>
+          <Button size="large" type="primary" htmlType="submit">Login with Email</Button>
+        </Form>
+      </div>
+    </Modal>
+  )
+}
+
+const CollectionsModal = ({ open, onCancel, handleGotoaya }) => {
+  const { collections, setCollections } = useContext(CollectionsContext)
+  const handleClickLink = (key) => () => {
+    handleGotoaya(key)
+    onCancel()
+  }
+  return (
+    <Modal title="Collections (work in progress)" footer={null} {...{ open, onCancel }}>
+      <Collapse defaultActiveKey={['1']} destroyInactivePanel>
+      {collections.map(item =>
+      <Collapse.Panel key={item.id} header={item.title}>
+        {item.keys.length > 0 &&
+        <ul>
+          {item.keys.map(key => <li key={`${item.id}-${key}`}><a href={`#${key}`} onClick={handleClickLink(key)}>{key}</a></li>)}
+        </ul>
+        }
+        {item.keys.length === 0 &&
+        <p>Nothing here yet. Add by tapping on any ayah marker</p>
+        }
+      </Collapse.Panel>
+      )}
+      </Collapse>
+      {/* <Divider /> */}
+      {/* <Button>Create a new collection</Button> */}
     </Modal>
   )
 }

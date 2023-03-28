@@ -83,6 +83,13 @@ nav {
 			flex-direction: column;
 			align-items: center;
 			cursor: pointer;
+			svg {
+				width: 22px;
+				height: 22px;
+				path {
+					stroke: #9e740a;
+				}
+			}
 			&.src {
 				svg {
 					width: 22px;
@@ -273,7 +280,7 @@ nav {
 			position: relative;
 			&:not(.t-end):hover {
 				border-radius: 3px;
-				background-color: rgba(0, 0, 0, 0.05);
+				background-color: #e6f1eb;
 			}
 			&.t-end {
 				color: #005635;
@@ -304,6 +311,20 @@ nav {
 				font-weight: 600;
 				left: -0.7px;
 				letter-spacing: -3px;
+			}
+			&.bookmarked {
+				i {
+					color: darken($color: #cfb167, $amount: 20);
+				}
+				svg {
+					path {
+						&:nth-child(1),
+						&:nth-child(3),
+						&:nth-child(5) {
+							fill: darken($color: #cfb167, $amount: 10);
+						}
+					}
+				}
 			}
 			@media screen and (max-width: 640px) {
 				transform: translate(2px, 8px);
@@ -642,6 +663,39 @@ html {
 			margin-top: 10px;
 		}
 	}
+	.aya-arabic {
+		font-family: KFGQPC;
+		font-size: 2em;
+		direction: rtl;
+	}
+	.collection {
+		display: flex;
+		margin-top: 10px;
+		border-bottom: 1px solid #eeeeee;
+		border-top: 1px solid #eee;
+		line-height: 30px;
+		padding-top: 9px;
+		.label {
+			opacity: 0.5;
+		}
+		.login-btn {
+			margin-bottom: 8px;
+		}
+		ul {
+			list-style: none;
+			display: flex;
+			flex: 1;
+			li {
+				margin-left: 10px;
+			}
+			.edit-collections {
+				margin-left: auto;
+				.ant-btn {
+					color: #cfb167;
+				}
+			}
+		}
+	}
 	ul {
 		list-style: none;
 		margin: 0;
@@ -877,11 +931,19 @@ html {
 		justify-content: center;
 		align-items: center;
 	}
+	.page-contain {
+		position: relative;
+	}
 	.pointer.hbtn {
 		transform: translate(-5px, -20px);
 		svg {
 			transform: rotate(180deg);
 		}
+	}
+	.logout-btn {
+		position: absolute;
+		right: -10px;
+		top: -27px;
 	}
 	ul {
 		list-style: none;
@@ -979,6 +1041,18 @@ html {
 				margin-top: -7px;
 				padding-top: 0;
 			}
+		}
+	}
+}
+
+.login-modal {
+	.container {
+		max-width: 300px;
+		padding: 30px 0;
+		margin: 0 auto;
+		.ant-btn {
+			margin-top: 15px;
+			width: 100%;
 		}
 	}
 }

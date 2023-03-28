@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
-import Safha from '../components/safha'
-import Nav from '../components/nav'
-import AyaTranslations from '../components/translations'
+import { createContext, useEffect, useState } from 'react'
+import { useSession, signIn, signOut } from "next-auth/react"
 import mixpanel from 'mixpanel-browser';
 import Head from 'next/head'
-import { Alert, Button, ConfigProvider, Modal } from 'antd'
+import { Alert, Button, ConfigProvider, Input, Modal } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons';
 import smartlookClient from 'smartlook-client'
+import Safha from '../components/safha'
+import Nav from '../components/nav'
 import Cover from './cover';
 import Guide from '../components/guide';
 mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
+
+import { CollectionsContext, AuthContext } from '../components/context';
 
 export default function Home() {
   const [initers, setIniters] = useState([true, true, true, true])
@@ -17,6 +19,8 @@ export default function Home() {
   const [markAya, setMarkAya] = useState(null)
   const [scale, setScale] = useState(1)
   const [iframe, setIframe] = useState(null)
+  const [collections, setCollections] = useState([])
+  const { data: session, status: authStatus } = useSession()
   const pages = []
   for(let i = 1; i < 605; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} {...{ setSelectedAya, markAya, scale, setIframe }} />)
@@ -32,6 +36,14 @@ export default function Home() {
       smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
     }
   }, [])
+  useEffect(() => {
+    if(authStatus !== 'loading' && session != null){
+      fetch('/api/collections').then(d => d.json()).then(({ data, error }) => {
+        localStorage.setItem('collections', data)
+        setCollections(data)
+      })
+    }
+  }, [session, authStatus])
   return (
     <>
     <Head>
@@ -44,17 +56,21 @@ export default function Home() {
           },
         }}
       >
-      <div className={scale > 1 ? 'scaled' : null}>
-        <Cover />
-        <Nav {...{ initers, setIniters, highlightAya, scale, setScale }} />
-        {pages}
-        <AyaTranslations {...{ selectedAya, setSelectedAya }} />
-        <IframeView {...{ iframe, setIframe }} />
-      </div>
+        <AuthContext.Provider value={{ session, authStatus }}>
+        <CollectionsContext.Provider value={{ collections, setCollections }}>
+          <div className={scale > 1 ? 'scaled' : null}>
+            <Cover />
+            <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya, collections }} />
+            {pages}
+            <IframeView {...{ iframe, setIframe }} />
+          </div>
+        </CollectionsContext.Provider>
+        </AuthContext.Provider>
       </ConfigProvider>
     </>
   )
 }
+
 
 const IframeView = ({ iframe, setIframe }) => {
   return (
