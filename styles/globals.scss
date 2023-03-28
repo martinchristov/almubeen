@@ -307,6 +307,20 @@ nav {
 				font-weight: 600;
 				left: -0.7px;
 			}
+			&.bookmarked {
+				i {
+					color: darken($color: #cfb167, $amount: 20);
+				}
+				svg {
+					path {
+						&:nth-child(1),
+						&:nth-child(3),
+						&:nth-child(5) {
+							fill: darken($color: #cfb167, $amount: 10);
+						}
+					}
+				}
+			}
 			@media screen and (max-width: 640px) {
 				transform: translate(2px, 8px);
 			}
@@ -652,7 +666,7 @@ html {
 		.label {
 			opacity: 0.5;
 		}
-		.ant-btn {
+		.login-btn {
 			margin-bottom: 8px;
 		}
 		ul {

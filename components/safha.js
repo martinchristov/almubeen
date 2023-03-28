@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { memo, useEffect } from 'react'
+import { memo, useContext, useEffect } from 'react'
 import { Popover } from 'antd';
 import mixpanel from 'mixpanel-browser';
 import surat from '../assets/surat.json'
@@ -9,6 +9,7 @@ import morpho from '../assets/morph.json'
 import bt2utf from '../assets/bt2utf';
 import AyahMarker from '../assets/ayah-marker.svg'
 import { ConvertToArabicNumbers } from '../assets/utils';
+import { CollectionsContext } from './context';
 
 function transformJSON(input) {
     const lines = {};
@@ -24,6 +25,7 @@ function transformJSON(input) {
 }
 
 const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
+  const { collections } = useContext(CollectionsContext)
   const lines = transformJSON(pageData[p - 1])
   const ret = []
   const handleClickAya = (word) => () => {
@@ -61,7 +63,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
           console.log(word)
         }
         kalima = (
-        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya })} onClick={handleClickAya(word)}>
+        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya, bookmarked: collections?.[0].keys.indexOf(word.verseKey) !== -1 })} onClick={handleClickAya(word)}>
           <i>{ConvertToArabicNumbers(word.verseKey.split(':')[1])}</i>
           <AyahMarker />
         </span>)

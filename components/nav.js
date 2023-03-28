@@ -226,7 +226,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
       <AyaTranslations {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
       <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
-      <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} />
+      <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} {...{ handleGotoaya }} />
     </>
   )
 }
@@ -268,7 +268,7 @@ const getJuzFromPage = (page) => {
 const JuzModal = ({ open, onCancel }) => {
   const handleClickJuz = (ind) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind] - 1].offsetTop - 45 })
+    window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind]].offsetTop - 45 })
     mixpanel.track('Go to Juz')
   }
   return (
@@ -349,8 +349,12 @@ const LoginModal = ({ open, setOpen }) => {
   )
 }
 
-const CollectionsModal = ({ open, onCancel }) => {
+const CollectionsModal = ({ open, onCancel, handleGotoaya }) => {
   const { collections, setCollections } = useContext(CollectionsContext)
+  const handleClickLink = (key) => () => {
+    handleGotoaya(key)
+    onCancel()
+  }
   return (
     <Modal title="Collections" footer={null} {...{ open, onCancel }}>
       <Collapse defaultActiveKey={['1']} destroyInactivePanel>
@@ -358,14 +362,17 @@ const CollectionsModal = ({ open, onCancel }) => {
       <Collapse.Panel key={item.id} header={item.title}>
         {item.keys.length > 0 &&
         <ul>
-          {item.keys.map(key => <li key={`${item.id}-${key}`}>{key}</li>)}
+          {item.keys.map(key => <li key={`${item.id}-${key}`}><a href={`#key`} onClick={handleClickLink(key)}>{key}</a></li>)}
         </ul>
+        }
+        {item.keys.length === 0 &&
+        <p>Nothing here yet. Add by tapping on any ayah marker</p>
         }
       </Collapse.Panel>
       )}
       </Collapse>
-      <Divider />
-      <Button>Create a new collection</Button>
+      {/* <Divider /> */}
+      {/* <Button>Create a new collection</Button> */}
     </Modal>
   )
 }

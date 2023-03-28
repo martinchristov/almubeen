@@ -139,13 +139,13 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
           {collections.map(it =>
           <li key={it.id}><Checkbox value={it.id} checked={it.keys.indexOf(selectedAya) !== -1} onChange={handleCheck(it, keys)}>{it.title}</Checkbox></li>
           )}
-          <li className="edit-collections"><Button type="link"><UnorderedListOutlined /> Edit Collections</Button></li>
+          {/* <li className="edit-collections"><Button type="link"><UnorderedListOutlined /> Edit Collections</Button></li> */}
         </ul>
       </div>
       }
       {session == null && authStatus !== 'loading' && (
         <div className="collection">
-          <Button type="link" onClick={() => setLoginModalOpen(true)}>Login to bookmark</Button>
+          <Button className="login-btn" type="link" onClick={() => setLoginModalOpen(true)}>Login to bookmark</Button>
         </div>
       )}
       <ul>
