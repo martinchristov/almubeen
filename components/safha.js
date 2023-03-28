@@ -63,7 +63,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
           console.log(word)
         }
         kalima = (
-        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya, bookmarked: collections?.[0].keys.indexOf(word.verseKey) !== -1 })} onClick={handleClickAya(word)}>
+        <span key={`k${word.id}`} className={classNames('marker', { marked: word.verseKey === markAya, bookmarked: collections?.[0]?.keys.indexOf(word.verseKey) !== -1 })} onClick={handleClickAya(word)}>
           <i>{ConvertToArabicNumbers(word.verseKey.split(':')[1])}</i>
           <AyahMarker />
         </span>)
