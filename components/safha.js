@@ -1,14 +1,13 @@
 import classNames from 'classnames'
 import { memo, useContext, useEffect } from 'react'
 import { Popover } from 'antd';
-import mixpanel from 'mixpanel-browser';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
 import morpho from '../assets/morph.json'
 import bt2utf from '../assets/bt2utf';
 import AyahMarker from '../assets/ayah-marker.svg'
-import { ConvertToArabicNumbers } from '../assets/utils';
+import { ConvertToArabicNumbers, trackEvent } from '../assets/utils';
 import { CollectionsContext } from './context';
 
 function transformJSON(input) {
@@ -30,7 +29,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
   const ret = []
   const handleClickAya = (word) => () => {
     setSelectedAya(word.verseKey)
-    mixpanel.track('Aya Popup')
+    trackEvent('Aya Popup')
   }
   lines.map((line, lineIndex) => {
     let surahIndex
@@ -72,8 +71,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
         {kalima}{' '}
       </>
     })
-
-    ret.push(<li>{lineContent}</li>)
+    ret.push(<li key={`l-${line[0].id}`}>{lineContent}</li>)
 
     if(lineIndex === lines.length - 1){
       surahIndex = Number(line[line.length - 1].verseKey.split(':')[0]) - 1
@@ -112,7 +110,7 @@ const PopupContent = ({ word, setIframe }) => {
     kok = koklu[2].substr(ROOTpos + 5, 3)
     kokJSX = (<strong>{bt2utf[kok[0]]} {bt2utf[kok[1]]} {bt2utf[kok[2]]}</strong>)
   }
-  mixpanel.track('Word Popup')
+  trackEvent('Word Popup')
   return (
     <div className="popup-content">
       <span className="transliteration">{word.transliteration.text}</span>

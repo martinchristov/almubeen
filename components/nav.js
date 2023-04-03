@@ -1,13 +1,12 @@
 import { Button, Collapse, Divider, Drawer, Form, Input, Modal, Slider, Spin } from "antd"
 import { useState, useEffect, useRef, useContext } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
-import mixpanel from 'mixpanel-browser';
 import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
 import pageData from '../assets/pages.json'
-import { ConvertToArabicNumbers } from "../assets/utils";
+import { ConvertToArabicNumbers, trackEvent } from "../assets/utils";
 import classNames from "classnames";
 import BookmarkSvg from '../assets/bookmark.svg'
 import AyaTranslations from '../components/translations'
@@ -55,7 +54,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
     const inp = prompt('Jump to page', page)
     if(inp != null){
       goToPage(pages.current[Number(inp)].offsetTop)
-      mixpanel.track('Go to page')
+      trackEvent('Go to page')
     }
   }
   const calcPageH = () => {
@@ -141,7 +140,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
     }
   }, [])
   const handleGotoaya = (inp) => {
-    mixpanel.track('Go to ayah')
+    trackEvent('Go to ayah')
     if(inp){
       const keys = inp.split(':')
       const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
@@ -248,7 +247,7 @@ const SuraModal = ({ open, onCancel }) => {
   const handleClickSurah = (sura, index) => () => {
     onCancel()
     goToPage(document.getElementsByClassName('page')[sura.pages[0]].offsetTop)
-    mixpanel.track('Go to Sura')
+    trackEvent('Go to Sura')
   }
   const filterSrc = it => { 
     if(src === '') return true
@@ -281,7 +280,7 @@ const JuzModal = ({ open, onCancel }) => {
   const handleClickJuz = (ind) => () => {
     onCancel()
     goToPage(document.getElementsByClassName('page')[juz2page[ind]].offsetTop)
-    mixpanel.track('Go to Juz')
+    trackEvent('Go to Juz')
   }
   return (
     <Modal {...{ open, onCancel }} title="Go to Juz" className="sura-modal juz-modal" footer={null}>
