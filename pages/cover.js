@@ -1,10 +1,10 @@
-import { ArrowRightOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, CaretRightOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import PointerRead from '../assets/pointer-read.svg'
 
-const Cover = () => {
+const Cover = ({ onLoaded, isLoaded }) => {
   const [creditsOpen, setCreditsOpen] = useState(false)
   const [lastRead, setLastRead] = useState(null)
   useEffect(() => {
@@ -24,16 +24,29 @@ const Cover = () => {
   const handleClickLastRead = () => {
     window.scrollTo({ top: document.getElementsByClassName('page')[Number(localStorage.getItem('lastRead'))].offsetTop - 50 })
   }
+  let loaded = 0
+  const handleLoadedImage = () => {
+    loaded += 1
+    if(loaded === 2){
+      let intid = setInterval(() => {
+        if(document.fonts.check("12px page1") && document.fonts.check("12px page2") && document.fonts.check("12px surah-title")){
+          clearInterval(intid)
+          onLoaded()
+        }
+      }, 100)
+    }
+  }
   return (
     <div className="cover page">
       <div className="content">
-        <Image src="/tajmahal.svg" fill alt="" className="taj" />
+        <Image onLoadingComplete={handleLoadedImage} src="/tajmahal.svg" fill alt="" className="taj" />
         <h2><span>al</span>mushaf</h2>
         <h1><span>al</span>mubeen</h1>
-        <Image src="/logo.svg" alt="" width={130} height={161} className="logo" />
+        <Image onLoadingComplete={handleLoadedImage} src="/logo.svg" alt="" width={130} height={161} className="logo" />
         <div>
           <h5>a fine digital mushaf<br />for learners of arabic</h5>
         </div>
+        {isLoaded &&
         <div className="bottom">
           <div className="btn" onClick={handleClickCredits}>
             <div>credits</div>
@@ -42,7 +55,7 @@ const Cover = () => {
             <div>read</div>
             <PointerRead />
           </div>
-          {!lastRead &&
+          {!(lastRead != null && lastRead < 605) &&
           <div className="btn">
             <a href="https://t.me/+kqPyEThUi8QyMWFk" target="_blank" rel="noreferrer">
               <div>community</div>
@@ -56,7 +69,18 @@ const Cover = () => {
           </div>
           }
         </div>
+        }
+        {!isLoaded &&
+          <LoadingOutlined
+            style={{
+              fontSize: 36,
+              marginBottom: 50
+            }}
+            spin
+          />
+        }
       </div>
+      <div className="fontloaders">l</div>
       <CreditsModal open={creditsOpen} onCancel={() => setCreditsOpen(false)} />
     </div>
   )

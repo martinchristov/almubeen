@@ -20,6 +20,7 @@ export default function Home() {
   const [iframe, setIframe] = useState(null)
   const [collections, setCollections] = useState([])
   const { data: session, status: authStatus } = useSession()
+  const [coverLoaded, setCoverLoaded] = useState(false)
   const pages = []
   for(let i = 1; i < 605; i += 1){
     pages.push(<Safha p={i} key={i} init={initers[i - 1]} {...{ setSelectedAya, markAya, scale, setIframe }} />)
@@ -47,6 +48,9 @@ export default function Home() {
       })
     }
   }, [session, authStatus])
+  const handleCoverLoaded = () => {
+    setCoverLoaded(true)
+  }
   return (
     <>
     <Head>
@@ -62,10 +66,14 @@ export default function Home() {
         <AuthContext.Provider value={{ session, authStatus }}>
         <CollectionsContext.Provider value={{ collections, setCollections }}>
           <div className={scale > 1 ? 'scaled' : null}>
-            <Cover />
-            <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya, collections }} />
-            {pages}
-            <IframeView {...{ iframe, setIframe }} />
+            <Cover onLoaded={handleCoverLoaded} isLoaded={coverLoaded} />
+            {coverLoaded &&
+            <>
+              <Nav {...{ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya, collections }} />
+              {pages}
+            </>
+            }
+            {/* <IframeView {...{ iframe, setIframe }} /> */}
           </div>
         </CollectionsContext.Provider>
         </AuthContext.Provider>
