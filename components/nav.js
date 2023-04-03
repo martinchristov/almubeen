@@ -30,8 +30,12 @@ const setLastRead = (page) => {
   }, 3000)
 }
 
+const goToPage = (top) => {
+  window.scrollTo({ top: top - 34 })
+}
+
 const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }) => {
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [juz, setJuz] = useState(1)
   const [suraModalVisible, setSuraModalVisible] = useState(false)
   const [juzModalVisible, setJuzModalVisible] = useState(false)
@@ -46,10 +50,11 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
   const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const [guideOpen, setGuideOpen] = useState(false)
   const [guideStep, setGuideStep] = useState(0)
+  
   const handlePageClick = () => {
     const inp = prompt('Jump to page', page)
     if(inp != null){
-      window.scrollTo({ top: pages.current[Number(inp)].offsetTop - 50 })
+      goToPage(pages.current[Number(inp)].offsetTop)
       mixpanel.track('Go to page')
     }
   }
@@ -58,7 +63,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
     setScale((_scale) => {
       const fontSize = ((pagew - 40) / 34.77) * 2 /*em*/ * _scale
       if(_scale === 1){
-        pageh = fontSize * 1.9 /*l.h*/ * 15 + 30 /* padding */ + 20 /* margin */
+        pageh = fontSize * 1.9 /*l.h*/ * 15 + 30 /* padding */ + 20 /* margin */ + 20 /* margin */
         for(let i = 0; i < 604; i += 1){
           pages.current[i].style.height = null
         }
@@ -75,7 +80,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
     })
     setPage((_page) => {
       setTimeout(() => {
-        window.scrollTo({ top: pages.current[_page].offsetTop - 50 })
+        goToPage(pages.current[_page].offsetTop)
       }, 100)
       return _page
     })
@@ -84,7 +89,6 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
   useEffect(() => {
     pages.current = document.getElementsByClassName('page')
     const resizeObserver = new ResizeObserver((entries) => {
-      console.log(entries)
       calcPageH()
     });
     
@@ -146,7 +150,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
         const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
         const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
         if(tverse.length > 0) {
-          window.scrollTo({ top: document.getElementsByClassName('page')[tverse[0].pageNumber].offsetTop - 50 })
+          goToPage(document.getElementsByClassName('page')[tverse[0].pageNumber].offsetTop)
           highlightAya(inp)
         }
       }
@@ -243,7 +247,7 @@ const SuraModal = ({ open, onCancel }) => {
   const [src, setSrc] = useState('')
   const handleClickSurah = (sura, index) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[sura.pages[0]].offsetTop - 50 })
+    goToPage(document.getElementsByClassName('page')[sura.pages[0]].offsetTop)
     mixpanel.track('Go to Sura')
   }
   const filterSrc = it => { 
@@ -276,7 +280,7 @@ const getJuzFromPage = (page) => {
 const JuzModal = ({ open, onCancel }) => {
   const handleClickJuz = (ind) => () => {
     onCancel()
-    window.scrollTo({ top: document.getElementsByClassName('page')[juz2page[ind]].offsetTop - 45 })
+    goToPage(document.getElementsByClassName('page')[juz2page[ind]].offsetTop)
     mixpanel.track('Go to Juz')
   }
   return (
