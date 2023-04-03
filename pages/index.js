@@ -1,15 +1,14 @@
-import { createContext, useEffect, useState } from 'react'
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useEffect, useState } from 'react'
+import { useSession } from "next-auth/react"
 // import mixpanel from 'mixpanel-browser';
-import ReactGA from 'react-ga';
+import { install } from 'ga-gtag'
 import smartlookClient from 'smartlook-client'
 import Head from 'next/head'
-import { Alert, Button, ConfigProvider, Input, Modal } from 'antd'
+import { Button, ConfigProvider, Modal } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons';
 import Safha from '../components/safha'
 import Nav from '../components/nav'
 import Cover from './cover';
-import Guide from '../components/guide';
 
 import { CollectionsContext, AuthContext } from '../components/context';
 
@@ -34,9 +33,10 @@ export default function Home() {
   useEffect(() => {
     if(window.location.href.indexOf('localhost') === -1){
       smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
-      ReactGA.initialize('G-KK80GVCW19');
+      install('G-KK80GVCW19')
+      // ReactGA.initialize('G-KK80GVCW19');
       // mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
-      ReactGA.pageview()
+      // ReactGA.pageview()
     }
   }, [])
   useEffect(() => {

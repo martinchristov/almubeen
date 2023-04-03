@@ -408,6 +408,12 @@ nav {
 		}
 	}
 	&.page1 {
+		.sticky-page {
+			top: 23px;
+			div {
+				margin-top: -14px;
+			}
+		}
 		.content {
 			text-align: center;
 		}
