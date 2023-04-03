@@ -49,7 +49,7 @@ const Cover = () => {
             </a>
           </div>
           }
-          {lastRead != null &&
+          {(lastRead != null && lastRead < 605) &&
           <div className="btn" onClick={handleClickLastRead}>
             <div>last read</div>
             <div className="pg">{lastRead} <ArrowRightOutlined /></div>
