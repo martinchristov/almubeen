@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSession } from "next-auth/react"
 // import mixpanel from 'mixpanel-browser';
-import { install } from 'ga-gtag'
+// import { install } from 'ga-gtag'
 import smartlookClient from 'smartlook-client'
 import Head from 'next/head'
 import { Button, ConfigProvider, Modal } from 'antd'
@@ -34,7 +34,7 @@ export default function Home() {
   useEffect(() => {
     if(window.location.href.indexOf('localhost') === -1){
       smartlookClient.init('7e0e68377f7697cb8fb21a46ad6a70dd89b9f982', { region: 'eu' })
-      install('G-KK80GVCW19')
+      // install('G-KK80GVCW19')
       // ReactGA.initialize('G-KK80GVCW19');
       // mixpanel.init('c8410392727607e9cb045c0145343357', {debug: true});
       // ReactGA.pageview()
