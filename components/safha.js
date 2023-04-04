@@ -118,7 +118,7 @@ const PopupContent = ({ word, setIframe }) => {
       <span className="morpho">{morphz}</span>
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}
-      {koklu && <span className="kok"><small>ROOT: </small><a href={`https://ejtaal.net/aa#bwq=${kok}`} target="_blank" rel="noreferrer">{kokJSX}</a></span>}
+      {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => { setIframe(`https://ejtaal.net/aa#bwq=${kok}`) }}>{kokJSX}</a></span>}
     </div>
   )
 }
@@ -126,7 +126,7 @@ const PopupContent = ({ word, setIframe }) => {
 const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) => {
   return (
     <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
-        <div className="sticky-page"><div>{ConvertToArabicNumbers(p)}</div></div>
+      <div className="sticky-page"><div>{ConvertToArabicNumbers(p)}</div></div>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
         <div className="inner">
           {(p === 1 || p === 2) && (

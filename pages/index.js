@@ -73,7 +73,7 @@ export default function Home() {
               {pages}
             </>
             }
-            {/* <IframeView {...{ iframe, setIframe }} /> */}
+            <IframeView {...{ iframe, setIframe }} />
           </div>
         </CollectionsContext.Provider>
         </AuthContext.Provider>
