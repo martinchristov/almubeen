@@ -126,10 +126,12 @@ const PopupContent = ({ word, setIframe }) => {
 const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) => {
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
+    console.log('loading page', p)
     let intid = setInterval(() => {
       if(document.fonts.check(`12px page${p}`)){
         clearInterval(intid)
         setLoaded(true)
+        console.log('LOADED page', p)
       }
     }, 100)
   }, [])
