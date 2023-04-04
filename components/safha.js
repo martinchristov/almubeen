@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { memo, useContext, useEffect } from 'react'
+import { memo, useContext, useEffect, useState } from 'react'
 import { Popover } from 'antd';
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
@@ -124,8 +124,17 @@ const PopupContent = ({ word, setIframe }) => {
 }
 
 const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) => {
+  const [loaded, setLoaded] = useState(false)
+  useEffect(() => {
+    let intid = setInterval(() => {
+      if(document.fonts.check(`12px page${p}`)){
+        clearInterval(intid)
+        setLoaded(true)
+      }
+    }, 100)
+  }, [])
   return (
-    <div className={classNames('page', `page${p}`)} style={{ fontFamily: `page${p}` }}>
+    <div className={classNames('page', `page${p}`, { loaded })} style={{ fontFamily: `page${p}` }}>
       <div className="sticky-page"><div>{ConvertToArabicNumbers(p)}</div></div>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
         <div className="inner">

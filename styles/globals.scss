@@ -397,6 +397,11 @@ nav {
 			animation-timing-function: ease-in-out;
 		}
 	}
+	&:not(.loaded) {
+		.content ul li {
+			opacity: 0;
+		}
+	}
 	.aya {
 	}
 	&.page1,
