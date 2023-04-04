@@ -72,6 +72,8 @@ nav {
 	.collapsible {
 		display: flex;
 		transition: all 0.3s ease-out;
+		min-width: 40px;
+		justify-content: center;
 		&.left {
 			.btn {
 				margin-left: 5px;
@@ -138,13 +140,15 @@ nav {
 		font-size: 1.2em;
 		transition: font-size 0.2s ease-out;
 		cursor: pointer;
+		flex: 1;
+		text-align: center;
 		// font-weight: 500;
 		span {
 			font-size: 1.3em;
 			font-family: KFGQPC;
 		}
 		&.surah {
-			transform: translateX(10px);
+			// transform: translateX(10px);
 		}
 	}
 	.pagen-spacer {
@@ -838,6 +842,7 @@ html {
 		display: flex;
 		flex-direction: column;
 		font-size: unset;
+		height: 100%;
 	}
 	.fontloaders {
 		opacity: 0;

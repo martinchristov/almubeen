@@ -118,7 +118,7 @@ const PopupContent = ({ word, setIframe }) => {
       <span className="morpho">{morphz}</span>
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}
-      {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => { setIframe(`https://ejtaal.net/aa#bwq=${kok}`) }}>{kokJSX}</a></span>}
+      {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => { setIframe(`https://ejtaal.net/aa/#bwq=${kok}`) }}>{kokJSX}</a></span>}
     </div>
   )
 }
