@@ -126,17 +126,15 @@ const PopupContent = ({ word, setIframe }) => {
 const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) => {
   const [loaded, setLoaded] = useState(false)
   useEffect(() => {
-    console.log('loading page', p)
     let intid = setInterval(() => {
       if(document.fonts.check(`12px page${p}`)){
         clearInterval(intid)
         setLoaded(true)
-        console.log('LOADED page', p)
       }
     }, 100)
   }, [])
   return (
-    <div className={classNames('page', `page${p}`, { loaded })} style={{ fontFamily: `page${p}` }}>
+    <div className={classNames('page', `page${p}`, { loaded })} style={init ? { fontFamily: `page${p}` } : null}>
       <div className="sticky-page"><div>{ConvertToArabicNumbers(p)}</div></div>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
         <div className="inner">

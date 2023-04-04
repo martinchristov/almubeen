@@ -110,9 +110,12 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
               const cp = [..._cp]
               if(pageYPos > 1) cp[pageYPos - 1] = true
               if(pageYPos > 2) cp[pageYPos - 2] = true
+              if(pageYPos > 3) cp[pageYPos - 3] = true
               cp[pageYPos] = true
               if(pageYPos < 602) cp[pageYPos + 1] = true
               if(pageYPos < 601) cp[pageYPos + 2] = true
+              if(pageYPos < 600) cp[pageYPos + 3] = true
+              if(pageYPos < 599) cp[pageYPos + 4] = true
               return cp
             })
           }
