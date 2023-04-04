@@ -87,7 +87,7 @@ const IframeView = ({ iframe, setIframe }) => {
   return (
     <Modal footer={null} title={<><span>Root dictionary search</span><Button href={iframe} target="_blank" type="link"><ArrowRightOutlined /></Button></>} className="iframe-modal" wrapClassName="iframe-modal" open={iframe != null} onCancel={() => { setIframe(null) }}>
       {/* <Alert message="Below you fill find the best arabic-english dictionaries opened at the page where the root appears. You will have to find it yourself though :)" type="info" showIcon closable /> */}
-      <iframe width="100%" height="100%" src={iframe} />
+      {iframe && <iframe width="100%" height="100%" src={iframe} />}
     </Modal>
   )
 }

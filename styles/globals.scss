@@ -546,8 +546,14 @@ nav {
 }
 html {
 	@media screen and (max-width: 640px) {
-		.page1 {
-			margin-top: 60px;
+		.page.page1 {
+			margin-top: 8px;
+			.sticky-page {
+				top: 30px;
+				div {
+					margin-top: -21px;
+				}
+			}
 		}
 		.page {
 			font-size: calc((100vw - 40px) / 34.77);
