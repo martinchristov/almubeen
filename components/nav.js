@@ -33,6 +33,17 @@ const goToPage = (top) => {
   window.scrollTo({ top: top - 34 })
 }
 
+const ayaKeyToPage = (inp) => {
+  if(!inp) return
+  const keys = inp.split(':')
+  const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
+  if(!tsura) return
+  const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
+  const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
+  if(tverse.length === 0) return
+  return tverse[0].pageNumber
+}
+
 const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, selectedAya, setSelectedAya }) => {
   const [page, setPage] = useState(0)
   const [juz, setJuz] = useState(1)
@@ -144,18 +155,13 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
   }, [])
   const handleGotoaya = (inp) => {
     trackEvent('Go to ayah')
-    if(inp){
-      const keys = inp.split(':')
-      const tsura = surat.chapters.find(it => it.id === Number(keys[0]))
-      if(tsura){
-        setOpen(false)
-        const suraPages = pageData.slice(tsura.pages[0] - 1, tsura.pages[1])
-        const tverse = suraPages.map(verses => verses.find(it => it.verseKey === inp)).filter(it => it != null)
-        if(tverse.length > 0) {
-          goToPage(document.getElementsByClassName('page')[tverse[0].pageNumber].offsetTop)
-          highlightAya(inp)
-        }
-      }
+    const pagenum = ayaKeyToPage(inp)
+    if(pagenum){
+      setOpen(false)
+      goToPage(document.getElementsByClassName('page')[pagenum].offsetTop)
+      highlightAya(inp)
+    } else {
+      alert('Wrong format or non existing ayah key')
     }
   }
   const onChangeScale = (value) => {
@@ -238,7 +244,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
         </div>
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
-      <AyaModal {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
+      <AyaModal {...{ selectedAya, setSelectedAya, page: ayaKeyToPage(selectedAya), setLoginModalOpen, ayaKeyToPage }} />
       <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
       <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} {...{ handleGotoaya }} />
     </>

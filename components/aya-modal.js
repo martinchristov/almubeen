@@ -115,7 +115,7 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
         </Button>
       </div>
       <div className="aya-arabic">
-        {selectedAya && pageData[page]?.find(it => it.verseKey === selectedAya)?.words?.map(it => <span key={it.id}>{it.textUthmani} </span>)}
+        {selectedAya && pageData[page - 1]?.find(it => it.verseKey === selectedAya)?.words?.map(it => <span key={it.id}>{it.textUthmani} </span>)}
       </div>
       {session != null &&
       <div className="collection">
