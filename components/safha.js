@@ -100,7 +100,7 @@ const PopupContent = ({ word, setIframe }) => {
   })
   const morphz = []
   const let2word = (letter) => {
-    const dict = {N: 'Noun', V: 'Verb', PRON: 'Pronoun', P: 'Preposition', ADJ: 'Adjective', PN: 'Proper Noun', NEG: 'Negative', CONJ: 'Conjunction', REL: 'Relative Pronoun', REM: 'Resumption Prt.', EQ: 'Equalization Prt.', CIRC: 'Circumstantial Prt.', DEM: 'Demonstr. Pron.'}
+    const dict = {N: 'Noun', V: 'Verb', PRON: 'Pronoun', P: 'Preposition', ADJ: 'Adjective', PN: 'Proper Noun', NEG: 'Negative', CONJ: 'Conjunction', REL: 'Relative Pronoun', REM: 'Resumption Prt.', EQ: 'Equalization Prt.', CIRC: 'Circumstantial Prt.', DEM: 'Demonstr. Pron.', INTG: 'Interrogative'}
     if(dict.hasOwnProperty(letter)) return dict[letter]
     return letter
   }
@@ -133,9 +133,9 @@ const PopupContent = ({ word, setIframe }) => {
   trackEvent('Word Popup')
   return (
     <div className="popup-content">
-      <span className="transliteration">{word.transliteration.text}</span>
       <span className="arabic">{morphWord}</span>
       <span className="morpho">{morphz}</span>
+      <span className="transliteration">{word.transliteration.text}</span>
       {/* {lem && <span className="lem">{lem.split('').map(it => bt2utf[it]).join('')}</span>} */}
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}

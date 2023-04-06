@@ -584,9 +584,13 @@ html {
 	flex-direction: column;
 	text-align: center;
 	.transliteration {
-		opacity: 0.5;
+		// opacity: 0.5;
 		font-size: 12px;
+		line-height: 23px;
 		font-style: italic;
+		border-top: 1px solid #f7f7f7;
+		margin-top: 3px;
+		color: rgba(0, 0, 0, 0.5);
 	}
 	.arabic {
 		font-size: 1.5em;
