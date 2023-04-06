@@ -110,7 +110,7 @@ const CreditsModal = ({ open, onCancel }) => {
             <p>https://github.com/fawazahmed0/quran-api</p>
           </li>
           <li>
-            <a href="https://instagram.com/kr_calligraphe.paris" target="_blank" rel="noreferrer"><h3>Abdul Kader | @kr_caligraphe.paris</h3></a>
+            <a href="https://instagram.com/kr_calligraphe.paris" target="_blank" rel="noreferrer"><h3>Abdul Kader | @kr_calligraphe.paris</h3></a>
             <p>Khatt - Logo  - almubeen calligraphy</p>
           </li>
           <li>

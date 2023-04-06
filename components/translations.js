@@ -172,7 +172,7 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
   )
 }
 
-const allLangs = ['Achinese', 'Afar', 'Afrikaans', 'Albanian', 'Amharic', 'Arabic', 'Assamese', 'Azerbaijani', 'Bambara', 'Bengali', 'Berber', 'Bosnian', 'Bulgarian', 'Burmese', 'Catalan', 'Chichewa', 'Chinese(simplified)', 'Chinese(traditional)', 'Croatian', 'Czech', 'Dagbani', 'Danish', 'Dari', 'Divehi', 'Dutch', 'English', 'Esperanto', 'Filipino', 'Finnish', 'French', 'Fulah', 'Ganda', 'German', 'Gujarati', 'Hausa', 'Hebrew', 'Hindi', 'Hungarian', 'Indonesian', 'Iranun', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Kendayan', 'Khmer', 'Kinyarwanda', 'Kirghiz', 'Korean', 'Kurdish', 'Kurmanji', 'Latin', 'Lingala', 'Luyia', 'Macedonian', 'Malay', 'Malayalam', 'Maltese', 'Maranao', 'Marathi', 'Nepali', 'Norwegian', 'Oromo', 'Panjabi', 'Persian', 'Polish', 'Portuguese', 'Pushto', 'Romanian', 'Rundi', 'Russian', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Somali', 'Sotho', 'Spanish', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Turkish', 'Twi', 'Uighur', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Xhosa', 'Yau', 'Yoruba', 'Zulu']
+const allLangs = ['English', 'Arabic', 'Achinese', 'Afar', 'Afrikaans', 'Albanian', 'Amharic', 'Assamese', 'Azerbaijani', 'Bambara', 'Bengali', 'Berber', 'Bosnian', 'Bulgarian', 'Burmese', 'Catalan', 'Chichewa', 'Chinese(simplified)', 'Chinese(traditional)', 'Croatian', 'Czech', 'Dagbani', 'Danish', 'Dari', 'Divehi', 'Dutch', 'Esperanto', 'Filipino', 'Finnish', 'French', 'Fulah', 'Ganda', 'German', 'Gujarati', 'Hausa', 'Hebrew', 'Hindi', 'Hungarian', 'Indonesian', 'Iranun', 'Italian', 'Japanese', 'Javanese', 'Kannada', 'Kazakh', 'Kendayan', 'Khmer', 'Kinyarwanda', 'Kirghiz', 'Korean', 'Kurdish', 'Kurmanji', 'Latin', 'Lingala', 'Luyia', 'Macedonian', 'Malay', 'Malayalam', 'Maltese', 'Maranao', 'Marathi', 'Nepali', 'Norwegian', 'Oromo', 'Panjabi', 'Persian', 'Polish', 'Portuguese', 'Pushto', 'Romanian', 'Rundi', 'Russian', 'Serbian', 'Shona', 'Sindhi', 'Sinhala', 'Slovak', 'Somali', 'Sotho', 'Spanish', 'Swahili', 'Swedish', 'Tajik', 'Tamil', 'Tatar', 'Telugu', 'Thai', 'Turkish', 'Twi', 'Uighur', 'Ukrainian', 'Urdu', 'Uzbek', 'Vietnamese', 'Xhosa', 'Yau', 'Yoruba', 'Zulu']
 
 const EditSources = ({ handleChangeSources }) => {
   const [selected, setSelected] = useState(localStorage.getItem('selected-translations') ? JSON.parse(localStorage.getItem('selected-translations')) : [])
@@ -194,9 +194,10 @@ const EditSources = ({ handleChangeSources }) => {
       return val
     })
   }
+  console.log(allLangs)
   return (
     <div>
-      <Collapse>
+      <Collapse defaultActiveKey={['English']}>
         {allLangs.map(lang =>
         <CollapsePanel header={lang} key={lang}>
           <ul>
