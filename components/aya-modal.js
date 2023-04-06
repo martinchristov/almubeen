@@ -1,12 +1,10 @@
 import { Button, Checkbox, Collapse, Divider, Modal, Select, Spin } from 'antd'
 import { LeftOutlined, RightOutlined, StarOutlined, UnorderedListOutlined } from '@ant-design/icons'
-// import translation from '../assets/translations/eng-muhammadasad.json'
 import sources from '../assets/translation-sources2.json'
 import { memo, useContext, useEffect, useRef, useState } from 'react'
 import surat from '../assets/surat.json'
 import pageData from '../assets/pages.json'
 import { AuthContext, CollectionsContext } from './context'
-// import CollapsePanel from 'antd/es/collapse/CollapsePanel'
 const CollapsePanel = Collapse.Panel
 
 const getTranslation = (translation, chapter, verse) => {
@@ -14,7 +12,7 @@ const getTranslation = (translation, chapter, verse) => {
   return ret?.text
 }
 
-const AyaTranslations = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) => {
+const AyaModal = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) => {
   return (
     <Modal className='aya-modal' open={selectedAya != null} onCancel={() => { setSelectedAya(null) }} destroyOnClose footer={null}>
       <ModalContent {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
@@ -57,8 +55,6 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
   }, [])
   useEffect(() => {
     if(prevAya.current !== selectedAya){
-      // setTranslated([])
-      // setLoading(true)
       loadTranslations()
       prevAya.current = selectedAya
     }
@@ -76,16 +72,6 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
   }
   const handleClickPrev = () => {
     setSelectedAya(`${keys[0]}:${Number(keys[1]) - 1}`)
-  }
-  const handleBookmarkClick = () => {
-    fetch('/api/collections', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ key: selectedAya })
-    })
   }
   const handleCheck = (collection) => (e) => {
     const updated = [...collections]
@@ -135,7 +121,6 @@ const ModalContent = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) 
       <div className="collection">
         <div className="label">Add to:</div>
         <ul>
-          {/* <li><Button type="link" onClick={handleBookmarkClick}><StarOutlined />Bookmarks</Button></li> */}
           {collections.map(it =>
           <li key={it.id}><Checkbox value={it.id} checked={it.keys.indexOf(selectedAya) !== -1} onChange={handleCheck(it, keys)}>{it.title}</Checkbox></li>
           )}
@@ -194,7 +179,6 @@ const EditSources = ({ handleChangeSources }) => {
       return val
     })
   }
-  console.log(allLangs)
   return (
     <div>
       <Collapse defaultActiveKey={['English']}>
@@ -217,4 +201,4 @@ const EditSources = ({ handleChangeSources }) => {
   )
 }
 
-export default memo(AyaTranslations)
+export default memo(AyaModal)

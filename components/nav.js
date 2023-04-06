@@ -9,7 +9,7 @@ import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers, trackEvent } from "../assets/utils";
 import classNames from "classnames";
 import BookmarkSvg from '../assets/bookmark.svg'
-import AyaTranslations from '../components/translations'
+import AyaModal from './aya-modal'
 import Guide from "./guide";
 
 const { Search } = Input
@@ -238,7 +238,7 @@ const Nav = ({ initers, setIniters, highlightAya, scale, setScale, authStatus, s
         </div>
       </Drawer>
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
-      <AyaTranslations {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
+      <AyaModal {...{ selectedAya, setSelectedAya, page, setLoginModalOpen }} />
       <LoginModal open={loginModalOpen} setOpen={setLoginModalOpen} />
       <CollectionsModal open={bookmarksOpen} onCancel={() => { setBookmarksOpen(false) }} {...{ handleGotoaya }} />
     </>
