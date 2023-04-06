@@ -99,8 +99,28 @@ const PopupContent = ({ word, setIframe }) => {
     ind += part[0].length
   })
   const morphz = []
-  morphs.forEach(part => {
-    morphz.push(<small className={`m-${part[1]}`}>{part[1]}<br />{part[2].split('|')[0]}</small>)
+  const let2word = (letter) => {
+    const dict = {N: 'Noun', V: 'Verb', PRON: 'Pronoun', P: 'Preposition', ADJ: 'Adjective', PN: 'Proper Noun', NEG: 'Negative', CONJ: 'Conjunction', REL: 'Relative Pronoun', REM: 'Resumption Prt.', EQ: 'Equalization Prt.', CIRC: 'Circumstantial Prt.', DEM: 'Demonstr. Pron.'}
+    if(dict.hasOwnProperty(letter)) return dict[letter]
+    return letter
+  }
+  let lem
+  morphs.forEach((part, partIndex) => {
+    // console.log(part)
+    if(part[1] === 'DET') return
+    const sub = part[2].split('|')
+    let extra
+    if(part[1] === 'V'){
+      if(sub[3].indexOf('LEM') === -1){
+        extra = ` ${sub[3]}`
+      }
+    }
+    morphz.push(<small className={`m-${part[1]}`}>{let2word(part[1])}{extra}</small>)
+    const lemIndex = sub.findIndex(it => it.indexOf('LEM') !== -1)
+    if(lemIndex !== -1) {
+      lem = sub[lemIndex].substr(4)
+      morphWord[partIndex] = <Popover content={<div className="lem-popup">{lem.split('').map(it => bt2utf[it]).join('')}</div>}>{morphWord[partIndex]}</Popover>
+    }
   })
   const koklu = morphs.find(it => it[1] === 'N' || it[1] === 'V' || it[1] === 'T' || it[1] === 'ADJ')
   let kok
@@ -116,6 +136,7 @@ const PopupContent = ({ word, setIframe }) => {
       <span className="transliteration">{word.transliteration.text}</span>
       <span className="arabic">{morphWord}</span>
       <span className="morpho">{morphz}</span>
+      {/* {lem && <span className="lem">{lem.split('').map(it => bt2utf[it]).join('')}</span>} */}
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}
       {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => { setIframe(`https://ejtaal.net/aa/#bwq=${kok}`) }}>{kokJSX}</a></span>}
