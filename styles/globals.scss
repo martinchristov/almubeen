@@ -593,7 +593,7 @@ html {
 		color: rgba(0, 0, 0, 0.5);
 	}
 	.arabic {
-		font-size: 1.5em;
+		font-size: 1.7em;
 		font-family: KFGQPC;
 		font-style: normal;
 	}
@@ -612,7 +612,6 @@ html {
 	.translation {
 		border-top: 1px solid #f7f7f7;
 		margin-top: 3px;
-		// padding-top: 2px;
 		line-height: 28px;
 	}
 	.kok {
@@ -627,8 +626,7 @@ html {
 			font-weight: 550;
 		}
 		strong {
-			font-size: 18px;
-			// text-decoration: underline;
+			font-size: 1.7em;
 			color: rgb(54, 143, 221);
 			display: inline-block;
 			position: relative;
