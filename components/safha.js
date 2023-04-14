@@ -128,7 +128,7 @@ const PopupContent = ({ word, setIframe }) => {
   if(koklu != null){
     const ROOTpos = koklu[2].indexOf('ROOT:')
     kok = koklu[2].substr(ROOTpos + 5, 3)
-    kokJSX = (<strong>{bt2utf[kok[0]]}{bt2utf[kok[1]]}{bt2utf[kok[2]]}</strong>)
+    kokJSX = (<strong>{`${bt2utf[kok[0]]}${bt2utf[kok[1]]}${bt2utf[kok[2]]}`}</strong>)
   }
   trackEvent('Word Popup')
   return (
