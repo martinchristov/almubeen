@@ -165,8 +165,8 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) =
         {(p === 1 || p === 2) && (
 
         <div className="floral-frame">
-          <div className="top"><FloralTop /></div>
-          <div className="bottom"><FloralBottom /></div>
+          <div className="top left"><FloralTop /></div>
+          <div className="bottom left"><FloralBottom /></div>
           <div className="top right"><FloralTop /></div>
           <div className="bottom right"><FloralBottom /></div>
           <div className="center"><FloralCenter /></div>
