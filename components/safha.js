@@ -7,6 +7,10 @@ import pageData from '../assets/pages.json'
 import morpho from '../assets/morph.json'
 import bt2utf from '../assets/bt2utf';
 import AyahMarker from '../assets/ayah-marker.svg'
+import FloralFrame from '../assets/floral-frame.svg'
+import FloralCenter from '../assets/floral-center.svg'
+import FloralTop from '../assets/floral-top.svg'
+import FloralBottom from '../assets/floral-bottom.svg'
 import { ConvertToArabicNumbers, trackEvent } from '../assets/utils';
 import { CollectionsContext } from './context';
 
@@ -158,11 +162,23 @@ const Safha = ({ p, init = false, setSelectedAya, markAya, scale, setIframe }) =
     <div className={classNames('page', `page${p}`, { loaded })} style={init ? { fontFamily: `page${p}` } : null}>
       <div className="sticky-page"><div>{ConvertToArabicNumbers(p)}</div></div>
       <div className="content" style={{ fontSize: `${2 * scale}em`}}>
+        {(p === 1 || p === 2) && (
+
+        <div className="floral-frame">
+          <div className="top"><FloralTop /></div>
+          <div className="bottom"><FloralBottom /></div>
+          <div className="top right"><FloralTop /></div>
+          <div className="bottom right"><FloralBottom /></div>
+          <div className="center"><FloralCenter /></div>
+        </div>
+        )}
         <div className="inner">
           {(p === 1 || p === 2) && (
-            <div className="surah-title" key={`vt-${p - 1}`}>
-              <span>{surahChars[p - 1]}</span>
-            </div>
+            <>
+              <div className="surah-title" key={`vt-${p - 1}`}>
+                <span>{surahChars[p - 1]}</span>
+              </div>
+            </>
           )}
           {p === 2 && <span key="bismillah" className="bismillah">ﱁ ﱂ ﱃ ﱄ</span>}
           {init && <Lines {...{ setSelectedAya, p, markAya, setIframe }} />}
