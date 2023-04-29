@@ -818,6 +818,9 @@ html {
 		border: none;
 		transform: translateY(-1em);
 	}
+	.inner {
+		transform: translateY(-0.5em);
+	}
 }
 .floral-frame {
 	position: absolute;
@@ -830,11 +833,18 @@ html {
 		width: 100%;
 		height: 100%;
 		display: flex;
-		align-items: start;
+		align-items: end;
+		top: 0;
+		left: 0;
+		flex-direction: column;
 	}
 	.right {
 		right: 0;
 		transform: scaleX(-1);
+	}
+	.center {
+		align-items: center;
+		justify-content: center;
 	}
 	.bottom {
 		bottom: 0;
