@@ -850,7 +850,9 @@ html {
   .center {
     align-items: center;
     justify-content: center;
-    transform: translateY(-0.6em);
+    @media screen and (max-width: 640px) {
+      transform: translateY(-0.5em);
+    }
   }
   .bottom {
     bottom: 0;
