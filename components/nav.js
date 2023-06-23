@@ -177,20 +177,20 @@ const Nav = ({
     })
 
     // onboarding
-    let scrtmid
-    const scrollOnboardListener = () => {
-      clearTimeout(scrtmid)
-      scrtmid = setTimeout(() => {
-        if (window.scrollY > pages.current[1].offsetTop - 100) {
-          setGuideOpen(true)
-          document.removeEventListener('scroll', scrollOnboardListener)
-          localStorage.setItem('onboarded', true)
-        }
-      }, 200)
-    }
-    if (!localStorage.getItem('onboarded')) {
-      document.addEventListener('scroll', scrollOnboardListener)
-    }
+    // let scrtmid
+    // const scrollOnboardListener = () => {
+    //   clearTimeout(scrtmid)
+    //   scrtmid = setTimeout(() => {
+    //     if (window.scrollY > pages.current[1].offsetTop - 100) {
+    //       setGuideOpen(true)
+    //       document.removeEventListener('scroll', scrollOnboardListener)
+    //       localStorage.setItem('onboarded', true)
+    //     }
+    //   }, 200)
+    // }
+    // if (!localStorage.getItem('onboarded')) {
+    //   document.addEventListener('scroll', scrollOnboardListener)
+    // }
   }, [])
   const handleGotoaya = (inp) => {
     trackEvent('Go to ayah')
@@ -217,12 +217,12 @@ const Nav = ({
   }
   return (
     <>
-      <Guide
+      {/* <Guide
         open={guideOpen}
         setOpen={setGuideOpen}
         step={guideStep}
         scrollIntoViewOptions={false}
-      />
+      /> */}
       <nav className={classNames({ collapsed })}>
         <div className="page-contain">
           <div className="collapsible left">
