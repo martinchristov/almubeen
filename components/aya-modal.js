@@ -10,6 +10,7 @@ import { memo, useContext, useEffect, useRef, useState } from 'react'
 import surat from '../assets/surat.json'
 import pageData from '../assets/pages.json'
 import { AuthContext, CollectionsContext } from './context'
+import { removeUnknownChars } from '../assets/utils'
 const CollapsePanel = Collapse.Panel
 
 const getTranslation = (translation, chapter, verse) => {
@@ -35,12 +36,6 @@ const AyaModal = ({ selectedAya, setSelectedAya, page, setLoginModalOpen }) => {
       />
     </Modal>
   )
-}
-
-const removeUnknownChars = (string) => {
-  return string
-    .replaceAll(String.fromCharCode(1773), '')
-    .replaceAll(String.fromCharCode(1759), '')
 }
 
 const ModalContent = ({
