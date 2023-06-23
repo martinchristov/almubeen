@@ -6,7 +6,7 @@ import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
 import morpho from '../assets/morph.json'
 import bt2utf from '../assets/bt2utf'
-import AyahMarker from '../assets/ayah-marker.svg'
+// import AyahMarker from '../assets/ayah-marker-alt.svg'
 import FloralFrame from '../assets/floral-frame.svg'
 import FloralCenter from '../assets/floral-center.svg'
 import FloralTop from '../assets/floral-top.svg'
@@ -104,7 +104,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
             onClick={handleClickAya(word)}
           >
             <i>{ConvertToArabicNumbers(word.verseKey.split(':')[1])}</i>
-            <AyahMarker />
+            {/* <AyahMarker /> */}
           </span>
         )
       }
