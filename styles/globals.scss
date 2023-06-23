@@ -760,7 +760,7 @@ html {
   .collection {
     display: flex;
     margin-top: 10px;
-    border-bottom: 1px solid #eeeeee;
+    // border-bottom: 1px solid #eeeeee;
     border-top: 1px solid #eee;
     line-height: 30px;
     padding-top: 9px;
@@ -769,8 +769,10 @@ html {
     }
     .login-btn {
       margin-bottom: 8px;
+      display: none;
     }
     ul {
+      display: none;
       list-style: none;
       display: flex;
       flex: 1;
@@ -1129,6 +1131,20 @@ html {
       }
       .ant-btn {
         box-shadow: none;
+      }
+      .social-btns {
+        .ant-btn {
+          margin-left: 10px;
+          margin-top: -3px;
+        }
+        svg {
+          path {
+            fill: #2da5da;
+          }
+        }
+        .ig svg path {
+          fill: #c53d97;
+        }
       }
       .gotoayah {
         input {
