@@ -13,6 +13,7 @@ const Dropdown = ({
   authStatus,
   handleSearch,
   handleGotoaya,
+  onChangeScale,
 }) => {
   return (
     <>

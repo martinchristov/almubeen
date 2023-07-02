@@ -244,7 +244,14 @@ const Nav = ({
         }}
       />
       <Dropdown
-        {...{ open, setOpen, authStatus, handleSearch, handleGotoaya }}
+        {...{
+          open,
+          setOpen,
+          authStatus,
+          handleSearch,
+          handleGotoaya,
+          onChangeScale,
+        }}
       />
 
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
