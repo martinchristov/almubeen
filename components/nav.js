@@ -1,22 +1,7 @@
-import {
-  Button,
-  Collapse,
-  Divider,
-  Drawer,
-  Form,
-  Input,
-  Modal,
-  Slider,
-  Spin,
-} from 'antd'
+import { Button, Collapse, Modal, Slider, Spin, Input, Form } from 'antd'
 import { useState, useEffect, useRef, useContext } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
-import {
-  ArrowRightOutlined,
-  ArrowUpOutlined,
-  BookOutlined,
-  LoadingOutlined,
-} from '@ant-design/icons'
+import { LoadingOutlined } from '@ant-design/icons'
 import surat from '../assets/surat.json'
 import page2sura from '../assets/page2surah.json'
 import Pointer from '../assets/pointer.svg'
@@ -24,13 +9,11 @@ import pageData from '../assets/pages.json'
 import { ConvertToArabicNumbers, trackEvent } from '../assets/utils'
 import classNames from 'classnames'
 import BookmarkSvg from '../assets/bookmark.svg'
-import TgSvg from '../assets/tg.svg'
-import IgSvg from '../assets/ig.svg'
 import AyaModal from './aya-modal'
 import Guide from './guide'
 
-const { Search } = Input
 import { CollectionsContext } from './context'
+import Dropdown from './dropdown'
 
 let pageh = 860
 const marginY = 48
@@ -260,90 +243,10 @@ const Nav = ({
           setJuzModalVisible(false)
         }}
       />
-      <Drawer
-        closable={false}
-        height={370}
-        className="drawer-nav"
-        placement="top"
-        onClose={() => {
-          setOpen(false)
-        }}
-        open={open}
-      >
-        <div className="page-contain">
-          <div className="pointer hbtn" onClick={() => setOpen(false)}>
-            <Pointer />
-          </div>
-          {authStatus === 'authenticated' && (
-            <Button type="link" className="logout-btn" onClick={signOut}>
-              Logout
-            </Button>
-          )}
-          <ul>
-            <li>
-              <Search
-                className="src"
-                enterButton={
-                  <Button>
-                    <ArrowRightOutlined />
-                  </Button>
-                }
-                size="large"
-                placeholder="Search the Quran |  ابحث القران"
-                onSearch={handleSearch}
-              />
-            </li>
-            <li>
-              <span className="label">Go to ayah</span>
-              <div>
-                <Search
-                  className="gotoayah"
-                  placeholder="2:255"
-                  enterButton={
-                    <Button>
-                      <ArrowRightOutlined />
-                    </Button>
-                  }
-                  size="large"
-                  onSearch={handleGotoaya}
-                />
-              </div>
-            </li>
-            <li>
-              <span className="label">Font size</span>
-              <Slider
-                min={100}
-                max={170}
-                defaultValue={100}
-                step={10}
-                tooltip={{ formatter: (val) => `${val}%` }}
-                onAfterChange={(val) => {
-                  onChangeScale(val)
-                }}
-              />
-            </li>
-            <li>
-              <span className="label">Connect with us</span>
-              <div className="social-btns">
-                <a
-                  href="https://t.me/+kqPyEThUi8QyMWFk"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button type="link" icon={<TgSvg />} />
-                </a>
-                <a
-                  href="https://instagram.com/almubeenapp"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button className="ig" type="link" icon={<IgSvg />} />
-                </a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </Drawer>
+      <Dropdown
+        {...{ open, setOpen, authStatus, handleSearch, handleGotoaya }}
+      />
+
       <SearchModal {...{ search, setSearch, handleGotoaya }} />
       <AyaModal
         {...{

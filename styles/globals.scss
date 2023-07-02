@@ -1094,7 +1094,54 @@ html {
     }
   }
 }
+.dropdown-menu {
+  position: fixed;
+  top: 0;
+  height: 380px;
+  background: #fff;
+  z-index: 120;
+  width: 100%;
+  .contain {
+    margin: 0 20px;
+  }
 
+  .title {
+    text-align: right;
+    h1,
+    h2 {
+      color: $green;
+      font-family: Reem Kufi;
+      span {
+        color: $yellow;
+      }
+    }
+    h2 {
+      margin: 0;
+      margin-top: -20px;
+      // padding-top: 5.1em;
+      line-height: 1;
+      font-size: 20px;
+      letter-spacing: 0.4px;
+    }
+    h1 {
+      margin: 0;
+      margin-top: -10px;
+      margin-bottom: 7px;
+      line-height: 50px;
+      font-size: 33px;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+.dropdown-menu-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 119;
+  top: 0;
+  left: 0;
+}
 .drawer-nav {
   .ant-drawer-body {
     background-color: #f9f9f9;
@@ -1106,7 +1153,14 @@ html {
     position: relative;
   }
   .pointer.hbtn {
-    transform: translate(-5px, -20px);
+    transform: translate(3px, 15px);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -10px;
+    margin-top: 5px;
     svg {
       transform: rotate(180deg);
     }
@@ -1125,6 +1179,9 @@ html {
       justify-content: space-between;
       line-height: 30px;
       padding: 15px 0;
+      input[type='text'] {
+        height: 40px;
+      }
       & > .label {
         white-space: nowrap;
         padding-left: 10px;
@@ -1134,8 +1191,21 @@ html {
       }
       .social-btns {
         .ant-btn {
-          margin-left: 10px;
-          margin-top: -3px;
+          margin-left: 20px;
+          margin-top: -4px;
+          height: 35px;
+          position: relative;
+        }
+        a:not(:first-child) {
+          .ant-btn:before {
+            width: 1px;
+            content: ' ';
+            background-color: #c7c7c7;
+            height: 15px;
+            position: absolute;
+            left: -12px;
+            top: 12px;
+          }
         }
         svg {
           path {
