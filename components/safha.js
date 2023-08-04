@@ -210,10 +210,12 @@ const PopupContent = ({ word, setIframe }) => {
   let kokJSX
   if (koklu != null) {
     const ROOTpos = koklu[2].indexOf('ROOT:')
-    kok = koklu[2].substr(ROOTpos + 5, 3)
-    kokJSX = (
-      <strong>{`${bt2utf[kok[0]]}${bt2utf[kok[1]]}${bt2utf[kok[2]]}`}</strong>
-    )
+    if (ROOTpos !== -1) {
+      kok = koklu[2].substr(ROOTpos + 5, 3)
+      kokJSX = (
+        <strong>{`${bt2utf[kok[0]]}${bt2utf[kok[1]]}${bt2utf[kok[2]]}`}</strong>
+      )
+    }
   }
   trackEvent('Word Popup')
   return (
@@ -224,7 +226,7 @@ const PopupContent = ({ word, setIframe }) => {
       {/* {lem && <span className="lem">{lem.split('').map(it => bt2utf[it]).join('')}</span>} */}
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}
-      {koklu && (
+      {kokJSX && (
         <span className="kok">
           <small>ROOT: </small>
           <a
