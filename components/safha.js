@@ -17,6 +17,7 @@ import {
   trackEvent,
 } from '../assets/utils'
 import { CollectionsContext } from './context'
+import HansWehrDisplay from './hans-wehr-display'
 
 function transformJSON(input) {
   const lines = {}
@@ -236,6 +237,7 @@ const PopupContent = ({ word, setIframe }) => {
           >
             {kokJSX}
           </a>
+          <HansWehrDisplay />
         </span>
       )}
     </div>
