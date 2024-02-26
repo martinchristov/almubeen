@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 
-function HansWehrDisplay() {
+function HansWehrDisplay({ arabicRoot }) {
   const [data, setData] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/data')
+        const response = await fetch(
+          `http://localhost:3000/api/data/?arabicRoot=${arabicRoot}`
+        )
         const newData = await response.json()
         setData(newData)
       } catch (error) {
@@ -15,7 +17,7 @@ function HansWehrDisplay() {
     }
 
     fetchData()
-  }, []) // The empty dependency array ensures that useEffect runs only once, similar to componentDidMount
+  }, [arabicRoot])
 
   return (
     <div>
