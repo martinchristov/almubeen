@@ -237,7 +237,7 @@ const PopupContent = ({ word, setIframe }) => {
           >
             {kokJSX}
           </a>
-          <HansWehrDisplay />
+          <HansWehrDisplay arabicRoot={kokJSX?.props.children} />
         </span>
       )}
     </div>
