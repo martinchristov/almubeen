@@ -626,30 +626,6 @@ html {
   .kok {
     border-top: 1px solid #f7f7f7;
     margin-top: 3px;
-    a {
-      font-family: KFGQPC;
-      font-style: normal;
-    }
-    small {
-      font-size: 9px;
-      font-weight: 550;
-    }
-    strong {
-      font-size: 1.7em;
-      color: rgb(54, 143, 221);
-      display: inline-block;
-      position: relative;
-      cursor: pointer;
-      &:before {
-        position: absolute;
-        bottom: 2px;
-        width: 100%;
-        content: ' ';
-        left: 0;
-        height: 0.85px;
-        background-color: rgb(54, 143, 221);
-      }
-    }
   }
   .m-P {
     color: #b33535;

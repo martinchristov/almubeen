@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { memo, useContext, useEffect, useState } from 'react'
-import { Popover } from 'antd'
+import { Button, Popover } from 'antd'
 import surat from '../assets/surat.json'
 import surahChars from '../assets/surah-chars.json'
 import pageData from '../assets/pages.json'
@@ -37,6 +37,8 @@ function transformJSON(input) {
 }
 
 const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
+  const [popoverVisible, setPopoverVisible] = useState(false)
+  const [hansWehrModalOpen, setHansWehrModalOpen] = useState(false)
   const { collections } = useContext(CollectionsContext)
   const lines = transformJSON(pageData[p - 1])
   const ret = []
@@ -133,6 +135,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
 }
 
 const PopupContent = ({ word, setIframe }) => {
+  const [hansWehrModalOpen, setHansWehrModalOpen] = useState(false)
   const keys = word.verseKey.split(':')
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
@@ -208,14 +211,12 @@ const PopupContent = ({ word, setIframe }) => {
     (it) => it[1] === 'N' || it[1] === 'V' || it[1] === 'T' || it[1] === 'ADJ'
   )
   let kok
-  let kokJSX
+  let kokArabic
   if (koklu != null) {
     const ROOTpos = koklu[2].indexOf('ROOT:')
     if (ROOTpos !== -1) {
       kok = koklu[2].substr(ROOTpos + 5, 3)
-      kokJSX = (
-        <strong>{`${bt2utf[kok[0]]}${bt2utf[kok[1]]}${bt2utf[kok[2]]}`}</strong>
-      )
+      kokArabic = `${bt2utf[kok[0]]}${bt2utf[kok[1]]}${bt2utf[kok[2]]}`
     }
   }
   trackEvent('Word Popup')
@@ -227,18 +228,15 @@ const PopupContent = ({ word, setIframe }) => {
       {/* {lem && <span className="lem">{lem.split('').map(it => bt2utf[it]).join('')}</span>} */}
       <span className="translation">{word.translation.text}</span>
       {/* {koklu && <span className="kok"><small>ROOT: </small><a onClick={() => setIframe(`https://ejtaal.net/aa#bwq=${kok}`)}>{kokJSX}</a></span>} */}
-      {kokJSX && (
-        <span className="kok">
-          <small>ROOT: </small>
-          <a
-            onClick={() => {
-              setIframe(`https://ejtaal.net/aa/#bwq=${kok}`)
-            }}
-          >
-            {kokJSX}
-          </a>
-          <HansWehrDisplay arabicRoot={kokJSX?.props.children} />
-        </span>
+      {kokArabic && (
+        <>
+          <span className="kok">
+            <Button size="large" onClick={() => setHansWehrModalOpen(true)}>
+              Root<strong> {kokArabic} </strong>in Hans Wehr
+            </Button>
+          </span>
+          <HansWehrDisplay arabicRoot={kokArabic} open={hansWehrModalOpen} />
+        </>
       )}
     </div>
   )
