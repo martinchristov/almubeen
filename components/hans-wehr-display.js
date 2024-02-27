@@ -1,6 +1,7 @@
+import { Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 
-function HansWehrDisplay({ arabicRoot }) {
+function HansWehrDisplay({ arabicRoot, open }) {
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -20,10 +21,10 @@ function HansWehrDisplay({ arabicRoot }) {
   }, [arabicRoot])
 
   return (
-    <div>
+    <Modal className="hans-wehr-modal" open={open} footer={null}>
       <h1>Data from SQLite:</h1>
       <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+    </Modal>
   )
 }
 
