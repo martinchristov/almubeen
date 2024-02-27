@@ -7,7 +7,7 @@ function HansWehrDisplay({ arabicRoot }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/data/?arabicRoot=${arabicRoot}`
+          `http://localhost:3000/api/word/?arabicRoot=${arabicRoot}`
         )
         const newData = await response.json()
         setData(newData)
