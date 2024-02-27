@@ -5,12 +5,11 @@ const dbPath = path.resolve('db/hanswehr.sqlite')
 const db = new sqlite3.Database(dbPath)
 
 export default async function handler(req, res) {
-  const { arabicRoot } = req.query
-
+  const { s } = req.query
   if (req.method === 'GET') {
     const query = 'SELECT * FROM DICTIONARY WHERE word=? AND is_root=1'
 
-    db.all(query, [arabicRoot], (err, rows) => {
+    db.all(query, [s], (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message })
         return
