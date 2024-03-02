@@ -22,8 +22,15 @@ function HansWehrDisplay({ arabicRoot, open }) {
 
   return (
     <Modal className="hans-wehr-modal" open={open} footer={null}>
-      <h1>Data from SQLite:</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <h1>Hans Wehr Dictionary</h1>
+      {data.map((word) => (
+        <>
+          <h2>Word: {word.word}</h2>
+          <p key={word.id}>
+            <strong>Definition:</strong> {word.definition}{' '}
+          </p>
+        </>
+      ))}
     </Modal>
   )
 }
