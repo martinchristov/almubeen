@@ -37,8 +37,6 @@ function transformJSON(input) {
 }
 
 const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
-  const [popoverVisible, setPopoverVisible] = useState(false)
-  const [hansWehrModalOpen, setHansWehrModalOpen] = useState(false)
   const { collections } = useContext(CollectionsContext)
   const lines = transformJSON(pageData[p - 1])
   const ret = []
