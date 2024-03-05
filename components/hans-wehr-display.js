@@ -22,7 +22,7 @@ function HansWehrDisplay({ arabicRoot, open }) {
   }, [arabicRoot])
 
   return (
-    <Modal className="hans-wehr-modal" open={open} footer={null}>
+    <Modal open={open} footer={null}>
       <h1>Hans Wehr Dictionary</h1>
       {data.map((word) => (
         <div key={word.id}>
