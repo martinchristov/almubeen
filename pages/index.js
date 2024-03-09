@@ -61,6 +61,9 @@ export default function Home() {
           token: {
             colorPrimary: '#275B3C',
           },
+          components: {
+            Popover: { zIndexPopup: 999}
+          }
         }}
       >
         <AuthContext.Provider value={{ session, authStatus }}>
