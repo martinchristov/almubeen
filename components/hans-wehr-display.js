@@ -1,5 +1,6 @@
 import { Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
+import ReactHtmlParser from 'react-html-parser'
 
 function HansWehrDisplay({ arabicRoot, open }) {
   const [data, setData] = useState([])
@@ -28,7 +29,7 @@ function HansWehrDisplay({ arabicRoot, open }) {
         <div key={word.id}>
           <h2>Word: {word.word}</h2>
           <p>
-            <strong>Definition:</strong> {word.definition}
+            <strong>Definition:</strong> {ReactHtmlParser(word.definition)}
           </p>
         </div>
       ))}

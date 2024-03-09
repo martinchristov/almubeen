@@ -28,6 +28,7 @@
     "quranjson": "https://github.com/SadaqaWorks/quranjson",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-html-parser": "^2.0.2",
     "sass": "^1.55.0",
     "smartlook-client": "^8.0.0",
     "sqlite3": "^5.1.7",
