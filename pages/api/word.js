@@ -24,7 +24,25 @@ export default function handler(req, res) {
         return
       }
 
-      if (!parentRow) {
+      if (!parentRow && s[1] === s[2]) {
+        const substrQuery =
+          'SELECT * FROM DICTIONARY WHERE word = ? AND is_root=1'
+        const substrParams = [s.substr(0, 2)]
+
+        db.all(substrQuery, substrParams, (substrErr, substrRows) => {
+          if (substrErr) {
+            res.status(500).json({ error: substrErr.message })
+            return
+          }
+
+          if (!substrRows || substrRows.length === 0) {
+            res.status(404).json({ error: 'Word not found with is_root=1' })
+            return
+          }
+
+          res.json(substrRows)
+        })
+      } else if (!parentRow) {
         res.status(404).json({ error: 'Word not found with is_root=1' })
         return
       }
