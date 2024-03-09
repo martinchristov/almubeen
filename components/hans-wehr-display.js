@@ -9,8 +9,7 @@ function HansWehrDisplay({ arabicRoot, open }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          // currently pointing at localhost, needs fixing
-          `http://localhost:3000/api/word/?s=${arabicRoot}`
+          `/api/word/?s=${arabicRoot}`
         )
         const newData = await response.json()
         if (Array.isArray(newData) && newData.length > 0) setData(newData)
