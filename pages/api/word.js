@@ -4,14 +4,21 @@ import sqlite3 from 'sqlite3'
 const dbPath = path.resolve('db/hanswehr.sqlite')
 const db = new sqlite3.Database(dbPath)
 
-export default async function handler(req, res) {
+export default function handler(req, res) {
   const { s } = req.query
 
-  if (req.method === 'GET') {
-    const parentQuery =
-      'SELECT parent_id FROM DICTIONARY WHERE word=? AND is_root=1'
+  let sSwapped
 
-    db.get(parentQuery, [s], (parentErr, parentRow) => {
+  if (s.includes('ي') || s.includes('ى')) {
+    sSwapped = s.includes('ي') ? s.replace(/ي/g, 'ى') : s.replace(/ى/g, 'ي')
+  }
+
+  if (req.method === 'GET') {
+    const wordSearch = sSwapped ? '(word=? OR word=?)' : 'word=?'
+    const parentQuery = `SELECT parent_id FROM DICTIONARY WHERE ${wordSearch} AND is_root=1`
+    const params = sSwapped ? [s, sSwapped] : [s]
+
+    db.get(parentQuery, params, (parentErr, parentRow) => {
       if (parentErr) {
         res.status(500).json({ error: parentErr.message })
         return
@@ -24,10 +31,9 @@ export default async function handler(req, res) {
 
       const parentId = parentRow.parent_id
 
-      const resultQuery =
-        'SELECT * FROM DICTIONARY WHERE (word=? AND is_root=1) OR (parent_id=? AND is_root=0)'
+      const resultQuery = `SELECT * FROM DICTIONARY WHERE parent_id=?`
 
-      db.all(resultQuery, [s, parentId], (resultErr, rows) => {
+      db.all(resultQuery, [parentId], (resultErr, rows) => {
         if (resultErr) {
           res.status(500).json({ error: resultErr.message })
           return
