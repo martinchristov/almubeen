@@ -2,7 +2,7 @@ import { Modal } from 'antd'
 import React, { useEffect, useState } from 'react'
 import ReactHtmlParser from 'react-html-parser'
 
-function HansWehrDisplay({ arabicRoot, open }) {
+function HansWehrDisplay({ arabicRoot, open, onClose }) {
   const [data, setData] = useState([])
 
   useEffect(() => {
@@ -22,14 +22,15 @@ function HansWehrDisplay({ arabicRoot, open }) {
   }, [arabicRoot])
 
   return (
-    <Modal open={open} footer={null}>
+    <Modal open={open} footer={null} onCancel={onClose} className="hans-wehr-modal">
       <h1>Hans Wehr Dictionary</h1>
       {data.map((word) => (
         <div key={word.id}>
-          <h2>Word: {word.word}</h2>
+          {/* <h2>{word.word}</h2> */}
           <p>
-            <strong>Definition:</strong> {ReactHtmlParser(word.definition)}
+            {ReactHtmlParser(word.definition)}
           </p>
+          <hr />
         </div>
       ))}
     </Modal>

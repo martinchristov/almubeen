@@ -36,7 +36,7 @@ function transformJSON(input) {
   return Object.values(lines)
 }
 
-const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
+const Lines = ({ p, setSelectedAya, markAya, setIframe, openDictionary }) => {
   const { collections } = useContext(CollectionsContext)
   const lines = transformJSON(pageData[p - 1])
   const ret = []
@@ -82,7 +82,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
         kalima = (
           <Popover
             destroyTooltipOnHide
-            content={<PopupContent {...{ word, setIframe }} />}
+            content={<PopupContent {...{ word, setIframe, openDictionary }} />}
             trigger="click"
             autoAdjustOverflow
           >
@@ -132,8 +132,7 @@ const Lines = ({ p, setSelectedAya, markAya, setIframe }) => {
   return <ul>{ret}</ul>
 }
 
-const PopupContent = ({ word, setIframe }) => {
-  const [hansWehrModalOpen, setHansWehrModalOpen] = useState(false)
+const PopupContent = ({ word, setIframe, openDictionary }) => {
   const keys = word.verseKey.split(':')
   const morphs = morpho[Number(keys[0])][Number(keys[1])][word.position]
   const morphWord = []
@@ -229,11 +228,10 @@ const PopupContent = ({ word, setIframe }) => {
       {kokArabic && (
         <>
           <span className="kok">
-            <Button size="large" onClick={() => setHansWehrModalOpen(true)}>
+            <Button size="large" onClick={() => openDictionary(kokArabic)}>
               Root<strong> {kokArabic} </strong>in Hans Wehr
             </Button>
           </span>
-          <HansWehrDisplay arabicRoot={kokArabic} open={hansWehrModalOpen} />
         </>
       )}
     </div>
@@ -249,6 +247,12 @@ const Safha = ({
   setIframe,
 }) => {
   const [loaded, setLoaded] = useState(false)
+  const [dictModalOpen, setDictModalOpen] = useState(false)
+  const [dictRoot, setDictRoot] = useState(null)
+  const openDictionary = (root) => {
+    setDictRoot(root)
+    setDictModalOpen(true)
+  }
   useEffect(() => {
     let intid = setInterval(() => {
       if (document.fonts.check(`12px page${p}`)) {
@@ -298,7 +302,8 @@ const Safha = ({
               ﱁ ﱂ ﱃ ﱄ
             </span>
           )}
-          {init && <Lines {...{ setSelectedAya, p, markAya, setIframe }} />}
+          {init && <Lines {...{ setSelectedAya, p, markAya, setIframe, openDictionary }} />}
+          <HansWehrDisplay arabicRoot={dictRoot} open={dictModalOpen} onClose={() => { setDictModalOpen(false) }} />
         </div>
       </div>
     </div>
